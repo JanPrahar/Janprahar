@@ -146,7 +146,10 @@
          <svg id="dark-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
          </svg>
          <svg id="light-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-         </svg></button> <!-- Admin Login --> <button onclick="showAdminLogin()" class="px-4 py-2 bg-primary text-white text-sm font-medium rounded hover:opacity-90 transition" style="background-color: var(--primary);"> Admin </button>
+         </svg></button> <!-- Admin Login --> <button id="admin-btn" onclick="showAdminLogin()" class="hidden px-4 py-2 bg-primary text-white text-sm font-medium rounded hover:opacity-90 transition" style="background-color: var(--primary);">
+  Admin
+</button>
+
        </div>
       </div>
      </div>
@@ -1180,5 +1183,21 @@
     // Initialize on load
     init();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c6806b550e6b2d6',t:'MTc2OTg1MDEwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c6806b550e6b2d6',t:'MTc2OTg1MDEwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script> 
+<script>
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const adminKey = params.get("admin");
+
+    const SECRET_KEY = "janprahar4125"; // you can change this
+
+    if (adminKey === SECRET_KEY) {
+      const adminBtn = document.getElementById("admin-btn");
+      if (adminBtn) {
+        adminBtn.classList.remove("hidden");
+      }
+    }
+  })();
+</script>
+</body>
 </html>
