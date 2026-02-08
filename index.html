@@ -3,6 +3,7 @@
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
 <script>
   // Your Firebase config
@@ -20,6 +21,7 @@
 
   // Initialize Firestore
   const db = firebase.firestore();
+  const auth = firebase.auth();
 </script>
  
 <head>
@@ -321,11 +323,14 @@
       <p class="text-accent text-sm mt-2" style="color: var(--accent);">JanPrahar News CMS</p>
      </div>
      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-      <div><label for="admin-username" class="block text-sm font-medium text-gray-700 mb-1">Username</label> <input type="text" id="admin-username" value="admin" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+      <div><label ...>Email</label>
+<input type="email" id="admin-username" placeholder="Enter admin email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
       </div>
-      <div><label for="admin-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label> <input type="password" id="admin-password" value="admin123" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+      <div><label for="admin-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label> <input type="password" id="admin-password" placeholder="Enter password"
+required
+class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
       </div>
-      <p class="text-xs text-gray-500 text-center">Demo: admin / admin123</p><button type="submit" class="w-full py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition flex items-center justify-center" style="background-color: var(--primary);"> <span>Login to Dashboard</span> </button>
+     <button type="submit" class="w-full py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition flex items-center justify-center" style="background-color: var(--primary);"> <span>Login to Dashboard</span> </button>
      </form>
     </div>
    </div><!-- ADMIN DASHBOARD -->
@@ -438,6 +443,11 @@
            </div>
           </div>
           <div><label for="article-image" class="block text-sm font-medium text-gray-700 mb-2">Image URL (Optional)</label> <input type="url" id="article-image" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="https://example.com/image.jpg">
+<button type="button"
+onclick="openCloudinaryUpload()"
+class="mt-2 px-4 py-2 bg-blue-600 text-white rounded">
+Upload Image
+</button>
           </div>
           <div><label for="article-tags" class="block text-sm font-medium text-gray-700 mb-2">Tags (comma separated)</label> <input type="text" id="article-tags" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="भारत, समाचार, राजनीति">
           </div>
@@ -1228,6 +1238,7 @@
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+<script src="https://upload-widget.cloudinary.com/global/all.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
@@ -1330,6 +1341,27 @@
 
   // Load posts on page load
   loadPosts();
+function openCloudinaryUpload() {
+
+  const widget = cloudinary.createUploadWidget({
+      cloudName: "dpb4bkchj",
+      uploadPreset: "unsigned_upload"
+    },
+    (error, result) => {
+
+      if (!error && result && result.event === "success") {
+
+        document.getElementById("article-image").value =
+          result.info.secure_url;
+
+        showToast("Image uploaded!", "success");
+      }
+    }
+  );
+
+  widget.open();
+}
+
 </script>
 
 </body>
