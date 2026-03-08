@@ -508,6 +508,7 @@ Upload Image
         updateTicker();
       }
     };
+    window.dataHandler = dataHandler;
 
     // Initialize SDKs
     async function init() {
@@ -1191,69 +1192,26 @@ Upload Image
     init();
   </script>
  <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c73e6d653e3b2d6',t:'MTc2OTk3NDYyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBD1xK7qeRQDPcgig_INWlnRtOD87mJNkk",
-    authDomain: "janprahar-news.firebaseapp.com",
-    projectId: "janprahar-news",
-    storageBucket: "janprahar-news.firebasestorage.app",
-    messagingSenderId: "750814127212",
-    appId: "1:750814127212:web:6a5da15df6d9b9d5366449",
-    measurementId: "G-NSZVGBR836"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getFirestore, collection, getDocs, query, orderBy, onSnapshot, addDoc, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-<script>
-  // 🔐 Firebase config (yours)
   const firebaseConfig = {
     apiKey: "AIzaSyBD1xK7qeRQDPcgig_INWlnRtOD87mJNkk",
     authDomain: "janprahar-news.firebaseapp.com",
     projectId: "janprahar-news",
     storageBucket: "janprahar-news.appspot.com",
     messagingSenderId: "750814127212",
-    appId: "1:750814127212:web:6a5da15df6d9b9d5366449"
-  };
-
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-
-  // Services
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-</script>
-<!-- Firebase Auth -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } 
-    from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyBD1xK7qeRQDPcgig_INWlnRtOD87mJNkk",
-    authDomain: "janprahar-news.firebaseapp.com",
-    projectId: "janprahar-news",
+    appId: "1:750814127212:web:6a5da15df6d9b9d5366449",
+    measurementId: "G-NSZVGBR836"
   };
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db = getFirestore(app);
 
-  // Login handler
   window.handleAdminLogin = async function (e) {
     e.preventDefault();
     const email = document.getElementById("admin-username").value;
@@ -1269,11 +1227,11 @@ Upload Image
     }
   };
 
-  // Auth state persistence
   onAuthStateChanged(auth, (user) => {
     if (user) {
       document.getElementById("frontend-view").classList.add("hidden");
       document.getElementById("admin-dashboard").classList.remove("hidden");
+      if (typeof isAdminLoggedIn !== 'undefined') isAdminLoggedIn = true;
     }
   });
 
@@ -1281,66 +1239,91 @@ Upload Image
     await signOut(auth);
     location.reload();
   };
-</script>
-<!-- Firebase SDKs -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, getDocs, query, where, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  // 🔐 Your Firebase config (already copied by you)
-  const firebaseConfig = {
-    apiKey: "AIzaSyBD1xK7qeRQDPcgig_INWlnRtOD87mJNkk",
-    authDomain: "janprahar-news.firebaseapp.com",
-    projectId: "janprahar-news",
-    storageBucket: "janprahar-news.appspot.com",
-    messagingSenderId: "750814127212",
-    appId: "1:750814127212:web:6a5da15df6d9b9d5366449"
+  window.openCloudinaryUpload = function() {
+    if (typeof cloudinary === 'undefined') {
+      if (typeof showToast !== 'undefined') showToast("Cloudinary SDK not loaded.", "error");
+      return;
+    }
+    const widget = cloudinary.createUploadWidget({
+        cloudName: "dpb4bkchj",
+        uploadPreset: "unsigned_upload"
+      },
+      (error, result) => {
+        if (!error && result && result.event === "success") {
+          document.getElementById("article-image").value = result.info.secure_url;
+          if (typeof showToast !== 'undefined') showToast("Image uploaded!", "success");
+        }
+      }
+    );
+    widget.open();
   };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  // 🔎 Fetch published posts
-  async function loadPosts() {
-    const postsRef = collection(db, "posts");
-    const q = query(
-      postsRef,
-      where("published", "==", true),
-      orderBy("createdAt", "desc")
-    );
-
-    const snapshot = await getDocs(q);
-    console.log("🔥 Posts loaded:", snapshot.size);
-
-    snapshot.forEach(doc => {
-      console.log(doc.id, doc.data());
-    });
-  }
-
-  // Load posts on page load
-  loadPosts();
-function openCloudinaryUpload() {
-
-  const widget = cloudinary.createUploadWidget({
-      cloudName: "dpb4bkchj",
-      uploadPreset: "unsigned_upload"
+  window.dataSdk = {
+    init: async function(handler) {
+      try {
+        const postsRef = collection(db, "posts");
+        onSnapshot(postsRef, (snapshot) => {
+          const articles = [];
+          snapshot.forEach(docObj => {
+            const data = docObj.data();
+            data.__backendId = docObj.id;
+            // Normalize createdAt vs created_at fields safely
+            if (!data.created_at && data.createdAt) {
+              data.created_at = data.createdAt.toDate ? data.createdAt.toDate().toISOString() : data.createdAt;
+            }
+            articles.push(data);
+          });
+          articles.sort((a, b) => new Date(b.created_at || Number.NEGATIVE_INFINITY) - new Date(a.created_at || Number.NEGATIVE_INFINITY));
+          handler.onDataChanged(articles);
+        }, (error) => {
+          console.error("Firestore listener error:", error);
+        });
+        return { isOk: true };
+      } catch (err) {
+        console.error("Firebase init Error:", err);
+        return { isOk: false, error: err };
+      }
     },
-    (error, result) => {
-
-      if (!error && result && result.event === "success") {
-
-        document.getElementById("article-image").value =
-          result.info.secure_url;
-
-        showToast("Image uploaded!", "success");
+    create: async function(data) {
+      try {
+        const postsRef = collection(db, "posts");
+        await addDoc(postsRef, data);
+        return { isOk: true };
+      } catch (err) {
+        console.error("Create Error:", err);
+        return { isOk: false, error: err };
+      }
+    },
+    update: async function(data) {
+      try {
+        const id = data.__backendId;
+        const updateData = { ...data };
+        delete updateData.__backendId;
+        const docRef = doc(db, "posts", id);
+        await updateDoc(docRef, updateData);
+        return { isOk: true };
+      } catch (err) {
+        console.error("Update Error:", err);
+        return { isOk: false, error: err };
+      }
+    },
+    delete: async function(data) {
+      try {
+        const id = data.__backendId;
+        const docRef = doc(db, "posts", id);
+        await deleteDoc(docRef);
+        return { isOk: true };
+      } catch (err) {
+        console.error("Delete Error:", err);
+        return { isOk: false, error: err };
       }
     }
-  );
+  };
 
-  widget.open();
-}
-
+  if (window.dataHandler) {
+    window.dataSdk.init(window.dataHandler);
+  }
 </script>
 
 </body>
