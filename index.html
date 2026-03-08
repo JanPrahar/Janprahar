@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="hi" class="h-full"> 
+<html lang="hi" class="h-full">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +9,14 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&amp;family=Oswald:wght@400;500;600;700&amp;family=Source+Sans+3:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&amp;family=Oswald:wght@400;500;600;700&amp;family=Source+Sans+3:wght@400;500;600;700&amp;display=swap"
+    rel="stylesheet">
   <style>
-    body { box-sizing: border-box; }
-    
+    body {
+      box-sizing: border-box;
+    }
+
     :root {
       --primary: #B11226;
       --secondary: #1C1C1C;
@@ -19,80 +24,105 @@
       --accent: #6B7280;
       --alert: #F59E0B;
     }
-    
+
     .dark {
       --primary: #E63946;
       --secondary: #E5E7EB;
       --background: #111827;
       --accent: #9CA3AF;
     }
-    
+
     body {
       font-family: 'Source Sans 3', 'Tiro Devanagari Hindi', sans-serif;
       background-color: var(--background);
       transition: background-color 0.3s, color 0.3s;
     }
-    
-    .dark body, .dark .bg-main {
+
+    .dark body,
+    .dark .bg-main {
       background-color: #111827;
       color: #E5E7EB;
     }
-    
+
     .font-headline {
       font-family: 'Oswald', 'Tiro Devanagari Hindi', sans-serif;
     }
-    
+
     .font-hindi {
       font-family: 'Tiro Devanagari Hindi', serif;
     }
-    
-    .bg-primary { background-color: var(--primary); }
-    .bg-secondary { background-color: var(--secondary); }
-    .text-primary { color: var(--primary); }
-    .text-secondary { color: var(--secondary); }
-    .text-accent { color: var(--accent); }
-    .border-primary { border-color: var(--primary); }
-    
+
+    .bg-primary {
+      background-color: var(--primary);
+    }
+
+    .bg-secondary {
+      background-color: var(--secondary);
+    }
+
+    .text-primary {
+      color: var(--primary);
+    }
+
+    .text-secondary {
+      color: var(--secondary);
+    }
+
+    .text-accent {
+      color: var(--accent);
+    }
+
+    .border-primary {
+      border-color: var(--primary);
+    }
+
     .ticker-wrapper {
       overflow: hidden;
       white-space: nowrap;
     }
-    
+
     .ticker-content {
       display: inline-block;
       animation: ticker 30s linear infinite;
     }
-    
+
     @keyframes ticker {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
     }
-    
+
     .news-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     }
-    
+
     .dark .news-card {
       background-color: #1F2937;
       border-color: #374151;
     }
-    
+
     .dark .bg-white {
       background-color: #1F2937 !important;
     }
-    
-    .dark input, .dark textarea, .dark select {
+
+    .dark input,
+    .dark textarea,
+    .dark select {
       background-color: #374151 !important;
       border-color: #4B5563 !important;
       color: #E5E7EB !important;
     }
-    
+
     .ad-placeholder {
       background: linear-gradient(135deg, #E5E7EB 0%, #D1D5DB 100%);
       border: 2px dashed #9CA3AF;
     }
-    
+
     .dark .ad-placeholder {
       background: linear-gradient(135deg, #374151 0%, #4B5563 100%);
       border-color: #6B7280;
@@ -113,367 +143,571 @@
     }
 
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
   </style>
-  <style>@view-transition { navigation: auto; }</style>
- </head>
- <body class="h-full">
+  <style>
+    @view-transition {
+      navigation: auto;
+    }
+  </style>
+</head>
+
+<body class="h-full">
   <div id="app" class="h-full overflow-auto bg-main" style="background-color: var(--background);"><!-- FRONTEND VIEW -->
-   <div id="frontend-view"><!-- Top Navigation -->
-    <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary);">
-     <div class="max-w-7xl mx-auto px-4">
-      <div class="flex items-center justify-between h-16"><!-- Logo -->
-       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 bg-primary rounded flex items-center justify-center" style="background-color: var(--primary);">
-         <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-         </svg>
-        </div>
-        <div>
-         <h1 id="site-name" class="font-headline text-white text-xl font-bold tracking-tight">JanPrahar News</h1>
-         <p id="site-tagline" class="text-xs text-gray-400 font-hindi">सच की आवाज़</p>
-        </div>
-       </div><!-- Navigation Links -->
-       <nav class="hidden md:flex items-center space-x-6"><button onclick="filterCategory('all')" class="text-gray-300 hover:text-white text-sm font-medium transition">होम</button> <button onclick="filterCategory('politics')" class="text-gray-300 hover:text-white text-sm font-medium transition">राजनीति</button> <button onclick="filterCategory('business')" class="text-gray-300 hover:text-white text-sm font-medium transition">व्यापार</button> <button onclick="filterCategory('technology')" class="text-gray-300 hover:text-white text-sm font-medium transition">टेक्नोलॉजी</button> <button onclick="filterCategory('sports')" class="text-gray-300 hover:text-white text-sm font-medium transition">खेल</button> <button onclick="filterCategory('regional')" class="text-gray-300 hover:text-white text-sm font-medium transition">क्षेत्रीय</button>
-       </nav><!-- Right Section -->
-       <div class="flex items-center space-x-4"><!-- Search -->
-        <div class="relative hidden sm:block"><input type="text" id="search-input" placeholder="खोजें..." class="w-40 lg:w-56 px-4 py-2 pl-10 bg-gray-800 text-white text-sm rounded-full border border-gray-700 focus:border-primary focus:outline-none" onkeyup="handleSearch(event)">
-         <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-         </svg>
-        </div><!-- Dark Mode Toggle --> <button onclick="toggleDarkMode()" class="p-2 text-gray-400 hover:text-white transition" title="Dark Mode">
-         <svg id="dark-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-         </svg>
-         <svg id="light-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-         </svg></button> <!-- Admin Login --> <button onclick="showAdminLogin()" class="px-4 py-2 bg-primary text-white text-sm font-medium rounded hover:opacity-90 transition" style="background-color: var(--primary);"> Admin </button>
-       </div>
-      </div>
-     </div>
-    </header><!-- Breaking News Ticker -->
-    <div class="bg-primary py-2" style="background-color: var(--primary);">
-     <div class="max-w-7xl mx-auto px-4 flex items-center"><span id="breaking-label" class="bg-white text-primary px-3 py-1 text-xs font-bold uppercase tracking-wider mr-4 flex-shrink-0 animate-pulse" style="color: var(--primary);"> ब्रेकिंग न्यूज़ </span>
-      <div class="ticker-wrapper flex-1">
-       <div class="ticker-content text-white text-sm font-medium" id="ticker-content">
-        समाचार लोड हो रहे हैं... • कृपया प्रतीक्षा करें...
-       </div>
-      </div>
-     </div>
-    </div><!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 py-8"><!-- Category Filter Pills -->
-     <div class="flex flex-wrap gap-2 mb-8" id="category-pills"><button onclick="filterCategory('all')" class="category-pill active px-4 py-2 rounded-full text-sm font-medium transition bg-primary text-white" data-category="all" style="background-color: var(--primary);"> सभी समाचार </button> <button onclick="filterCategory('politics')" class="category-pill px-4 py-2 rounded-full text-sm font-medium transition bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300" data-category="politics"> राजनीति </button> <button onclick="filterCategory('business')" class="category-pill px-4 py-2 rounded-full text-sm font-medium transition bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300" data-category="business"> व्यापार </button> <button onclick="filterCategory('technology')" class="category-pill px-4 py-2 rounded-full text-sm font-medium transition bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300" data-category="technology"> टेक्नोलॉजी </button> <button onclick="filterCategory('sports')" class="category-pill px-4 py-2 rounded-full text-sm font-medium transition bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300" data-category="sports"> खेल </button> <button onclick="filterCategory('regional')" class="category-pill px-4 py-2 rounded-full text-sm font-medium transition bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300" data-category="regional"> क्षेत्रीय </button>
-     </div><!-- Lead Story + Sidebar Layout -->
-     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12"><!-- Lead Story -->
-      <div class="lg:col-span-2" id="lead-story-container">
-       <div class="bg-white rounded-lg shadow-lg overflow-hidden news-card transition-all duration-300">
-        <div class="relative">
-         <div class="w-full h-80 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-          <div class="text-center text-gray-600">
-           <svg class="w-16 h-16 mx-auto mb-2 opacity-50" fill="currentColor" viewbox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 19V5h14v14H5zm4-4h6v2H9v-2zm0-4h6v2H9v-2z" />
-           </svg>
-           <p class="font-hindi text-sm">समाचार जोड़ने के लिए Admin पैनल का उपयोग करें</p>
+    <div id="frontend-view"><!-- Top Navigation -->
+      <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary);">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="flex items-center justify-between h-16"><!-- Logo -->
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 bg-primary rounded flex items-center justify-center"
+                style="background-color: var(--primary);">
+                <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+              </div>
+              <div>
+                <h1 id="site-name" class="font-headline text-white text-xl font-bold tracking-tight">JanPrahar News</h1>
+                <p id="site-tagline" class="text-xs text-gray-400 font-hindi">सच की आवाज़</p>
+              </div>
+            </div><!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-6"><button onclick="filterCategory('all')"
+                class="text-gray-300 hover:text-white text-sm font-medium transition">होम</button> <button
+                onclick="filterCategory('politics')"
+                class="text-gray-300 hover:text-white text-sm font-medium transition">राजनीति</button> <button
+                onclick="filterCategory('business')"
+                class="text-gray-300 hover:text-white text-sm font-medium transition">व्यापार</button> <button
+                onclick="filterCategory('technology')"
+                class="text-gray-300 hover:text-white text-sm font-medium transition">टेक्नोलॉजी</button> <button
+                onclick="filterCategory('sports')"
+                class="text-gray-300 hover:text-white text-sm font-medium transition">खेल</button> <button
+                onclick="filterCategory('regional')"
+                class="text-gray-300 hover:text-white text-sm font-medium transition">क्षेत्रीय</button>
+            </nav><!-- Right Section -->
+            <div class="flex items-center space-x-4"><!-- Search -->
+              <div class="relative hidden sm:block"><input type="text" id="search-input" placeholder="खोजें..."
+                  class="w-40 lg:w-56 px-4 py-2 pl-10 bg-gray-800 text-white text-sm rounded-full border border-gray-700 focus:border-primary focus:outline-none"
+                  onkeyup="handleSearch(event)">
+                <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" fill="none"
+                  stroke="currentColor" viewbox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div><!-- Dark Mode Toggle --> <button onclick="toggleDarkMode()"
+                class="p-2 text-gray-400 hover:text-white transition" title="Dark Mode">
+                <svg id="dark-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg id="light-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg></button> <!-- Admin Login --> <button onclick="showAdminLogin()"
+                class="px-4 py-2 bg-primary text-white text-sm font-medium rounded hover:opacity-90 transition"
+                style="background-color: var(--primary);"> Admin </button>
+            </div>
           </div>
-         </div>
-         <div class="absolute top-4 left-4"><span class="bg-primary text-white px-3 py-1 text-xs font-bold uppercase" style="background-color: var(--primary);">मुख्य खबर</span>
-         </div>
         </div>
-        <div class="p-6">
-         <h2 class="font-headline text-2xl lg:text-3xl font-bold text-secondary mb-3 leading-tight" style="color: var(--secondary);">JanPrahar News में आपका स्वागत है</h2>
-         <p class="text-accent mb-4 font-hindi" style="color: var(--accent);">समाचार प्रकाशित करने के लिए Admin पैनल में लॉगिन करें और नए लेख जोड़ें।</p>
-         <div class="flex items-center text-sm text-accent" style="color: var(--accent);"><span class="font-medium">संपादकीय टीम</span> <span class="mx-2">•</span> <span id="current-date"></span>
-         </div>
+      </header><!-- Breaking News Ticker -->
+      <div class="bg-primary py-2" style="background-color: var(--primary);">
+        <div class="max-w-7xl mx-auto px-4 flex items-center"><span id="breaking-label"
+            class="bg-white text-primary px-3 py-1 text-xs font-bold uppercase tracking-wider mr-4 flex-shrink-0 animate-pulse"
+            style="color: var(--primary);"> ब्रेकिंग न्यूज़ </span>
+          <div class="ticker-wrapper flex-1">
+            <div class="ticker-content text-white text-sm font-medium" id="ticker-content">
+              समाचार लोड हो रहे हैं... • कृपया प्रतीक्षा करें...
+            </div>
+          </div>
         </div>
-       </div>
-      </div><!-- Sidebar -->
-      <div class="space-y-6"><!-- Ad Placeholder -->
-       <div class="ad-placeholder rounded-lg p-6 text-center h-48 flex items-center justify-center">
-        <div>
-         <p class="text-gray-500 text-sm font-medium">विज्ञापन स्थान</p>
-         <p class="text-gray-400 text-xs mt-1">300 x 250</p>
-        </div>
-       </div><!-- Trending Section -->
-       <div class="bg-white rounded-lg shadow p-5">
-        <h3 class="font-headline text-lg font-bold text-secondary border-b-2 border-primary pb-2 mb-4" style="color: var(--secondary); border-color: var(--primary);">📈 ट्रेंडिंग</h3>
-        <div id="trending-list" class="space-y-3">
-         <p class="text-accent text-sm font-hindi" style="color: var(--accent);">कोई ट्रेंडिंग समाचार नहीं</p>
-        </div>
-       </div>
-      </div>
-     </div><!-- News Grid -->
-     <section class="mb-12">
-      <h2 class="font-headline text-2xl font-bold text-secondary mb-6 border-l-4 border-primary pl-4" style="color: var(--secondary); border-color: var(--primary);">ताज़ा खबरें</h2>
-      <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"><!-- News cards will be dynamically inserted here -->
-       <div class="col-span-full text-center py-12">
-        <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="currentColor" viewbox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 19V5h14v14H5z" />
-        </svg>
-        <p class="text-accent font-hindi text-lg" style="color: var(--accent);">अभी कोई समाचार उपलब्ध नहीं है</p>
-        <p class="text-gray-400 text-sm mt-2">Admin पैनल से नए समाचार जोड़ें</p>
-       </div>
-      </div>
-     </section><!-- Bottom Ad Banner -->
-     <div class="ad-placeholder rounded-lg p-8 text-center mb-8">
-      <p class="text-gray-500 font-medium">विज्ञापन बैनर</p>
-      <p class="text-gray-400 text-xs mt-1">728 x 90 Leaderboard</p>
-     </div>
-    </main><!-- Footer -->
-    <footer class="bg-secondary text-white py-12" style="background-color: var(--secondary);">
-     <div class="max-w-7xl mx-auto px-4">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8"><!-- Brand -->
-       <div class="md:col-span-2">
-        <div class="flex items-center space-x-3 mb-4">
-         <div class="w-12 h-12 bg-primary rounded flex items-center justify-center" style="background-color: var(--primary);">
-          <svg class="w-7 h-7 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-          </svg>
-         </div>
-         <div>
-          <h3 class="font-headline text-xl font-bold">JanPrahar News</h3>
-          <p class="text-gray-400 text-sm font-hindi">सच की आवाज़</p>
-         </div>
-        </div>
-        <p class="text-gray-400 text-sm leading-relaxed max-w-md">JanPrahar News भारत का विश्वसनीय डिजिटल समाचार मंच है जो राजनीति, व्यापार, खेल और क्षेत्रीय खबरों को निष्पक्षता से प्रस्तुत करता है।</p>
-       </div><!-- Quick Links -->
-       <div>
-        <h4 class="font-headline font-bold mb-4">त्वरित लिंक</h4>
-        <ul class="space-y-2 text-gray-400 text-sm">
-         <li><a href="#" class="hover:text-white transition">हमारे बारे में</a></li>
-         <li><a href="#" class="hover:text-white transition">संपर्क करें</a></li>
-         <li><a href="#" class="hover:text-white transition">विज्ञापन दें</a></li>
-         <li><a href="#" class="hover:text-white transition">गोपनीयता नीति</a></li>
-        </ul>
-       </div><!-- Social Media -->
-       <div>
-        <h4 class="font-headline font-bold mb-4">सोशल मीडिया</h4>
-        <div class="flex space-x-3"><a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition" style="--tw-bg-opacity: 1;">
-          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
-           <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
-          </svg></a> <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition">
-          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
-           <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z" />
-          </svg></a> <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition">
-          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
-           <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-          </svg></a> <a href="#" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition">
-          <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
-           <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
-          </svg></a>
-        </div>
-       </div>
-      </div>
-      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
-       <p>© 2024 JanPrahar News. सर्वाधिकार सुरक्षित।</p>
-      </div>
-     </div>
-    </footer>
-   </div><!-- ARTICLE VIEW -->
-   <div id="article-view" class="hidden">
-    <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary);">
-     <div class="max-w-4xl mx-auto px-4">
-      <div class="flex items-center justify-between h-16"><button onclick="showFrontend()" class="flex items-center space-x-2 text-white hover:text-primary transition">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg><span class="font-medium">वापस</span> </button>
-       <div class="flex items-center space-x-3">
-        <div class="w-8 h-8 bg-primary rounded flex items-center justify-center" style="background-color: var(--primary);">
-         <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-         </svg>
-        </div><span class="font-headline text-white font-bold">JanPrahar News</span>
-       </div><button onclick="toggleDarkMode()" class="p-2 text-gray-400 hover:text-white transition">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-        </svg></button>
-      </div>
-     </div>
-    </header>
-    <article class="max-w-4xl mx-auto px-4 py-8">
-     <div id="article-content"><!-- Article content will be dynamically inserted -->
-     </div>
-    </article>
-   </div><!-- ADMIN LOGIN MODAL -->
-   <div id="admin-login-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-overlay">
-    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-8 relative"><button onclick="hideAdminLogin()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg></button>
-     <div class="text-center mb-8">
-      <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4" style="background-color: var(--primary);">
-       <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-       </svg>
-      </div>
-      <h2 class="font-headline text-2xl font-bold text-secondary" style="color: var(--secondary);">Admin Login</h2>
-      <p class="text-accent text-sm mt-2" style="color: var(--accent);">JanPrahar News CMS</p>
-     </div>
-     <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-      <div><label for="admin-username"
-class="block text-sm font-medium text-gray-700 mb-1">
-Email
-</label>
-<input type="email" id="admin-username" placeholder="Enter admin email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-      </div>
-      <div><label for="admin-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label> <input type="password" id="admin-password" placeholder="Enter password"
-required
-class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-      </div>
-     <button type="submit" class="w-full py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition flex items-center justify-center" style="background-color: var(--primary);"> <span>Login to Dashboard</span> </button>
-     </form>
-    </div>
-   </div><!-- ADMIN DASHBOARD -->
-   <div id="admin-dashboard" class="hidden">
-    <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary);">
-     <div class="max-w-7xl mx-auto px-4">
-      <div class="flex items-center justify-between h-16">
-       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 bg-primary rounded flex items-center justify-center" style="background-color: var(--primary);">
-         <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-         </svg>
-        </div>
-        <div>
-         <h1 class="font-headline text-white text-lg font-bold">Admin Dashboard</h1>
-         <p class="text-xs text-gray-400">JanPrahar News CMS</p>
-        </div>
-       </div>
-       <div class="flex items-center space-x-4"><button onclick="showFrontend()" class="px-4 py-2 text-gray-300 hover:text-white text-sm font-medium transition flex items-center space-x-2">
-         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-         </svg><span>View Site</span> </button> <button onclick="adminLogout()" class="px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded hover:bg-gray-600 transition"> Logout </button>
-       </div>
-      </div>
-     </div>
-    </header>
-    <div class="max-w-7xl mx-auto px-4 py-8">
-     <div class="grid grid-cols-1 lg:grid-cols-4 gap-8"><!-- Sidebar -->
-      <div class="lg:col-span-1">
-       <div class="bg-white rounded-lg shadow p-4 sticky top-24">
-        <nav class="space-y-2"><button onclick="showAdminSection('articles')" class="admin-nav-btn active w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 bg-primary text-white" data-section="articles" style="background-color: var(--primary);">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-          </svg><span>Articles</span> </button> <button onclick="showAdminSection('new-article')" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 text-gray-700 hover:bg-gray-100" data-section="new-article">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg><span>New Article</span> </button> <button onclick="showAdminSection('stats')" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 text-gray-700 hover:bg-gray-100" data-section="stats">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-          </svg><span>Statistics</span> </button>
-        </nav>
-       </div>
       </div><!-- Main Content -->
-      <div class="lg:col-span-3"><!-- Stats Cards -->
-       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div class="bg-white rounded-lg shadow p-5">
-         <div class="flex items-center justify-between">
-          <div>
-           <p class="text-accent text-sm" style="color: var(--accent);">Total Articles</p>
-           <p id="stat-total" class="text-3xl font-bold text-secondary" style="color: var(--secondary);">0</p>
+      <main class="max-w-7xl mx-auto px-4 py-8"><!-- Category Filter Pills -->
+        <div class="flex flex-wrap gap-2 mb-8" id="category-pills"><button onclick="filterCategory('all')"
+            class="category-pill active px-4 py-2 rounded-full text-sm font-medium transition bg-primary text-white"
+            data-category="all" style="background-color: var(--primary);"> सभी समाचार </button> <button
+            onclick="filterCategory('politics')"
+            class="category-pill px-4 py-2 rounded-full text-sm font-medium transition bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+            data-category="politics"> राजनीति </button> <button onclick="filterCategory('business')"
+            class="category-pill px-4 py-2 rounded-full text-sm font-medium transition bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+            data-category="business"> व्यापार </button> <button onclick="filterCategory('technology')"
+            class="category-pill px-4 py-2 rounded-full text-sm font-medium transition bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+            data-category="technology"> टेक्नोलॉजी </button> <button onclick="filterCategory('sports')"
+            class="category-pill px-4 py-2 rounded-full text-sm font-medium transition bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+            data-category="sports"> खेल </button> <button onclick="filterCategory('regional')"
+            class="category-pill px-4 py-2 rounded-full text-sm font-medium transition bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
+            data-category="regional"> क्षेत्रीय </button>
+        </div><!-- Lead Story + Sidebar Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12"><!-- Lead Story -->
+          <div class="lg:col-span-2" id="lead-story-container">
+            <div class="bg-white rounded-lg shadow-lg overflow-hidden news-card transition-all duration-300">
+              <div class="relative">
+                <div class="w-full h-80 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
+                  <div class="text-center text-gray-600">
+                    <svg class="w-16 h-16 mx-auto mb-2 opacity-50" fill="currentColor" viewbox="0 0 24 24">
+                      <path
+                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 19V5h14v14H5zm4-4h6v2H9v-2zm0-4h6v2H9v-2z" />
+                    </svg>
+                    <p class="font-hindi text-sm">समाचार जोड़ने के लिए Admin पैनल का उपयोग करें</p>
+                  </div>
+                </div>
+                <div class="absolute top-4 left-4"><span
+                    class="bg-primary text-white px-3 py-1 text-xs font-bold uppercase"
+                    style="background-color: var(--primary);">मुख्य खबर</span>
+                </div>
+              </div>
+              <div class="p-6">
+                <h2 class="font-headline text-2xl lg:text-3xl font-bold text-secondary mb-3 leading-tight"
+                  style="color: var(--secondary);">JanPrahar News में आपका स्वागत है</h2>
+                <p class="text-accent mb-4 font-hindi" style="color: var(--accent);">समाचार प्रकाशित करने के लिए Admin
+                  पैनल में लॉगिन करें और नए लेख जोड़ें।</p>
+                <div class="flex items-center text-sm text-accent" style="color: var(--accent);"><span
+                    class="font-medium">संपादकीय टीम</span> <span class="mx-2">•</span> <span id="current-date"></span>
+                </div>
+              </div>
+            </div>
+          </div><!-- Sidebar -->
+          <div class="space-y-6"><!-- Ad Placeholder -->
+            <div id="ad-space-sidebar"
+              class="ad-placeholder rounded-lg p-6 text-center h-48 flex items-center justify-center overflow-hidden">
+              <div>
+                <p class="text-gray-500 text-sm font-medium">विज्ञापन स्थान</p>
+                <p class="text-gray-400 text-xs mt-1">300 x 250</p>
+              </div>
+            </div><!-- Trending Section -->
+            <div class="bg-white rounded-lg shadow p-5">
+              <h3 class="font-headline text-lg font-bold text-secondary border-b-2 border-primary pb-2 mb-4"
+                style="color: var(--secondary); border-color: var(--primary);">📈 ट्रेंडिंग</h3>
+              <div id="trending-list" class="space-y-3">
+                <p class="text-accent text-sm font-hindi" style="color: var(--accent);">कोई ट्रेंडिंग समाचार नहीं</p>
+              </div>
+            </div>
           </div>
-          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-           <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-           </svg>
+        </div><!-- News Grid -->
+        <section class="mb-12">
+          <h2 class="font-headline text-2xl font-bold text-secondary mb-6 border-l-4 border-primary pl-4"
+            style="color: var(--secondary); border-color: var(--primary);">ताज़ा खबरें</h2>
+          <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- News cards will be dynamically inserted here -->
+            <div class="col-span-full text-center py-12">
+              <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="currentColor" viewbox="0 0 24 24">
+                <path
+                  d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 19V5h14v14H5z" />
+              </svg>
+              <p class="text-accent font-hindi text-lg" style="color: var(--accent);">अभी कोई समाचार उपलब्ध नहीं है</p>
+              <p class="text-gray-400 text-sm mt-2">Admin पैनल से नए समाचार जोड़ें</p>
+            </div>
           </div>
-         </div>
+        </section><!-- Bottom Ad Banner -->
+        <div id="ad-space-bottom" class="ad-placeholder rounded-lg p-8 text-center mb-8 overflow-hidden">
+          <p class="text-gray-500 font-medium">विज्ञापन बैनर</p>
+          <p class="text-gray-400 text-xs mt-1">728 x 90 Leaderboard</p>
         </div>
-        <div class="bg-white rounded-lg shadow p-5">
-         <div class="flex items-center justify-between">
-          <div>
-           <p class="text-accent text-sm" style="color: var(--accent);">Published</p>
-           <p id="stat-published" class="text-3xl font-bold text-green-600">0</p>
+      </main><!-- Footer -->
+      <footer class="bg-secondary text-white py-12" style="background-color: var(--secondary);">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-8"><!-- Brand -->
+            <div class="md:col-span-2">
+              <div class="flex items-center space-x-3 mb-4">
+                <div class="w-12 h-12 bg-primary rounded flex items-center justify-center"
+                  style="background-color: var(--primary);">
+                  <svg class="w-7 h-7 text-white" fill="currentColor" viewbox="0 0 24 24">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                  </svg>
+                </div>
+                <div>
+                  <h3 class="font-headline text-xl font-bold">JanPrahar News</h3>
+                  <p class="text-gray-400 text-sm font-hindi">सच की आवाज़</p>
+                </div>
+              </div>
+              <p class="text-gray-400 text-sm leading-relaxed max-w-md">JanPrahar News भारत का विश्वसनीय डिजिटल समाचार
+                मंच है जो राजनीति, व्यापार, खेल और क्षेत्रीय खबरों को निष्पक्षता से प्रस्तुत करता है।</p>
+            </div><!-- Quick Links -->
+            <div>
+              <h4 class="font-headline font-bold mb-4">त्वरित लिंक</h4>
+              <ul class="space-y-2 text-gray-400 text-sm">
+                <li><a href="#" class="hover:text-white transition">हमारे बारे में</a></li>
+                <li><a href="#" class="hover:text-white transition">संपर्क करें</a></li>
+                <li><a href="#" class="hover:text-white transition">विज्ञापन दें</a></li>
+                <li><a href="#" class="hover:text-white transition">गोपनीयता नीति</a></li>
+              </ul>
+            </div><!-- Social Media -->
+            <div>
+              <h4 class="font-headline font-bold mb-4">सोशल मीडिया</h4>
+              <div class="flex space-x-3"><a href="#"
+                  class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition"
+                  style="--tw-bg-opacity: 1;">
+                  <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                    <path
+                      d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                  </svg></a> <a href="#"
+                  class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition">
+                  <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                    <path
+                      d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z" />
+                  </svg></a> <a href="#"
+                  class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition">
+                  <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                  </svg></a> <a href="#"
+                  class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition">
+                  <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                    <path
+                      d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                  </svg></a>
+              </div>
+            </div>
           </div>
-          <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-           <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-           </svg>
+          <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
+            <p>© 2024 JanPrahar News. सर्वाधिकार सुरक्षित।</p>
           </div>
-         </div>
         </div>
-        <div class="bg-white rounded-lg shadow p-5">
-         <div class="flex items-center justify-between">
-          <div>
-           <p class="text-accent text-sm" style="color: var(--accent);">Breaking News</p>
-           <p id="stat-breaking" class="text-3xl font-bold text-primary" style="color: var(--primary);">0</p>
+      </footer>
+    </div><!-- ARTICLE VIEW -->
+    <div id="article-view" class="hidden">
+      <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary);">
+        <div class="max-w-4xl mx-auto px-4">
+          <div class="flex items-center justify-between h-16"><button onclick="showFrontend()"
+              class="flex items-center space-x-2 text-white hover:text-primary transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              </svg><span class="font-medium">वापस</span> </button>
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 bg-primary rounded flex items-center justify-center"
+                style="background-color: var(--primary);">
+                <svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 24 24">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+              </div><span class="font-headline text-white font-bold">JanPrahar News</span>
+            </div><button onclick="toggleDarkMode()" class="p-2 text-gray-400 hover:text-white transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+              </svg></button>
           </div>
-          <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-           <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-           </svg>
-          </div>
-         </div>
         </div>
-       </div><!-- Articles Section -->
-       <div id="section-articles" class="admin-section">
-        <div class="bg-white rounded-lg shadow">
-         <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-          <h2 class="font-headline text-xl font-bold text-secondary" style="color: var(--secondary);">Manage Articles</h2><button onclick="showAdminSection('new-article')" class="px-4 py-2 bg-primary text-white text-sm font-medium rounded hover:opacity-90 transition flex items-center space-x-2" style="background-color: var(--primary);">
-           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-           </svg><span>Add Article</span> </button>
-         </div>
-         <div id="articles-list" class="divide-y divide-gray-200">
-          <div class="px-6 py-12 text-center">
-           <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-           </svg>
-           <p class="text-gray-500">No articles yet. Create your first article!</p>
-          </div>
-         </div>
+      </header>
+      <article class="max-w-4xl mx-auto px-4 py-8">
+        <div id="article-content"><!-- Article content will be dynamically inserted -->
         </div>
-       </div><!-- New Article Section -->
-       <div id="section-new-article" class="admin-section hidden">
-        <div class="bg-white rounded-lg shadow">
-         <div class="px-6 py-4 border-b border-gray-200">
-          <h2 class="font-headline text-xl font-bold text-secondary" style="color: var(--secondary);">Create New Article</h2>
-         </div>
-         <form id="article-form" onsubmit="handleArticleSubmit(event)" class="p-6 space-y-6">
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label for="article-title" class="block text-sm font-medium text-gray-700 mb-2">Title (English)</label> <input type="text" id="article-title" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Enter article title">
-           </div>
-           <div><label for="article-title-hindi" class="block text-sm font-medium text-gray-700 mb-2">Title (Hindi)</label> <input type="text" id="article-title-hindi" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-hindi" placeholder="शीर्षक दर्ज करें">
-           </div>
+      </article>
+    </div><!-- ADMIN LOGIN MODAL -->
+    <div id="admin-login-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-overlay">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-8 relative"><button onclick="hideAdminLogin()"
+          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg></button>
+        <div class="text-center mb-8">
+          <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4"
+            style="background-color: var(--primary);">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-           <div><label for="article-category" class="block text-sm font-medium text-gray-700 mb-2">Category</label> <select id="article-category" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"> <option value="">Select Category</option> <option value="politics">राजनीति (Politics)</option> <option value="business">व्यापार (Business)</option> <option value="technology">टेक्नोलॉजी (Technology)</option> <option value="sports">खेल (Sports)</option> <option value="regional">क्षेत्रीय (Regional)</option> </select>
-           </div>
-           <div><label for="article-author" class="block text-sm font-medium text-gray-700 mb-2">Author</label> <input type="text" id="article-author" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Author name">
-           </div>
-          </div>
-          <div><label for="article-image" class="block text-sm font-medium text-gray-700 mb-2">Image URL (Optional)</label> <input type="url" id="article-image" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="https://example.com/image.jpg">
-<button type="button"
-onclick="openCloudinaryUpload()"
-class="mt-2 px-4 py-2 bg-blue-600 text-white rounded">
-Upload Image
-</button>
-          </div>
-          <div><label for="article-tags" class="block text-sm font-medium text-gray-700 mb-2">Tags (comma separated)</label> <input type="text" id="article-tags" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="भारत, समाचार, राजनीति">
-          </div>
-          <div><label for="article-excerpt" class="block text-sm font-medium text-gray-700 mb-2">Excerpt / Summary</label> <textarea id="article-excerpt" rows="2" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-hindi" placeholder="लेख का सारांश लिखें..."></textarea>
-          </div>
-          <div><label for="article-content" class="block text-sm font-medium text-gray-700 mb-2">Full Content</label> <textarea id="article-content" rows="10" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-hindi" placeholder="पूरा लेख यहाँ लिखें..."></textarea>
-          </div>
-          <div class="flex flex-wrap gap-6"><label class="flex items-center space-x-3 cursor-pointer"> <input type="checkbox" id="article-breaking" class="w-5 h-5 text-primary rounded focus:ring-primary"> <span class="text-sm font-medium text-gray-700">Mark as Breaking News</span> </label> <label class="flex items-center space-x-3 cursor-pointer"> <input type="checkbox" id="article-published" checked class="w-5 h-5 text-primary rounded focus:ring-primary"> <span class="text-sm font-medium text-gray-700">Publish Immediately</span> </label>
-          </div>
-          <div class="flex items-center space-x-4 pt-4 border-t border-gray-200"><button type="submit" id="submit-btn" class="px-6 py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition flex items-center space-x-2" style="background-color: var(--primary);"> <span id="submit-text">Publish Article</span>
-            <div id="submit-spinner" class="loading-spinner hidden"></div></button> <button type="button" onclick="resetArticleForm()" class="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition"> Cancel </button>
-          </div>
-          <p id="form-message" class="text-sm hidden"></p>
-         </form>
+          <h2 class="font-headline text-2xl font-bold text-secondary" style="color: var(--secondary);">Admin Login</h2>
+          <p class="text-accent text-sm mt-2" style="color: var(--accent);">JanPrahar News CMS</p>
         </div>
-       </div><!-- Stats Section -->
-       <div id="section-stats" class="admin-section hidden">
-        <div class="bg-white rounded-lg shadow p-6">
-         <h2 class="font-headline text-xl font-bold text-secondary mb-6" style="color: var(--secondary);">Category Statistics</h2>
-         <div id="category-stats" class="space-y-4">
-          <p class="text-gray-500">No data available yet.</p>
-         </div>
-        </div>
-       </div>
+        <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+          <div><label for="admin-username" class="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+            <input type="email" id="admin-username" placeholder="Enter admin email" required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+          </div>
+          <div><label for="admin-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label> <input
+              type="password" id="admin-password" placeholder="Enter password" required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+          </div>
+          <button type="submit"
+            class="w-full py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition flex items-center justify-center"
+            style="background-color: var(--primary);"> <span>Login to Dashboard</span> </button>
+        </form>
       </div>
-     </div>
-    </div>
-   </div><!-- Delete Confirmation Modal -->
-   <div id="delete-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-overlay">
-    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-8">
-     <div class="text-center mb-6">
-      <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-       <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-       </svg>
+    </div><!-- ADMIN DASHBOARD -->
+    <div id="admin-dashboard" class="hidden">
+      <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary);">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="flex items-center justify-between h-16">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 bg-primary rounded flex items-center justify-center"
+                style="background-color: var(--primary);">
+                <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24">
+                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+              </div>
+              <div>
+                <h1 class="font-headline text-white text-lg font-bold">Admin Dashboard</h1>
+                <p class="text-xs text-gray-400">JanPrahar News CMS</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-4"><button onclick="showFrontend()"
+                class="px-4 py-2 text-gray-300 hover:text-white text-sm font-medium transition flex items-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg><span>View Site</span> </button> <button onclick="adminLogout()"
+                class="px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded hover:bg-gray-600 transition">
+                Logout </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8"><!-- Sidebar -->
+          <div class="lg:col-span-1">
+            <div class="bg-white rounded-lg shadow p-4 sticky top-24">
+              <nav class="space-y-2"><button onclick="showAdminSection('articles')"
+                  class="admin-nav-btn active w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 bg-primary text-white"
+                  data-section="articles" style="background-color: var(--primary);">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                  </svg><span>Articles</span> </button> <button onclick="showAdminSection('new-article')"
+                  class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 text-gray-700 hover:bg-gray-100"
+                  data-section="new-article">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  </svg><span>New Article</span> </button> <button onclick="showAdminSection('stats')"
+                  class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 text-gray-700 hover:bg-gray-100"
+                  data-section="stats">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg><span>Statistics</span> </button> <button onclick="showAdminSection('ads')"
+                  class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 text-gray-700 hover:bg-gray-100"
+                  data-section="ads">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                  </svg><span>Advertisements</span> </button>
+              </nav>
+            </div>
+          </div><!-- Main Content -->
+          <div class="lg:col-span-3"><!-- Stats Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+              <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-accent text-sm" style="color: var(--accent);">Total Articles</p>
+                    <p id="stat-total" class="text-3xl font-bold text-secondary" style="color: var(--secondary);">0</p>
+                  </div>
+                  <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-accent text-sm" style="color: var(--accent);">Published</p>
+                    <p id="stat-published" class="text-3xl font-bold text-green-600">0</p>
+                  </div>
+                  <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-accent text-sm" style="color: var(--accent);">Breaking News</p>
+                    <p id="stat-breaking" class="text-3xl font-bold text-primary" style="color: var(--primary);">0</p>
+                  </div>
+                  <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div><!-- Articles Section -->
+            <div id="section-articles" class="admin-section">
+              <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                  <h2 class="font-headline text-xl font-bold text-secondary" style="color: var(--secondary);">Manage
+                    Articles</h2><button onclick="showAdminSection('new-article')"
+                    class="px-4 py-2 bg-primary text-white text-sm font-medium rounded hover:opacity-90 transition flex items-center space-x-2"
+                    style="background-color: var(--primary);">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg><span>Add Article</span> </button>
+                </div>
+                <div id="articles-list" class="divide-y divide-gray-200">
+                  <div class="px-6 py-12 text-center">
+                    <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor"
+                      viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                    <p class="text-gray-500">No articles yet. Create your first article!</p>
+                  </div>
+                </div>
+              </div>
+            </div><!-- New Article Section -->
+            <div id="section-new-article" class="admin-section hidden">
+              <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                  <h2 class="font-headline text-xl font-bold text-secondary" style="color: var(--secondary);">Create New
+                    Article</h2>
+                </div>
+                <form id="article-form" onsubmit="handleArticleSubmit(event)" class="p-6 space-y-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div><label for="article-title" class="block text-sm font-medium text-gray-700 mb-2">Title
+                        (English)</label> <input type="text" id="article-title" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="Enter article title">
+                    </div>
+                    <div><label for="article-title-hindi" class="block text-sm font-medium text-gray-700 mb-2">Title
+                        (Hindi)</label> <input type="text" id="article-title-hindi" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-hindi"
+                        placeholder="शीर्षक दर्ज करें">
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div><label for="article-category"
+                        class="block text-sm font-medium text-gray-700 mb-2">Category</label> <select
+                        id="article-category" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="">Select Category</option>
+                        <option value="politics">राजनीति (Politics)</option>
+                        <option value="business">व्यापार (Business)</option>
+                        <option value="technology">टेक्नोलॉजी (Technology)</option>
+                        <option value="sports">खेल (Sports)</option>
+                        <option value="regional">क्षेत्रीय (Regional)</option>
+                      </select>
+                    </div>
+                    <div><label for="article-author" class="block text-sm font-medium text-gray-700 mb-2">Author</label>
+                      <input type="text" id="article-author" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="Author name">
+                    </div>
+                  </div>
+                  <div><label for="article-image" class="block text-sm font-medium text-gray-700 mb-2">Image URL
+                      (Optional)</label> <input type="url" id="article-image"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="https://example.com/image.jpg">
+                    <button type="button" onclick="openCloudinaryUpload()"
+                      class="mt-2 px-4 py-2 bg-blue-600 text-white rounded">
+                      Upload Image
+                    </button>
+                  </div>
+                  <div><label for="article-tags" class="block text-sm font-medium text-gray-700 mb-2">Tags (comma
+                      separated)</label> <input type="text" id="article-tags"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="भारत, समाचार, राजनीति">
+                  </div>
+                  <div><label for="article-excerpt" class="block text-sm font-medium text-gray-700 mb-2">Excerpt /
+                      Summary</label> <textarea id="article-excerpt" rows="2" required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-hindi"
+                      placeholder="लेख का सारांश लिखें..."></textarea>
+                  </div>
+                  <div><label for="article-content" class="block text-sm font-medium text-gray-700 mb-2">Full
+                      Content</label> <textarea id="article-content" rows="10" required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-hindi"
+                      placeholder="पूरा लेख यहाँ लिखें..."></textarea>
+                  </div>
+                  <div class="flex flex-wrap gap-6"><label class="flex items-center space-x-3 cursor-pointer"> <input
+                        type="checkbox" id="article-breaking" class="w-5 h-5 text-primary rounded focus:ring-primary">
+                      <span class="text-sm font-medium text-gray-700">Mark as Breaking News</span> </label> <label
+                      class="flex items-center space-x-3 cursor-pointer"> <input type="checkbox" id="article-published"
+                        checked class="w-5 h-5 text-primary rounded focus:ring-primary"> <span
+                        class="text-sm font-medium text-gray-700">Publish Immediately</span> </label>
+                  </div>
+                  <div class="flex items-center space-x-4 pt-4 border-t border-gray-200"><button type="submit"
+                      id="submit-btn"
+                      class="px-6 py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition flex items-center space-x-2"
+                      style="background-color: var(--primary);"> <span id="submit-text">Publish Article</span>
+                      <div id="submit-spinner" class="loading-spinner hidden"></div>
+                    </button> <button type="button" onclick="resetArticleForm()"
+                      class="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition">
+                      Cancel </button>
+                  </div>
+                  <p id="form-message" class="text-sm hidden"></p>
+                </form>
+              </div>
+            </div><!-- Stats Section -->
+            <div id="section-stats" class="admin-section hidden">
+              <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="font-headline text-xl font-bold text-secondary mb-6" style="color: var(--secondary);">
+                  Category Statistics</h2>
+                <div id="category-stats" class="space-y-4">
+                  <p class="text-gray-500">No data available yet.</p>
+                </div>
+              </div>
+            </div><!-- Ads Section -->
+            <div id="section-ads" class="admin-section hidden">
+              <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="font-headline text-xl font-bold text-secondary mb-6" style="color: var(--secondary);">Manage
+                  Advertisements</h2>
+                <p class="text-sm text-gray-500 mb-6">Enter HTML scripts or Cloudinary image URLs to display ads in the
+                  sidebar and bottom banner.</p>
+                <form id="ads-form" onsubmit="handleAdSubmit(event)" class="space-y-6">
+                  <div><label class="block text-sm font-medium text-gray-700 mb-2">Sidebar Ad URL/Script</label>
+                    <textarea id="ad-sidebar" rows="3"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Ad code goes here..."></textarea>
+                  </div>
+                  <div><label class="block text-sm font-medium text-gray-700 mb-2">Bottom Banner Ad URL/Script</label>
+                    <textarea id="ad-bottom" rows="3"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Ad code goes here..."></textarea>
+                  </div>
+                  <div class="flex items-center space-x-4"><button type="submit" id="save-ads-btn"
+                      class="px-6 py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition flex items-center space-x-2"
+                      style="background-color: var(--primary);"> <span id="save-ads-text">Save Advertisements</span>
+                      <div id="save-ads-spinner" class="loading-spinner hidden"></div>
+                    </button> </div>
+                  <p id="ads-message" class="text-sm hidden"></p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <h3 class="font-headline text-xl font-bold text-gray-900">Delete Article?</h3>
-      <p class="text-gray-600 mt-2">This action cannot be undone. The article will be permanently removed.</p>
-     </div>
-     <div class="flex space-x-4"><button onclick="hideDeleteModal()" class="flex-1 px-4 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition"> Cancel </button> <button onclick="confirmDelete()" id="confirm-delete-btn" class="flex-1 px-4 py-3 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition flex items-center justify-center"> <span id="delete-text">Delete</span>
-       <div id="delete-spinner" class="loading-spinner hidden ml-2"></div></button>
-     </div>
+    </div><!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-overlay">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-8">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </div>
+          <h3 class="font-headline text-xl font-bold text-gray-900">Delete Article?</h3>
+          <p class="text-gray-600 mt-2">This action cannot be undone. The article will be permanently removed.</p>
+        </div>
+        <div class="flex space-x-4"><button onclick="hideDeleteModal()"
+            class="flex-1 px-4 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition">
+            Cancel </button> <button onclick="confirmDelete()" id="confirm-delete-btn"
+            class="flex-1 px-4 py-3 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition flex items-center justify-center">
+            <span id="delete-text">Delete</span>
+            <div id="delete-spinner" class="loading-spinner hidden ml-2"></div>
+          </button>
+        </div>
+      </div>
+    </div><!-- Toast Notification -->
+    <div id="toast"
+      class="hidden fixed bottom-6 right-6 z-50 px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3 transition-all transform translate-y-4 opacity-0">
+      <svg id="toast-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg><span id="toast-message" class="font-medium"></span>
     </div>
-   </div><!-- Toast Notification -->
-   <div id="toast" class="hidden fixed bottom-6 right-6 z-50 px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3 transition-all transform translate-y-4 opacity-0">
-    <svg id="toast-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-    </svg><span id="toast-message" class="font-medium"></span>
-   </div>
   </div>
   <script>
     // Global State
@@ -573,11 +807,11 @@ Upload Image
     // Apply Config
     function applyConfig(config) {
       const cfg = { ...defaultConfig, ...config };
-      
+
       document.getElementById('site-name').textContent = cfg.site_name;
       document.getElementById('site-tagline').textContent = cfg.tagline;
       document.getElementById('breaking-label').textContent = cfg.breaking_label;
-      
+
       document.documentElement.style.setProperty('--primary', cfg.primary_color);
       document.documentElement.style.setProperty('--secondary', cfg.secondary_color);
       document.documentElement.style.setProperty('--background', cfg.background_color);
@@ -605,7 +839,7 @@ Upload Image
 
       if (searchQuery) {
         const query = searchQuery.toLowerCase();
-        filtered = filtered.filter(a => 
+        filtered = filtered.filter(a =>
           (a.title && a.title.toLowerCase().includes(query)) ||
           (a.title_hindi && a.title_hindi.toLowerCase().includes(query)) ||
           (a.excerpt && a.excerpt.toLowerCase().includes(query))
@@ -619,14 +853,14 @@ Upload Image
         leadContainer.innerHTML = `
           <div class="bg-white rounded-lg shadow-lg overflow-hidden news-card transition-all duration-300 cursor-pointer" onclick="viewArticle('${lead.__backendId}')">
             <div class="relative">
-              ${lead.image_url ? 
-                `<img src="${lead.image_url}" alt="${lead.title_hindi}" class="w-full h-80 object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #E5E7EB 0%, #D1D5DB 100%)'; this.alt='Image unavailable';">` :
-                `<div class="w-full h-80 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
+              ${lead.image_url ?
+            `<img src="${lead.image_url}" alt="${lead.title_hindi}" class="w-full h-80 object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #E5E7EB 0%, #D1D5DB 100%)'; this.alt='Image unavailable';">` :
+            `<div class="w-full h-80 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
                   <svg class="w-16 h-16 text-gray-500 opacity-50" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 19V5h14v14H5zm4-4h6v2H9v-2zm0-4h6v2H9v-2z"/>
                   </svg>
                 </div>`
-              }
+          }
               <div class="absolute top-4 left-4 flex flex-wrap gap-2">
                 <span class="bg-primary text-white px-3 py-1 text-xs font-bold uppercase" style="background-color: var(--primary);">${categoryLabels[lead.category] || lead.category}</span>
                 ${lead.is_breaking ? `<span class="bg-amber-500 text-white px-3 py-1 text-xs font-bold uppercase animate-pulse">LIVE</span>` : ''}
@@ -678,19 +912,19 @@ Upload Image
       // Update News Grid
       const newsGrid = document.getElementById('news-grid');
       const otherArticles = filtered.slice(1);
-      
+
       if (otherArticles.length > 0) {
         newsGrid.innerHTML = otherArticles.map(article => `
           <article class="bg-white rounded-lg shadow overflow-hidden news-card transition-all duration-300 cursor-pointer" onclick="viewArticle('${article.__backendId}')">
             <div class="relative">
               ${article.image_url ?
-                `<img src="${article.image_url}" alt="${article.title_hindi}" class="w-full h-48 object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #E5E7EB 0%, #D1D5DB 100%)'; this.alt='Image unavailable';">` :
-                `<div class="w-full h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
+            `<img src="${article.image_url}" alt="${article.title_hindi}" class="w-full h-48 object-cover" loading="lazy" onerror="this.style.background='linear-gradient(135deg, #E5E7EB 0%, #D1D5DB 100%)'; this.alt='Image unavailable';">` :
+            `<div class="w-full h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
                   <svg class="w-10 h-10 text-gray-400" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
                   </svg>
                 </div>`
-              }
+          }
               <span class="absolute top-3 left-3 bg-primary text-white px-2 py-1 text-xs font-bold" style="background-color: var(--primary);">
                 ${categoryLabels[article.category] || article.category}
               </span>
@@ -735,7 +969,7 @@ Upload Image
     function updateTicker() {
       const breaking = allArticles.filter(a => a.is_published && a.is_breaking);
       const tickerContent = document.getElementById('ticker-content');
-      
+
       if (breaking.length > 0) {
         const tickerText = breaking.map(a => a.title_hindi || a.title).join(' • ');
         tickerContent.textContent = tickerText + ' • ' + tickerText;
@@ -754,7 +988,7 @@ Upload Image
     function updateTrending(articles) {
       const trendingList = document.getElementById('trending-list');
       const trending = articles.slice(0, 5);
-      
+
       if (trending.length > 0) {
         trendingList.innerHTML = trending.map((a, i) => `
           <div class="flex items-start space-x-3 cursor-pointer hover:bg-gray-50 p-2 rounded transition" onclick="viewArticle('${a.__backendId}')">
@@ -773,7 +1007,7 @@ Upload Image
     // Filter Category
     function filterCategory(category) {
       currentFilter = category;
-      
+
       document.querySelectorAll('.category-pill').forEach(pill => {
         if (pill.dataset.category === category) {
           pill.classList.add('text-white');
@@ -785,7 +1019,7 @@ Upload Image
           pill.classList.add('bg-gray-200', 'text-gray-700');
         }
       });
-      
+
       renderFrontend();
     }
 
@@ -869,7 +1103,7 @@ Upload Image
       document.documentElement.classList.toggle('dark');
       const darkIcon = document.getElementById('dark-icon');
       const lightIcon = document.getElementById('light-icon');
-      
+
       if (document.documentElement.classList.contains('dark')) {
         darkIcon.classList.add('hidden');
         lightIcon.classList.remove('hidden');
@@ -892,7 +1126,7 @@ Upload Image
       event.preventDefault();
       const username = document.getElementById('admin-username').value;
       const password = document.getElementById('admin-password').value;
-      
+
       if (username === 'admin' && password === 'admin123') {
         isAdminLoggedIn = true;
         hideAdminLogin();
@@ -913,7 +1147,7 @@ Upload Image
     function showAdminSection(section) {
       document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
       document.getElementById(`section-${section}`).classList.remove('hidden');
-      
+
       document.querySelectorAll('.admin-nav-btn').forEach(btn => {
         if (btn.dataset.section === section) {
           btn.classList.add('text-white');
@@ -934,7 +1168,7 @@ Upload Image
     // Render Admin Articles
     function renderAdminArticles() {
       const list = document.getElementById('articles-list');
-      
+
       if (allArticles.length === 0) {
         list.innerHTML = `
           <div class="px-6 py-12 text-center">
@@ -968,10 +1202,10 @@ Upload Image
             </button>
             <button onclick="togglePublish('${article.__backendId}')" class="p-2 ${article.is_published ? 'text-orange-600 hover:bg-orange-50' : 'text-green-600 hover:bg-green-50'} rounded-lg transition" title="${article.is_published ? 'Unpublish' : 'Publish'}">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                ${article.is_published ? 
-                  '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>' :
-                  '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>'
-                }
+                ${article.is_published ?
+          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>' :
+          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>'
+        }
               </svg>
             </button>
             <button onclick="showDeleteModal('${article.__backendId}')" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Delete">
@@ -1010,7 +1244,7 @@ Upload Image
           <span class="font-medium text-secondary" style="color: var(--secondary);">${categoryLabels[cat] || cat}</span>
           <div class="flex items-center space-x-3">
             <div class="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div class="h-full bg-primary rounded-full" style="width: ${(count/total)*100}%; background-color: var(--primary);"></div>
+              <div class="h-full bg-primary rounded-full" style="width: ${(count / total) * 100}%; background-color: var(--primary);"></div>
             </div>
             <span class="text-accent text-sm w-8" style="color: var(--accent);">${count}</span>
           </div>
@@ -1076,7 +1310,7 @@ Upload Image
       if (!article) return;
 
       editingArticle = article;
-      
+
       document.getElementById('article-title').value = article.title || '';
       document.getElementById('article-title-hindi').value = article.title_hindi || '';
       document.getElementById('article-category').value = article.category || '';
@@ -1160,7 +1394,7 @@ Upload Image
       const toastIcon = document.getElementById('toast-icon');
 
       toastMessage.textContent = message;
-      
+
       if (type === 'success') {
         toast.className = 'fixed bottom-6 right-6 z-50 px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3 bg-green-600 text-white transition-all transform';
         toastIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>';
@@ -1170,7 +1404,7 @@ Upload Image
       }
 
       toast.classList.remove('hidden', 'translate-y-4', 'opacity-0');
-      
+
       setTimeout(() => {
         toast.classList.add('translate-y-4', 'opacity-0');
         setTimeout(() => toast.classList.add('hidden'), 300);
@@ -1191,140 +1425,195 @@ Upload Image
     // Initialize on load
     init();
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c73e6d653e3b2d6',t:'MTc2OTk3NDYyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
-<script src="https://upload-widget.cloudinary.com/global/all.js"></script>
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-  import { getFirestore, collection, getDocs, query, orderBy, onSnapshot, addDoc, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9c73e6d653e3b2d6',t:'MTc2OTk3NDYyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+  <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, getDocs, query, orderBy, onSnapshot, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBD1xK7qeRQDPcgig_INWlnRtOD87mJNkk",
-    authDomain: "janprahar-news.firebaseapp.com",
-    projectId: "janprahar-news",
-    storageBucket: "janprahar-news.appspot.com",
-    messagingSenderId: "750814127212",
-    appId: "1:750814127212:web:6a5da15df6d9b9d5366449",
-    measurementId: "G-NSZVGBR836"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyBD1xK7qeRQDPcgig_INWlnRtOD87mJNkk",
+      authDomain: "janprahar-news.firebaseapp.com",
+      projectId: "janprahar-news",
+      storageBucket: "janprahar-news.appspot.com",
+      messagingSenderId: "750814127212",
+      appId: "1:750814127212:web:6a5da15df6d9b9d5366449",
+      measurementId: "G-NSZVGBR836"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  window.handleAdminLogin = async function (e) {
-    e.preventDefault();
-    const email = document.getElementById("admin-username").value;
-    const password = document.getElementById("admin-password").value;
+    window.handleAdminLogin = async function (e) {
+      e.preventDefault();
+      const email = document.getElementById("admin-username").value;
+      const password = document.getElementById("admin-password").value;
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      document.getElementById("admin-login-modal").classList.add("hidden");
-      document.getElementById("frontend-view").classList.add("hidden");
-      document.getElementById("admin-dashboard").classList.remove("hidden");
-    } catch (err) {
-      alert("Login failed: " + err.message);
-    }
-  };
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        document.getElementById("admin-login-modal").classList.add("hidden");
+        document.getElementById("frontend-view").classList.add("hidden");
+        document.getElementById("admin-dashboard").classList.remove("hidden");
+      } catch (err) {
+        alert("Login failed: " + err.message);
+      }
+    };
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      document.getElementById("frontend-view").classList.add("hidden");
-      document.getElementById("admin-dashboard").classList.remove("hidden");
-      if (typeof isAdminLoggedIn !== 'undefined') isAdminLoggedIn = true;
-    }
-  });
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("frontend-view").classList.add("hidden");
+        document.getElementById("admin-dashboard").classList.remove("hidden");
+        if (typeof isAdminLoggedIn !== 'undefined') isAdminLoggedIn = true;
+      }
+    });
 
-  window.adminLogout = async function () {
-    await signOut(auth);
-    location.reload();
-  };
+    window.adminLogout = async function () {
+      await signOut(auth);
+      location.reload();
+    };
 
-  window.openCloudinaryUpload = function() {
-    if (typeof cloudinary === 'undefined') {
-      if (typeof showToast !== 'undefined') showToast("Cloudinary SDK not loaded.", "error");
-      return;
-    }
-    const widget = cloudinary.createUploadWidget({
+    window.openCloudinaryUpload = function () {
+      if (typeof cloudinary === 'undefined') {
+        if (typeof showToast !== 'undefined') showToast("Cloudinary SDK not loaded.", "error");
+        return;
+      }
+      const widget = cloudinary.createUploadWidget({
         cloudName: "dpb4bkchj",
         uploadPreset: "unsigned_upload"
       },
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          document.getElementById("article-image").value = result.info.secure_url;
-          if (typeof showToast !== 'undefined') showToast("Image uploaded!", "success");
+        (error, result) => {
+          if (!error && result && result.event === "success") {
+            document.getElementById("article-image").value = result.info.secure_url;
+            if (typeof showToast !== 'undefined') showToast("Image uploaded!", "success");
+          }
+        }
+      );
+      widget.open();
+    };
+
+    window.dataSdk = {
+      init: async function (handler) {
+        try {
+          const postsRef = collection(db, "posts");
+          onSnapshot(postsRef, (snapshot) => {
+            const articles = [];
+            snapshot.forEach(docObj => {
+              const data = docObj.data();
+              data.__backendId = docObj.id;
+              // Normalize createdAt vs created_at fields safely
+              if (!data.created_at && data.createdAt) {
+                data.created_at = data.createdAt.toDate ? data.createdAt.toDate().toISOString() : data.createdAt;
+              }
+              articles.push(data);
+            });
+            articles.sort((a, b) => new Date(b.created_at || Number.NEGATIVE_INFINITY) - new Date(a.created_at || Number.NEGATIVE_INFINITY));
+            handler.onDataChanged(articles);
+          }, (error) => {
+            console.error("Firestore listener error:", error);
+          });
+          return { isOk: true };
+        } catch (err) {
+          console.error("Firebase init Error:", err);
+          return { isOk: false, error: err };
+        }
+      },
+      create: async function (data) {
+        try {
+          const postsRef = collection(db, "posts");
+          await addDoc(postsRef, data);
+          return { isOk: true };
+        } catch (err) {
+          console.error("Create Error:", err);
+          return { isOk: false, error: err };
+        }
+      },
+      update: async function (data) {
+        try {
+          const id = data.__backendId;
+          const updateData = { ...data };
+          delete updateData.__backendId;
+          const docRef = doc(db, "posts", id);
+          await updateDoc(docRef, updateData);
+          return { isOk: true };
+        } catch (err) {
+          console.error("Update Error:", err);
+          return { isOk: false, error: err };
+        }
+      },
+      delete: async function (data) {
+        try {
+          const id = data.__backendId;
+          const docRef = doc(db, "posts", id);
+          await deleteDoc(docRef);
+          return { isOk: true };
+        } catch (err) {
+          console.error("Delete Error:", err);
+          return { isOk: false, error: err };
+        }
+      },
+      loadAds: async function () {
+        try {
+          const adDoc = await getDoc(doc(db, "settings", "ads"));
+          if (adDoc.exists()) {
+            const data = adDoc.data();
+            const sidebar = document.getElementById("ad-space-sidebar");
+            const bottom = document.getElementById("ad-space-bottom");
+
+            if (sidebar && data.sidebar) sidebar.innerHTML = data.sidebar;
+            if (bottom && data.bottom) bottom.innerHTML = data.bottom;
+
+            const sidebarInput = document.getElementById("ad-sidebar");
+            const bottomInput = document.getElementById("ad-bottom");
+            if (sidebarInput && data.sidebar) sidebarInput.value = data.sidebar;
+            if (bottomInput && data.bottom) bottomInput.value = data.bottom;
+          }
+        } catch (err) { console.error("Load Ads Error", err); }
+      },
+      saveAds: async function (sidebarCode, bottomCode) {
+        try {
+          await setDoc(doc(db, "settings", "ads"), { sidebar: sidebarCode, bottom: bottomCode }, { merge: true });
+          return { isOk: true };
+        } catch (err) {
+          return { isOk: false, error: err };
         }
       }
-    );
-    widget.open();
-  };
+    };
 
-  window.dataSdk = {
-    init: async function(handler) {
-      try {
-        const postsRef = collection(db, "posts");
-        onSnapshot(postsRef, (snapshot) => {
-          const articles = [];
-          snapshot.forEach(docObj => {
-            const data = docObj.data();
-            data.__backendId = docObj.id;
-            // Normalize createdAt vs created_at fields safely
-            if (!data.created_at && data.createdAt) {
-              data.created_at = data.createdAt.toDate ? data.createdAt.toDate().toISOString() : data.createdAt;
-            }
-            articles.push(data);
-          });
-          articles.sort((a, b) => new Date(b.created_at || Number.NEGATIVE_INFINITY) - new Date(a.created_at || Number.NEGATIVE_INFINITY));
-          handler.onDataChanged(articles);
-        }, (error) => {
-          console.error("Firestore listener error:", error);
-        });
-        return { isOk: true };
-      } catch (err) {
-        console.error("Firebase init Error:", err);
-        return { isOk: false, error: err };
+    window.handleAdSubmit = async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById("save-ads-btn");
+      const spinner = document.getElementById("save-ads-spinner");
+      const text = document.getElementById("save-ads-text");
+
+      btn.disabled = true;
+      spinner.classList.remove("hidden");
+      text.textContent = "Saving...";
+
+      const sidebarCode = document.getElementById("ad-sidebar").value;
+      const bottomCode = document.getElementById("ad-bottom").value;
+
+      const result = await window.dataSdk.saveAds(sidebarCode, bottomCode);
+
+      btn.disabled = false;
+      spinner.classList.add("hidden");
+      text.textContent = "Save Advertisements";
+
+      if (result.isOk) {
+        if (typeof showToast !== 'undefined') showToast("Advertisements configured successfully!", "success");
+        window.dataSdk.loadAds();
+      } else {
+        if (typeof showToast !== 'undefined') showToast("Failed to save advertisements.", "error");
       }
-    },
-    create: async function(data) {
-      try {
-        const postsRef = collection(db, "posts");
-        await addDoc(postsRef, data);
-        return { isOk: true };
-      } catch (err) {
-        console.error("Create Error:", err);
-        return { isOk: false, error: err };
-      }
-    },
-    update: async function(data) {
-      try {
-        const id = data.__backendId;
-        const updateData = { ...data };
-        delete updateData.__backendId;
-        const docRef = doc(db, "posts", id);
-        await updateDoc(docRef, updateData);
-        return { isOk: true };
-      } catch (err) {
-        console.error("Update Error:", err);
-        return { isOk: false, error: err };
-      }
-    },
-    delete: async function(data) {
-      try {
-        const id = data.__backendId;
-        const docRef = doc(db, "posts", id);
-        await deleteDoc(docRef);
-        return { isOk: true };
-      } catch (err) {
-        console.error("Delete Error:", err);
-        return { isOk: false, error: err };
-      }
+    };
+
+    if (window.dataHandler) {
+      window.dataSdk.init(window.dataHandler);
+      window.dataSdk.loadAds();
     }
-  };
-
-  if (window.dataHandler) {
-    window.dataSdk.init(window.dataHandler);
-  }
-</script>
+  </script>
 
 </body>
+
 </html>
