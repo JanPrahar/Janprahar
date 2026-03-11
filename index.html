@@ -370,11 +370,22 @@
             <div class="flex items-center space-x-3">
               <img src="jpicon.png" alt="JanPrahar Logo" class="w-8 h-8 rounded object-contain" /><span
                 class="font-headline text-white font-bold">JanPrahar News</span>
-            </div><button onclick="toggleDarkMode()" class="p-2 text-gray-400 hover:text-white transition">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-              </svg></button>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button onclick="shareArticle()" class="p-2 text-gray-400 hover:text-white transition"
+                title="Share Article">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                </svg>
+              </button>
+              <button onclick="toggleDarkMode()" class="p-2 text-gray-400 hover:text-white transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -719,6 +730,15 @@
         renderAdminArticles();
         updateStats();
         updateTicker();
+
+        if (!window.hasCheckedUrl) {
+          window.hasCheckedUrl = true;
+          const urlParams = new URLSearchParams(window.location.search);
+          const articleId = urlParams.get('article');
+          if (articleId) {
+            viewArticle(articleId);
+          }
+        }
       }
     };
     window.dataHandler = dataHandler;
@@ -1011,9 +1031,13 @@
     }
 
     // View Article
-    function viewArticle(id) {
+    function viewArticle(id, isPopState = false) {
       const article = allArticles.find(a => a.__backendId === id);
       if (!article) return;
+
+      if (!isPopState) {
+        window.history.pushState({ articleId: id }, '', '?article=' + id);
+      }
 
       document.getElementById('frontend-view').classList.add('hidden');
       document.getElementById('article-view').classList.remove('hidden');
@@ -1071,7 +1095,11 @@
     }
 
     // Show Frontend
-    function showFrontend() {
+    function showFrontend(isPopState = false) {
+      if (!isPopState) {
+        window.history.pushState({}, '', window.location.pathname);
+      }
+
       document.getElementById('frontend-view').classList.remove('hidden');
       document.getElementById('article-view').classList.add('hidden');
       document.getElementById('admin-dashboard').classList.add('hidden');
@@ -1091,6 +1119,34 @@
         lightIcon.classList.add('hidden');
       }
     }
+
+    // Share Article Function
+    function shareArticle() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'JanPrahar News',
+          url: window.location.href
+        }).catch(err => {
+          console.error('Error sharing:', err);
+        });
+      } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+          showToast('Link copied to clipboard!', 'success');
+        });
+      }
+    }
+
+    // Handle Browser Back/Forward navigation
+    window.addEventListener('popstate', (event) => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const articleId = urlParams.get('article');
+      if (articleId) {
+        // Find article to make sure it exists before opening
+        viewArticle(articleId, true);
+      } else {
+        showFrontend(true);
+      }
+    });
 
     // Admin Functions
     function showAdminLogin() {
