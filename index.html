@@ -643,19 +643,25 @@
                 <p class="text-sm text-gray-500 mb-6">Enter HTML scripts or Cloudinary image URLs to display ads in the
                   sidebar and bottom banner.</p>
                 <form id="ads-form" onsubmit="handleAdSubmit(event)" class="space-y-6">
-                  <div><label class="block text-sm font-medium text-gray-700 mb-2">Sidebar Ad URL/Script</label>
+                  <div class="space-y-3">
+                    <label class="block text-sm font-medium text-gray-700">Sidebar Ad</label>
                     <textarea id="ad-sidebar" rows="3"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                      placeholder="Ad code goes here..."></textarea>
+                      placeholder="Ad image URL or HTML Script goes here..."></textarea>
+                    <input type="url" id="ad-sidebar-link" placeholder="Target Link (e.g. https://google.com)"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                     <button type="button" onclick="openAdsCloudinaryUpload('ad-sidebar')"
-                      class="mt-2 px-4 py-2 bg-blue-600 text-white rounded text-sm font-medium">Upload Image</button>
+                      class="px-4 py-2 bg-blue-600 text-white rounded text-sm font-medium">Upload Image</button>
                   </div>
-                  <div><label class="block text-sm font-medium text-gray-700 mb-2">Bottom Banner Ad URL/Script</label>
+                  <div class="space-y-3">
+                    <label class="block text-sm font-medium text-gray-700">Bottom Banner Ad</label>
                     <textarea id="ad-bottom" rows="3"
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                      placeholder="Ad code goes here..."></textarea>
+                      placeholder="Ad image URL or HTML Script goes here..."></textarea>
+                    <input type="url" id="ad-bottom-link" placeholder="Target Link (e.g. https://google.com)"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
                     <button type="button" onclick="openAdsCloudinaryUpload('ad-bottom')"
-                      class="mt-2 px-4 py-2 bg-blue-600 text-white rounded text-sm font-medium">Upload Image</button>
+                      class="px-4 py-2 bg-blue-600 text-white rounded text-sm font-medium">Upload Image</button>
                   </div>
                   <div class="flex items-center space-x-4"><button type="submit" id="save-ads-btn"
                       class="px-6 py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition flex items-center space-x-2"
@@ -1615,30 +1621,44 @@
             const sidebar = document.getElementById("ad-space-sidebar");
             const bottom = document.getElementById("ad-space-bottom");
 
-            const formatAd = (content) => {
+            const formatAd = (content, linkTarget) => {
               if (!content) return "";
               const t = content.trim();
               if (t.startsWith("http://") || t.startsWith("https://")) {
                 if (!t.includes('<')) {
-                  return `<img src="${t}" alt="Advertisement" class="w-full h-full object-contain rounded-lg">`;
+                  const imgHtml = `<img src="${t}" alt="Advertisement" class="w-full h-full object-cover">`;
+                  if (linkTarget) {
+                    return `<a href="${linkTarget}" target="_blank" class="block w-full h-full">${imgHtml}</a>`;
+                  }
+                  return imgHtml;
                 }
               }
               return t;
             };
 
-            if (sidebar && data.sidebar) sidebar.innerHTML = formatAd(data.sidebar);
-            if (bottom && data.bottom) bottom.innerHTML = formatAd(data.bottom);
+            if (sidebar && data.sidebar) sidebar.innerHTML = formatAd(data.sidebar, data.sidebarLink);
+            if (bottom && data.bottom) bottom.innerHTML = formatAd(data.bottom, data.bottomLink);
 
             const sidebarInput = document.getElementById("ad-sidebar");
+            const sidebarLinkInput = document.getElementById("ad-sidebar-link");
             const bottomInput = document.getElementById("ad-bottom");
+            const bottomLinkInput = document.getElementById("ad-bottom-link");
+
             if (sidebarInput && data.sidebar) sidebarInput.value = data.sidebar;
+            if (sidebarLinkInput && data.sidebarLink) sidebarLinkInput.value = data.sidebarLink;
             if (bottomInput && data.bottom) bottomInput.value = data.bottom;
+            if (bottomLinkInput && data.bottomLink) bottomLinkInput.value = data.bottomLink;
           }
         } catch (err) { console.error("Load Ads Error", err); }
       },
-      saveAds: async function (sidebarCode, bottomCode) {
+      saveAds: async function (sidebarCode, sidebarLink, bottomCode, bottomLink) {
         try {
-          await setDoc(doc(db, "settings", "ads"), { sidebar: sidebarCode, bottom: bottomCode }, { merge: true });
+          await setDoc(doc(db, "settings", "ads"), {
+            sidebar: sidebarCode,
+            sidebarLink: sidebarLink,
+            bottom: bottomCode,
+            bottomLink: bottomLink
+          }, { merge: true });
           return { isOk: true };
         } catch (err) {
           return { isOk: false, error: err };
@@ -1657,9 +1677,11 @@
       text.textContent = "Saving...";
 
       const sidebarCode = document.getElementById("ad-sidebar").value;
+      const sidebarLink = document.getElementById("ad-sidebar-link").value;
       const bottomCode = document.getElementById("ad-bottom").value;
+      const bottomLink = document.getElementById("ad-bottom-link").value;
 
-      const result = await window.dataSdk.saveAds(sidebarCode, bottomCode);
+      const result = await window.dataSdk.saveAds(sidebarCode, sidebarLink, bottomCode, bottomLink);
 
       btn.disabled = false;
       spinner.classList.add("hidden");
