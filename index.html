@@ -133,6 +133,25 @@
       backdrop-filter: blur(4px);
     }
 
+    /* Pull to Refresh Styles */
+    #ptr-indicator {
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      transition: transform 0.2s ease-out;
+      z-index: 40;
+    }
+    .ptr-pulling #ptr-indicator {
+      transform: translateX(-50%) translateY(0);
+    }
+    .ptr-loading #ptr-indicator svg {
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
     .loading-spinner {
       border: 3px solid #f3f3f3;
       border-top: 3px solid var(--primary);
@@ -160,7 +179,14 @@
 </head>
 
 <body class="h-full">
-  <div id="app" class="h-full overflow-auto bg-main" style="background-color: var(--background);"><!-- FRONTEND VIEW -->
+  <div id="app" class="h-full overflow-auto bg-main" style="background-color: var(--background);">
+    <!-- Pull to Refresh Indicator -->
+    <div id="ptr-indicator" class="bg-white dark:bg-gray-800 rounded-full p-2 shadow-md">
+      <svg class="w-6 h-6 text-primary dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356-2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m0 0H15" />
+      </svg>
+    </div>
+    <!-- FRONTEND VIEW -->
     <div id="frontend-view"><!-- Top Navigation -->
       <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary);">
         <div class="max-w-7xl mx-auto px-4">
@@ -321,19 +347,19 @@
               <h4 class="font-headline font-bold mb-4">त्वरित लिंक</h4>
               <ul class="space-y-2 text-gray-400 text-sm">
                 <li><a href="#" class="hover:text-white transition">हमारे बारे में</a></li>
-                <li><a href="#" class="hover:text-white transition">संपर्क करें</a></li>
+                <li><a href="https://wa.me/919934287419" class="hover:text-white transition">संपर्क करें</a></li>
                 <li><a href="#" class="hover:text-white transition">विज्ञापन दें</a></li>
                 <li><a href="#" class="hover:text-white transition">गोपनीयता नीति</a></li>
               </ul>
             </div><!-- Social Media -->
             <div>
               <h4 class="font-headline font-bold mb-4">सोशल मीडिया</h4>
-              <div class="flex space-x-3"><a href="#"
+              <div class="flex space-x-3"><a href="https://www.facebook.com/Janpraharnews"
                   class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition"
-                  style="--tw-bg-opacity: 1;">
+                  style="--tw-bg-opacity: 1;" title="Facebook">
                   <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
                     <path
-                      d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                      d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
                   </svg></a> <a href="#"
                   class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-primary transition">
                   <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
@@ -607,12 +633,19 @@
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-hindi"
                       placeholder="पूरा लेख यहाँ लिखें..."></textarea>
                   </div>
-                  <div class="flex flex-wrap gap-6"><label class="flex items-center space-x-3 cursor-pointer"> <input
-                        type="checkbox" id="article-breaking" class="w-5 h-5 text-primary rounded focus:ring-primary">
-                      <span class="text-sm font-medium text-gray-700">Mark as Breaking News</span> </label> <label
-                      class="flex items-center space-x-3 cursor-pointer"> <input type="checkbox" id="article-published"
-                        checked class="w-5 h-5 text-primary rounded focus:ring-primary"> <span
-                        class="text-sm font-medium text-gray-700">Publish Immediately</span> </label>
+                  <div class="flex flex-wrap gap-6">
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                      <input type="checkbox" id="article-breaking" class="w-5 h-5 text-primary rounded focus:ring-primary">
+                      <span class="text-sm font-medium text-gray-700">Mark as Breaking News</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                      <input type="checkbox" id="article-published" checked class="w-5 h-5 text-primary rounded focus:ring-primary">
+                      <span class="text-sm font-medium text-gray-700">Publish Immediately</span>
+                    </label>
+                    <label class="flex items-center space-x-3 cursor-pointer">
+                      <input type="checkbox" id="article-notify" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+                      <span class="text-sm font-medium text-blue-600 font-bold">Notify Followers (Push)</span>
+                    </label>
                   </div>
                   <div class="flex items-center space-x-4 pt-4 border-t border-gray-200"><button type="submit"
                       id="submit-btn"
@@ -732,6 +765,16 @@
       onDataChanged(data) {
         allArticles = data || [];
         currentRecordCount = allArticles.length;
+        
+        // Save to cache for offline/instant load
+        if (allArticles.length > 0) {
+          try {
+            localStorage.setItem('janprahar_articles_cache', JSON.stringify(allArticles));
+          } catch (e) {
+            console.error('Failed to save articles to cache:', e);
+          }
+        }
+
         renderFrontend();
         renderAdminArticles();
         updateStats();
@@ -796,6 +839,20 @@
             ['breaking_label', config.breaking_label || defaultConfig.breaking_label]
           ])
         });
+      }
+
+      // Load from cache for instant initial feed
+      const cached = localStorage.getItem('janprahar_articles_cache');
+      if (cached) {
+        try {
+          const cachedArticles = JSON.parse(cached);
+          if (cachedArticles && cachedArticles.length > 0) {
+            console.log('Loading articles from cache...');
+            dataHandler.onDataChanged(cachedArticles);
+          }
+        } catch (e) {
+          console.error('Failed to parse cached articles:', e);
+        }
       }
 
       // Initialize Data SDK
@@ -1112,7 +1169,10 @@
     }
 
     // Dark Mode
-    function toggleDarkMode() {
+    async function toggleDarkMode() {
+      // Haptic feedback for dark mode toggle
+      if (window.hapticImpact) await window.hapticImpact('LIGHT');
+      
       document.documentElement.classList.toggle('dark');
       const darkIcon = document.getElementById('dark-icon');
       const lightIcon = document.getElementById('light-icon');
@@ -1127,16 +1187,36 @@
     }
 
     // Share Article Function
-    function shareArticle() {
-      if (navigator.share) {
+    async function shareArticle() {
+      const shareUrl = window.location.href;
+      
+      // Haptic feedback for share action
+      if (window.Capacitor && window.Capacitor.isNativePlatform()) {
+        try {
+          await window.Capacitor.Plugins.Haptics.impact({ style: 'LIGHT' });
+        } catch (e) {}
+      }
+
+      if (window.Capacitor && window.Capacitor.isNativePlatform()) {
+        try {
+          await window.Capacitor.Plugins.Share.share({
+            title: 'JanPrahar News',
+            text: 'Check out this news article on JanPrahar News!',
+            url: shareUrl,
+            dialogTitle: 'Share Article',
+          });
+        } catch (err) {
+          console.error('Error sharing natively:', err);
+        }
+      } else if (navigator.share) {
         navigator.share({
           title: 'JanPrahar News',
-          url: window.location.href
+          url: shareUrl
         }).catch(err => {
           console.error('Error sharing:', err);
         });
       } else {
-        navigator.clipboard.writeText(window.location.href).then(() => {
+        navigator.clipboard.writeText(shareUrl).then(() => {
           showToast('Link copied to clipboard!', 'success');
         });
       }
@@ -1321,6 +1401,7 @@
         content: document.getElementById('admin-article-content').value,
         is_breaking: document.getElementById('article-breaking').checked,
         is_published: document.getElementById('article-published').checked,
+        notify_followers: document.getElementById('article-notify').checked,
         updated_at: new Date().toISOString()
       };
 
@@ -1463,8 +1544,134 @@
       });
     }
 
+    // Initialize Capacitor Native Features
+    async function initCapacitor() {
+      if (window.Capacitor && window.Capacitor.isNativePlatform()) {
+        const { SplashScreen, StatusBar, App, PushNotifications, Haptics } = window.Capacitor.Plugins;
+        
+        try {
+          // Set Status Bar to Primary Red and prevent it from overlapping the page content
+          await StatusBar.setOverlaysWebView({ overlay: false });
+          await StatusBar.setBackgroundColor({ color: '#B11226' });
+          await StatusBar.setStyle({ style: 'DARK' }); // White text on red background
+        } catch (e) {
+          console.log('StatusBar error:', e);
+        }
+
+        // Hide Splash Screen once everything is ready
+        try {
+          await SplashScreen.hide();
+        } catch (e) {
+          console.log('SplashScreen error:', e);
+        }
+
+        // Handle Hardware Back Button
+        App.addListener('backButton', ({ canGoBack }) => {
+          if (!document.getElementById('article-view').classList.contains('hidden')) {
+            showFrontend();
+          } else if (!document.getElementById('admin-dashboard').classList.contains('hidden')) {
+            showFrontend();
+          } else {
+            App.exitApp();
+          }
+        });
+
+        // Initialize Push Notifications
+        if (PushNotifications) {
+          try {
+            const permStatus = await PushNotifications.requestPermissions();
+            if (permStatus.receive === 'granted') {
+              await PushNotifications.register();
+            }
+            PushNotifications.addListener('registration', async (token) => {
+              console.log('Push token: ' + token.value);
+              // Auto-subscribe to all_users topic for breaking news alerts
+              // Note: Topic subscription is best handled via native plugins or server-side
+              // For Capacitor, we often use the FCM plugin for specific topic management
+            });
+            PushNotifications.addListener('pushNotificationReceived', (notification) => {
+              if (typeof showToast !== 'undefined') {
+                showToast('Breaking News: ' + notification.title, 'success');
+              }
+            });
+          } catch (e) {}
+        }
+
+        // Initialize Haptics
+        try {
+          window.hapticImpact = async (style = 'LIGHT') => {
+            try { await Haptics.impact({ style: style.toUpperCase() }); } catch (e) {}
+          };
+        } catch (e) {
+          window.hapticImpact = () => {};
+        }
+
+        // Initialize Pull-to-Refresh
+        initPullToRefresh();
+      }
+      
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js')
+            .then(reg => console.log('ServiceWorker registered:', reg.scope))
+            .catch(err => console.log('ServiceWorker failed:', err));
+        });
+      }
+    }
+
+    // Pull to Refresh Implementation
+    function initPullToRefresh() {
+      const app = document.getElementById('app');
+      const indicator = document.getElementById('ptr-indicator');
+      let startY = 0;
+      let pulling = false;
+      const threshold = 150;
+
+      app.addEventListener('touchstart', (e) => {
+        if (app.scrollTop === 0) {
+          startY = e.touches[0].pageY;
+          pulling = true;
+        }
+      }, { passive: true });
+
+      app.addEventListener('touchmove', (e) => {
+        if (!pulling) return;
+        const currentY = e.touches[0].pageY;
+        const pull = currentY - startY;
+
+        if (pull > 0 && app.scrollTop === 0) {
+          document.body.classList.add('ptr-pulling');
+          const translateY = Math.min(pull / 2, threshold);
+          indicator.style.transform = `translateX(-50%) translateY(${translateY - 60}px)`;
+        } else {
+          pulling = false;
+          document.body.classList.remove('ptr-pulling');
+          indicator.style.transform = '';
+        }
+      }, { passive: true });
+
+      app.addEventListener('touchend', async () => {
+        if (!pulling) return;
+        const pullHeight = parseInt(indicator.style.transform.match(/translateY\((.+)px\)/)?.[1] || 0);
+        
+        pulling = false;
+        document.body.classList.remove('ptr-pulling');
+
+        if (pullHeight >= (threshold / 2 - 30)) {
+          document.body.classList.add('ptr-loading');
+          if (window.hapticImpact) await window.hapticImpact('MEDIUM');
+          setTimeout(() => { location.reload(); }, 800);
+        } else {
+          indicator.style.transform = '';
+        }
+      });
+    }
+
     // Initialize on load
     init();
+    
+    // Attempt Capacitor init with a slight delay to ensure plugins are loaded
+    setTimeout(initCapacitor, 500);
   </script>
   <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9c73e6d653e3b2d6',t:'MTc2OTk3NDYyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
   <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
