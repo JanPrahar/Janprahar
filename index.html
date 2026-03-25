@@ -787,18 +787,18 @@
   </div>
   <script>
     // Global State
-    let allArticles = [];
-    let realTimeArticles = []; // Top 5 (real-time)
-    let paginatedArticles = []; // Older than top 5 (static)
-    let currentFilter = 'all';
+    window.allArticles = [];
+    window.realTimeArticles = []; // Top 5 (real-time)
+    window.paginatedArticles = []; // Older than top 5 (static)
+    window.currentFilter = 'all';
     let searchQuery = '';
     let editingArticle = null;
     let articleToDelete = null;
     let isAdminLoggedIn = false;
     let currentRecordCount = 0;
-    let lastVisible = null;
-    let isFetching = false;
-    let hasMoreArticles = true;
+    window.lastVisible = null;
+    window.isFetching = false;
+    window.hasMoreArticles = true;
 
     // Default Config
     const defaultConfig = {
@@ -831,8 +831,8 @@
     // Data Handler
     const dataHandler = {
       onDataChanged(data, fromCache) {
-        allArticles = data || [];
-        currentRecordCount = allArticles.length;
+        window.allArticles = data || [];
+        currentRecordCount = window.allArticles.length;
         // Only remove skeletons once we have confirmed server data
         // If fromCache is true (stale local data), keep skeletons visible
         if (!fromCache) {
@@ -1120,13 +1120,13 @@
 
     // Filter Category
     function filterCategory(category) {
-      if (currentFilter === category) return;
-      currentFilter = category;
-      realTimeArticles = [];
-      paginatedArticles = [];
-      allArticles = [];
-      lastVisible = null;
-      hasMoreArticles = true;
+      if (window.currentFilter === category) return;
+      window.currentFilter = category;
+      window.realTimeArticles = [];
+      window.paginatedArticles = [];
+      window.allArticles = [];
+      window.lastVisible = null;
+      window.hasMoreArticles = true;
       
       // Show skeletons again for a clean transition
       document.getElementById('news-grid').innerHTML = `
@@ -1393,15 +1393,15 @@
 
     // Update Stats
     function updateStats() {
-      document.getElementById('stat-total').textContent = allArticles.length;
-      document.getElementById('stat-published').textContent = allArticles.filter(a => a.is_published).length;
-      document.getElementById('stat-breaking').textContent = allArticles.filter(a => a.is_breaking).length;
+      document.getElementById('stat-total').textContent = window.allArticles.length;
+      document.getElementById('stat-published').textContent = window.allArticles.filter(a => a.is_published).length;
+      document.getElementById('stat-breaking').textContent = window.allArticles.filter(a => a.is_breaking).length;
     }
 
     // Render Category Stats
     function renderCategoryStats() {
       const stats = {};
-      allArticles.forEach(a => {
+      window.allArticles.forEach(a => {
         stats[a.category] = (stats[a.category] || 0) + 1;
       });
 
@@ -1411,7 +1411,7 @@
         return;
       }
 
-      const total = allArticles.length;
+      const total = window.allArticles.length;
       container.innerHTML = Object.entries(stats).map(([cat, count]) => `
         <div class="flex items-center justify-between">
           <span class="font-medium text-secondary" style="color: var(--secondary);">${categoryLabels[cat] || cat}</span>
@@ -1597,7 +1597,10 @@
 
     // Infinite Scroll
     window.addEventListener('scroll', () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+      const totalHeight = document.documentElement.scrollHeight;
+      const scrollPos = window.innerHeight + window.scrollY;
+      
+      if (scrollPos >= totalHeight - 800) {
         if (window.dataSdk && window.dataSdk.loadMore && window.dataHandler) {
           window.dataSdk.loadMore(window.dataHandler);
         }
@@ -1707,15 +1710,15 @@
         try {
           const postsRef = collection(db, "posts");
           let q = query(postsRef, orderBy("created_at", "desc"), limit(5));
-          if (currentFilter !== 'all') {
-            q = query(postsRef, where("category", "==", currentFilter), orderBy("created_at", "desc"), limit(5));
+          if (window.currentFilter !== 'all') {
+            q = query(postsRef, where("category", "==", window.currentFilter), orderBy("created_at", "desc"), limit(5));
           }
 
           onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
             if (snapshot.empty) {
-              realTimeArticles = [];
-              allArticles = [...realTimeArticles, ...paginatedArticles];
-              handler.onDataChanged(allArticles, false);
+              window.realTimeArticles = [];
+              window.allArticles = [...window.realTimeArticles, ...window.paginatedArticles];
+              handler.onDataChanged(window.allArticles, false);
               return;
             }
             const fromCache = snapshot.metadata.fromCache;
@@ -1729,16 +1732,16 @@
               articles.push(data);
             });
             
-            realTimeArticles = articles;
+            window.realTimeArticles = articles;
             
             // If this is the very first load, set the cursor for pagination
-            if (!lastVisible) {
-              lastVisible = snapshot.docs[snapshot.docs.length - 1];
-              hasMoreArticles = snapshot.docs.length === 5;
+            if (!window.lastVisible) {
+              window.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+              window.hasMoreArticles = snapshot.docs.length === 5;
             }
             
-            allArticles = [...realTimeArticles, ...paginatedArticles];
-            handler.onDataChanged(allArticles, fromCache);
+            window.allArticles = [...window.realTimeArticles, ...window.paginatedArticles];
+            handler.onDataChanged(window.allArticles, fromCache);
           }, (error) => {
             console.error("Firestore listener error:", error);
           });
@@ -1749,23 +1752,23 @@
         }
       },
       loadMore: async function (handler) {
-        if (isFetching || !hasMoreArticles || !lastVisible) return;
-        isFetching = true;
+        if (window.isFetching || !window.hasMoreArticles || !window.lastVisible) return;
+        window.isFetching = true;
         
         const loader = document.getElementById('loading-more');
         if (loader) loader.classList.remove('hidden');
 
         try {
           const postsRef = collection(db, "posts");
-          let q = query(postsRef, orderBy("created_at", "desc"), startAfter(lastVisible), limit(5));
-          if (currentFilter !== 'all') {
-            q = query(postsRef, where("category", "==", currentFilter), orderBy("created_at", "desc"), startAfter(lastVisible), limit(5));
+          let q = query(postsRef, orderBy("created_at", "desc"), startAfter(window.lastVisible), limit(5));
+          if (window.currentFilter !== 'all') {
+            q = query(postsRef, where("category", "==", window.currentFilter), orderBy("created_at", "desc"), startAfter(window.lastVisible), limit(5));
           }
           
           const snapshot = await getDocs(q);
           if (snapshot.empty) {
-            hasMoreArticles = false;
-            isFetching = false;
+            window.hasMoreArticles = false;
+            window.isFetching = false;
             if (loader) loader.classList.add('hidden');
             return;
           }
@@ -1780,17 +1783,17 @@
             newArticles.push(data);
           });
           
-          lastVisible = snapshot.docs[snapshot.docs.length - 1];
-          hasMoreArticles = snapshot.docs.length === 5;
+          window.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          window.hasMoreArticles = snapshot.docs.length === 5;
           
-          paginatedArticles = [...paginatedArticles, ...newArticles];
-          allArticles = [...realTimeArticles, ...paginatedArticles];
-          handler.onDataChanged(allArticles, false);
-          isFetching = false;
+          window.paginatedArticles = [...window.paginatedArticles, ...newArticles];
+          window.allArticles = [...window.realTimeArticles, ...window.paginatedArticles];
+          handler.onDataChanged(window.allArticles, false);
+          window.isFetching = false;
           if (loader) loader.classList.add('hidden');
         } catch (err) {
           console.error("Load More Error:", err);
-          isFetching = false;
+          window.isFetching = false;
           if (loader) loader.classList.add('hidden');
         }
       },
