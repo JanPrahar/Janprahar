@@ -133,25 +133,6 @@
       backdrop-filter: blur(4px);
     }
 
-    /* Pull to Refresh Styles */
-    #ptr-indicator {
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-100px);
-      transition: transform 0.2s ease-out;
-      z-index: 40;
-    }
-    .ptr-pulling #ptr-indicator {
-      transform: translateX(-50%) translateY(0);
-    }
-    .ptr-loading #ptr-indicator svg {
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
     .loading-spinner {
       border: 3px solid #f3f3f3;
       border-top: 3px solid var(--primary);
@@ -175,24 +156,57 @@
     @view-transition {
       navigation: auto;
     }
+
+    /* ===== SKELETON LOADING ===== */
+    .skeleton {
+      background: #e0e0e0;
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dark .skeleton {
+      background: #374151;
+    }
+
+    .skeleton::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+      animation: shimmer 1.4s infinite;
+    }
+
+    .dark .skeleton::after {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    }
+
+    @keyframes shimmer {
+      0%   { left: -100%; }
+      100% { left: 150%; }
+    }
+
+    .skeleton-image { width: 100%; height: 100%; border-radius: 0; }
+    .skeleton-title-lg  { height: 28px; width: 80%; margin-bottom: 12px; }
+    .skeleton-title-md  { height: 20px; width: 70%; margin-bottom: 8px; }
+    .skeleton-title-sm  { height: 16px; width: 90%; margin-bottom: 6px; }
+    .skeleton-text      { height: 14px; width: 100%; margin-bottom: 6px; }
+    .skeleton-text-sm   { height: 12px; width: 60%; }
+    .skeleton-badge     { height: 20px; width: 70px; }
+    /* ============================= */
   </style>
 </head>
 
 <body class="h-full">
-  <div id="app" class="h-full overflow-auto bg-main" style="background-color: var(--background);">
-    <!-- Pull to Refresh Indicator -->
-    <div id="ptr-indicator" class="bg-white dark:bg-gray-800 rounded-full p-2 shadow-md">
-      <svg class="w-6 h-6 text-primary dark:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356-2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m0 0H15" />
-      </svg>
-    </div>
-    <!-- FRONTEND VIEW -->
+  <div id="app" class="h-full overflow-auto bg-main" style="background-color: var(--background);"><!-- FRONTEND VIEW -->
     <div id="frontend-view"><!-- Top Navigation -->
       <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary);">
         <div class="max-w-7xl mx-auto px-4">
           <div class="flex items-center justify-between h-16"><!-- Logo -->
             <div class="flex items-center space-x-3">
-              <img src="jpicon.png" alt="JanPrahar Logo" class="w-10 h-10 rounded object-contain" />
+              <img src="jpicon.jpeg" alt="JanPrahar Logo" class="w-10 h-10 rounded object-contain" />
               <div>
                 <h1 id="site-name" class="font-headline text-white text-xl font-bold tracking-tight">JanPrahar News</h1>
                 <p id="site-tagline" class="text-xs text-gray-400 font-hindi">सच की आवाज़</p>
@@ -265,30 +279,16 @@
         </div><!-- Lead Story + Sidebar Layout -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12"><!-- Lead Story -->
           <div class="lg:col-span-2" id="lead-story-container">
-            <div class="bg-white rounded-lg shadow-lg overflow-hidden news-card transition-all duration-300">
-              <div class="relative">
-                <div class="w-full h-80 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
-                  <div class="text-center text-gray-600">
-                    <svg class="w-16 h-16 mx-auto mb-2 opacity-50" fill="currentColor" viewbox="0 0 24 24">
-                      <path
-                        d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 19V5h14v14H5zm4-4h6v2H9v-2zm0-4h6v2H9v-2z" />
-                    </svg>
-                    <p class="font-hindi text-sm">समाचार जोड़ने के लिए Admin पैनल का उपयोग करें</p>
-                  </div>
-                </div>
-                <div class="absolute top-4 left-4"><span
-                    class="bg-primary text-white px-3 py-1 text-xs font-bold uppercase"
-                    style="background-color: var(--primary);">मुख्य खबर</span>
-                </div>
-              </div>
+            <!-- Lead Story Skeleton -->
+            <div id="lead-skeleton" class="bg-white rounded-lg shadow-lg overflow-hidden">
+              <div class="skeleton skeleton-image" style="height:320px;"></div>
               <div class="p-6">
-                <h2 class="font-headline text-2xl lg:text-3xl font-bold text-secondary mb-3 leading-tight"
-                  style="color: var(--secondary);">JanPrahar News में आपका स्वागत है</h2>
-                <p class="text-accent mb-4 font-hindi" style="color: var(--accent);">समाचार प्रकाशित करने के लिए Admin
-                  पैनल में लॉगिन करें और नए लेख जोड़ें।</p>
-                <div class="flex items-center text-sm text-accent" style="color: var(--accent);"><span
-                    class="font-medium">संपादकीय टीम</span> <span class="mx-2">•</span> <span id="current-date"></span>
-                </div>
+                <div class="skeleton skeleton-badge mb-4"></div>
+                <div class="skeleton skeleton-title-lg mb-2"></div>
+                <div class="skeleton skeleton-title-lg" style="width:60%;"></div>
+                <div class="skeleton skeleton-text mt-4"></div>
+                <div class="skeleton skeleton-text" style="width:85%;"></div>
+                <div class="skeleton skeleton-text-sm mt-4"></div>
               </div>
             </div>
           </div><!-- Sidebar -->
@@ -304,7 +304,30 @@
               <h3 class="font-headline text-lg font-bold text-secondary border-b-2 border-primary pb-2 mb-4"
                 style="color: var(--secondary); border-color: var(--primary);">📈 ट्रेंडिंग</h3>
               <div id="trending-list" class="space-y-3">
-                <p class="text-accent text-sm font-hindi" style="color: var(--accent);">कोई ट्रेंडिंग समाचार नहीं</p>
+                <!-- Trending skeletons -->
+                <div id="trending-skeleton" class="space-y-3">
+                  <div class="flex items-start space-x-3 p-2">
+                    <div class="skeleton" style="width:20px;height:20px;flex-shrink:0;"></div>
+                    <div style="flex:1;">
+                      <div class="skeleton skeleton-title-sm"></div>
+                      <div class="skeleton skeleton-text-sm mt-1" style="width:50%;"></div>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3 p-2">
+                    <div class="skeleton" style="width:20px;height:20px;flex-shrink:0;"></div>
+                    <div style="flex:1;">
+                      <div class="skeleton skeleton-title-sm"></div>
+                      <div class="skeleton skeleton-text-sm mt-1" style="width:50%;"></div>
+                    </div>
+                  </div>
+                  <div class="flex items-start space-x-3 p-2">
+                    <div class="skeleton" style="width:20px;height:20px;flex-shrink:0;"></div>
+                    <div style="flex:1;">
+                      <div class="skeleton skeleton-title-sm"></div>
+                      <div class="skeleton skeleton-text-sm mt-1" style="width:50%;"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -313,14 +336,39 @@
           <h2 class="font-headline text-2xl font-bold text-secondary mb-6 border-l-4 border-primary pl-4"
             style="color: var(--secondary); border-color: var(--primary);">ताज़ा खबरें</h2>
           <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- News cards will be dynamically inserted here -->
-            <div class="col-span-full text-center py-12">
-              <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="currentColor" viewbox="0 0 24 24">
-                <path
-                  d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 19V5h14v14H5z" />
-              </svg>
-              <p class="text-accent font-hindi text-lg" style="color: var(--accent);">अभी कोई समाचार उपलब्ध नहीं है</p>
-              <p class="text-gray-400 text-sm mt-2">Admin पैनल से नए समाचार जोड़ें</p>
+            <!-- News Grid Skeletons -->
+            <div id="grid-skeleton" class="contents">
+              <!-- skeleton card x3 -->
+              <div class="bg-white rounded-lg shadow overflow-hidden" id="sk1">
+                <div class="skeleton skeleton-image" style="height:192px;"></div>
+                <div class="p-4">
+                  <div class="skeleton skeleton-badge mb-3" style="width:80px;"></div>
+                  <div class="skeleton skeleton-title-md mb-1"></div>
+                  <div class="skeleton skeleton-title-md" style="width:55%;"></div>
+                  <div class="skeleton skeleton-text mt-3"></div>
+                  <div class="skeleton skeleton-text-sm mt-3"></div>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg shadow overflow-hidden" id="sk2">
+                <div class="skeleton skeleton-image" style="height:192px;"></div>
+                <div class="p-4">
+                  <div class="skeleton skeleton-badge mb-3" style="width:80px;"></div>
+                  <div class="skeleton skeleton-title-md mb-1"></div>
+                  <div class="skeleton skeleton-title-md" style="width:55%;"></div>
+                  <div class="skeleton skeleton-text mt-3"></div>
+                  <div class="skeleton skeleton-text-sm mt-3"></div>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg shadow overflow-hidden" id="sk3">
+                <div class="skeleton skeleton-image" style="height:192px;"></div>
+                <div class="p-4">
+                  <div class="skeleton skeleton-badge mb-3" style="width:80px;"></div>
+                  <div class="skeleton skeleton-title-md mb-1"></div>
+                  <div class="skeleton skeleton-title-md" style="width:55%;"></div>
+                  <div class="skeleton skeleton-text mt-3"></div>
+                  <div class="skeleton skeleton-text-sm mt-3"></div>
+                </div>
+              </div>
             </div>
           </div>
         </section><!-- Bottom Ad Banner -->
@@ -334,7 +382,7 @@
           <div class="grid grid-cols-1 md:grid-cols-4 gap-8"><!-- Brand -->
             <div class="md:col-span-2">
               <div class="flex items-center space-x-3 mb-4">
-                <img src="jpicon.png" alt="JanPrahar Logo" class="w-12 h-12 rounded object-contain" />
+                <img src="jpicon.jpeg" alt="JanPrahar Logo" class="w-12 h-12 rounded object-contain" />
                 <div>
                   <h3 class="font-headline text-xl font-bold">JanPrahar News</h3>
                   <p class="text-gray-400 text-sm font-hindi">सच की आवाज़</p>
@@ -345,11 +393,11 @@
             </div><!-- Quick Links -->
             <div>
               <h4 class="font-headline font-bold mb-4">त्वरित लिंक</h4>
-              <ul class="space-y-2 text-gray-400 text-sm">
+              <ul class="space-y-3 text-gray-400 text-sm">
                 <li><a href="#" class="hover:text-white transition">हमारे बारे में</a></li>
-                <li><a href="https://wa.me/919934287419" class="hover:text-white transition">संपर्क करें</a></li>
-                <li><a href="#" class="hover:text-white transition">विज्ञापन दें</a></li>
-                <li><a href="#" class="hover:text-white transition">गोपनीयता नीति</a></li>
+                <li><a href="https://wa.me/919934287419" class="hover:text-white transition font-medium text-white">Contact Us</a></li>
+                <li><a href="mailto:slok358@gmail.com" class="hover:text-white transition">slok358@gmail.com</a></li>
+                <li><a href="tel:+919934287419" class="hover:text-white transition">+91 9934287419</a></li>
               </ul>
             </div><!-- Social Media -->
             <div>
@@ -394,7 +442,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg><span class="font-medium">वापस</span> </button>
             <div class="flex items-center space-x-3">
-              <img src="jpicon.png" alt="JanPrahar Logo" class="w-8 h-8 rounded object-contain" /><span
+              <img src="jpicon.jpeg" alt="JanPrahar Logo" class="w-8 h-8 rounded object-contain" /><span
                 class="font-headline text-white font-bold">JanPrahar News</span>
             </div>
             <div class="flex items-center space-x-2">
@@ -427,7 +475,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg></button>
         <div class="text-center mb-8">
-          <img src="jpicon.png" alt="JanPrahar Logo" class="w-16 h-16 rounded-full mx-auto mb-4 object-contain" />
+          <img src="jpicon.jpeg" alt="JanPrahar Logo" class="w-16 h-16 rounded-full mx-auto mb-4 object-contain" />
           <h2 class="font-headline text-2xl font-bold text-secondary" style="color: var(--secondary);">Admin Login</h2>
           <p class="text-accent text-sm mt-2" style="color: var(--accent);">JanPrahar News CMS</p>
         </div>
@@ -453,7 +501,7 @@
         <div class="max-w-7xl mx-auto px-4">
           <div class="flex items-center justify-between h-16">
             <div class="flex items-center space-x-3">
-              <img src="jpicon.png" alt="JanPrahar Logo" class="w-10 h-10 rounded object-contain" />
+              <img src="jpicon.jpeg" alt="JanPrahar Logo" class="w-10 h-10 rounded object-contain" />
               <div>
                 <h1 class="font-headline text-white text-lg font-bold">Admin Dashboard</h1>
                 <p class="text-xs text-gray-400">JanPrahar News CMS</p>
@@ -633,19 +681,12 @@
                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-hindi"
                       placeholder="पूरा लेख यहाँ लिखें..."></textarea>
                   </div>
-                  <div class="flex flex-wrap gap-6">
-                    <label class="flex items-center space-x-3 cursor-pointer">
-                      <input type="checkbox" id="article-breaking" class="w-5 h-5 text-primary rounded focus:ring-primary">
-                      <span class="text-sm font-medium text-gray-700">Mark as Breaking News</span>
-                    </label>
-                    <label class="flex items-center space-x-3 cursor-pointer">
-                      <input type="checkbox" id="article-published" checked class="w-5 h-5 text-primary rounded focus:ring-primary">
-                      <span class="text-sm font-medium text-gray-700">Publish Immediately</span>
-                    </label>
-                    <label class="flex items-center space-x-3 cursor-pointer">
-                      <input type="checkbox" id="article-notify" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
-                      <span class="text-sm font-medium text-blue-600 font-bold">Notify Followers (Push)</span>
-                    </label>
+                  <div class="flex flex-wrap gap-6"><label class="flex items-center space-x-3 cursor-pointer"> <input
+                        type="checkbox" id="article-breaking" class="w-5 h-5 text-primary rounded focus:ring-primary">
+                      <span class="text-sm font-medium text-gray-700">Mark as Breaking News</span> </label> <label
+                      class="flex items-center space-x-3 cursor-pointer"> <input type="checkbox" id="article-published"
+                        checked class="w-5 h-5 text-primary rounded focus:ring-primary"> <span
+                        class="text-sm font-medium text-gray-700">Publish Immediately</span> </label>
                   </div>
                   <div class="flex items-center space-x-4 pt-4 border-t border-gray-200"><button type="submit"
                       id="submit-btn"
@@ -760,21 +801,22 @@
       accent_color: '#F59E0B'
     };
 
+    // Remove skeleton placeholders once data has loaded
+    function removeSkeletons() {
+      const leadSk = document.getElementById('lead-skeleton');
+      if (leadSk) leadSk.remove();
+      const gridSk = document.getElementById('grid-skeleton');
+      if (gridSk) gridSk.remove();
+      const trendSk = document.getElementById('trending-skeleton');
+      if (trendSk) trendSk.remove();
+    }
+
     // Data Handler
     const dataHandler = {
       onDataChanged(data) {
         allArticles = data || [];
         currentRecordCount = allArticles.length;
-        
-        // Save to cache for offline/instant load
-        if (allArticles.length > 0) {
-          try {
-            localStorage.setItem('janprahar_articles_cache', JSON.stringify(allArticles));
-          } catch (e) {
-            console.error('Failed to save articles to cache:', e);
-          }
-        }
-
+        removeSkeletons();
         renderFrontend();
         renderAdminArticles();
         updateStats();
@@ -839,20 +881,6 @@
             ['breaking_label', config.breaking_label || defaultConfig.breaking_label]
           ])
         });
-      }
-
-      // Load from cache for instant initial feed
-      const cached = localStorage.getItem('janprahar_articles_cache');
-      if (cached) {
-        try {
-          const cachedArticles = JSON.parse(cached);
-          if (cachedArticles && cachedArticles.length > 0) {
-            console.log('Loading articles from cache...');
-            dataHandler.onDataChanged(cachedArticles);
-          }
-        } catch (e) {
-          console.error('Failed to parse cached articles:', e);
-        }
       }
 
       // Initialize Data SDK
@@ -1169,10 +1197,7 @@
     }
 
     // Dark Mode
-    async function toggleDarkMode() {
-      // Haptic feedback for dark mode toggle
-      if (window.hapticImpact) await window.hapticImpact('LIGHT');
-      
+    function toggleDarkMode() {
       document.documentElement.classList.toggle('dark');
       const darkIcon = document.getElementById('dark-icon');
       const lightIcon = document.getElementById('light-icon');
@@ -1187,36 +1212,16 @@
     }
 
     // Share Article Function
-    async function shareArticle() {
-      const shareUrl = window.location.href;
-      
-      // Haptic feedback for share action
-      if (window.Capacitor && window.Capacitor.isNativePlatform()) {
-        try {
-          await window.Capacitor.Plugins.Haptics.impact({ style: 'LIGHT' });
-        } catch (e) {}
-      }
-
-      if (window.Capacitor && window.Capacitor.isNativePlatform()) {
-        try {
-          await window.Capacitor.Plugins.Share.share({
-            title: 'JanPrahar News',
-            text: 'Check out this news article on JanPrahar News!',
-            url: shareUrl,
-            dialogTitle: 'Share Article',
-          });
-        } catch (err) {
-          console.error('Error sharing natively:', err);
-        }
-      } else if (navigator.share) {
+    function shareArticle() {
+      if (navigator.share) {
         navigator.share({
           title: 'JanPrahar News',
-          url: shareUrl
+          url: window.location.href
         }).catch(err => {
           console.error('Error sharing:', err);
         });
       } else {
-        navigator.clipboard.writeText(shareUrl).then(() => {
+        navigator.clipboard.writeText(window.location.href).then(() => {
           showToast('Link copied to clipboard!', 'success');
         });
       }
@@ -1401,7 +1406,6 @@
         content: document.getElementById('admin-article-content').value,
         is_breaking: document.getElementById('article-breaking').checked,
         is_published: document.getElementById('article-published').checked,
-        notify_followers: document.getElementById('article-notify').checked,
         updated_at: new Date().toISOString()
       };
 
@@ -1544,134 +1548,8 @@
       });
     }
 
-    // Initialize Capacitor Native Features
-    async function initCapacitor() {
-      if (window.Capacitor && window.Capacitor.isNativePlatform()) {
-        const { SplashScreen, StatusBar, App, PushNotifications, Haptics } = window.Capacitor.Plugins;
-        
-        try {
-          // Set Status Bar to Primary Red and prevent it from overlapping the page content
-          await StatusBar.setOverlaysWebView({ overlay: false });
-          await StatusBar.setBackgroundColor({ color: '#B11226' });
-          await StatusBar.setStyle({ style: 'DARK' }); // White text on red background
-        } catch (e) {
-          console.log('StatusBar error:', e);
-        }
-
-        // Hide Splash Screen once everything is ready
-        try {
-          await SplashScreen.hide();
-        } catch (e) {
-          console.log('SplashScreen error:', e);
-        }
-
-        // Handle Hardware Back Button
-        App.addListener('backButton', ({ canGoBack }) => {
-          if (!document.getElementById('article-view').classList.contains('hidden')) {
-            showFrontend();
-          } else if (!document.getElementById('admin-dashboard').classList.contains('hidden')) {
-            showFrontend();
-          } else {
-            App.exitApp();
-          }
-        });
-
-        // Initialize Push Notifications
-        if (PushNotifications) {
-          try {
-            const permStatus = await PushNotifications.requestPermissions();
-            if (permStatus.receive === 'granted') {
-              await PushNotifications.register();
-            }
-            PushNotifications.addListener('registration', async (token) => {
-              console.log('Push token: ' + token.value);
-              // Auto-subscribe to all_users topic for breaking news alerts
-              // Note: Topic subscription is best handled via native plugins or server-side
-              // For Capacitor, we often use the FCM plugin for specific topic management
-            });
-            PushNotifications.addListener('pushNotificationReceived', (notification) => {
-              if (typeof showToast !== 'undefined') {
-                showToast('Breaking News: ' + notification.title, 'success');
-              }
-            });
-          } catch (e) {}
-        }
-
-        // Initialize Haptics
-        try {
-          window.hapticImpact = async (style = 'LIGHT') => {
-            try { await Haptics.impact({ style: style.toUpperCase() }); } catch (e) {}
-          };
-        } catch (e) {
-          window.hapticImpact = () => {};
-        }
-
-        // Initialize Pull-to-Refresh
-        initPullToRefresh();
-      }
-      
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('ServiceWorker registered:', reg.scope))
-            .catch(err => console.log('ServiceWorker failed:', err));
-        });
-      }
-    }
-
-    // Pull to Refresh Implementation
-    function initPullToRefresh() {
-      const app = document.getElementById('app');
-      const indicator = document.getElementById('ptr-indicator');
-      let startY = 0;
-      let pulling = false;
-      const threshold = 150;
-
-      app.addEventListener('touchstart', (e) => {
-        if (app.scrollTop === 0) {
-          startY = e.touches[0].pageY;
-          pulling = true;
-        }
-      }, { passive: true });
-
-      app.addEventListener('touchmove', (e) => {
-        if (!pulling) return;
-        const currentY = e.touches[0].pageY;
-        const pull = currentY - startY;
-
-        if (pull > 0 && app.scrollTop === 0) {
-          document.body.classList.add('ptr-pulling');
-          const translateY = Math.min(pull / 2, threshold);
-          indicator.style.transform = `translateX(-50%) translateY(${translateY - 60}px)`;
-        } else {
-          pulling = false;
-          document.body.classList.remove('ptr-pulling');
-          indicator.style.transform = '';
-        }
-      }, { passive: true });
-
-      app.addEventListener('touchend', async () => {
-        if (!pulling) return;
-        const pullHeight = parseInt(indicator.style.transform.match(/translateY\((.+)px\)/)?.[1] || 0);
-        
-        pulling = false;
-        document.body.classList.remove('ptr-pulling');
-
-        if (pullHeight >= (threshold / 2 - 30)) {
-          document.body.classList.add('ptr-loading');
-          if (window.hapticImpact) await window.hapticImpact('MEDIUM');
-          setTimeout(() => { location.reload(); }, 800);
-        } else {
-          indicator.style.transform = '';
-        }
-      });
-    }
-
     // Initialize on load
     init();
-    
-    // Attempt Capacitor init with a slight delay to ensure plugins are loaded
-    setTimeout(initCapacitor, 500);
   </script>
   <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9c73e6d653e3b2d6',t:'MTc2OTk3NDYyOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
   <script src="https://upload-widget.cloudinary.com/global/all.js"></script>
