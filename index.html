@@ -12,6 +12,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&amp;family=Oswald:wght@400;500;600;700&amp;family=Source+Sans+3:wght@400;500;600;700&amp;display=swap"
     rel="stylesheet">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9576304312431606"
+    crossorigin="anonymous"></script>
   <style>
     body {
       box-sizing: border-box;
@@ -371,7 +373,11 @@
               </div>
             </div>
           </div>
-        </section><!-- Bottom Ad Banner -->
+        <div id="loading-more" class="hidden col-span-full py-8 text-center">
+          <div class="loading-spinner mx-auto"></div>
+          <p class="text-gray-400 text-sm mt-2">अधिक समाचार लोड हो रहे हैं...</p>
+        </div>
+      </section><!-- Bottom Ad Banner -->
         <div id="ad-space-bottom" class="ad-placeholder rounded-lg p-8 text-center mb-8 overflow-hidden">
           <p class="text-gray-500 font-medium">विज्ञापन बैनर</p>
           <p class="text-gray-400 text-xs mt-1">728 x 90 Leaderboard</p>
@@ -782,12 +788,17 @@
   <script>
     // Global State
     let allArticles = [];
+    let realTimeArticles = []; // Top 5 (real-time)
+    let paginatedArticles = []; // Older than top 5 (static)
     let currentFilter = 'all';
     let searchQuery = '';
     let editingArticle = null;
     let articleToDelete = null;
     let isAdminLoggedIn = false;
     let currentRecordCount = 0;
+    let lastVisible = null;
+    let isFetching = false;
+    let hasMoreArticles = true;
 
     // Default Config
     const defaultConfig = {
@@ -801,8 +812,11 @@
       accent_color: '#F59E0B'
     };
 
-    // Remove skeleton placeholders once data has loaded
+    // Remove skeleton placeholders once server data has loaded
+    let skeletonsRemoved = false;
     function removeSkeletons() {
+      if (skeletonsRemoved) return;
+      skeletonsRemoved = true;
       const leadSk = document.getElementById('lead-skeleton');
       if (leadSk) leadSk.remove();
       const gridSk = document.getElementById('grid-skeleton');
@@ -811,16 +825,26 @@
       if (trendSk) trendSk.remove();
     }
 
+    // Safety-net: remove skeletons after 5s even if server never responds
+    setTimeout(removeSkeletons, 5000);
+
     // Data Handler
     const dataHandler = {
-      onDataChanged(data) {
+      onDataChanged(data, fromCache) {
         allArticles = data || [];
         currentRecordCount = allArticles.length;
-        removeSkeletons();
-        renderFrontend();
-        renderAdminArticles();
-        updateStats();
-        updateTicker();
+        // Only remove skeletons once we have confirmed server data
+        // If fromCache is true (stale local data), keep skeletons visible
+        if (!fromCache) {
+          removeSkeletons();
+        }
+        // Always update internal state so server data replaces cache silently
+        if (!fromCache || skeletonsRemoved) {
+          renderFrontend();
+          renderAdminArticles();
+          updateStats();
+          updateTicker();
+        }
 
         if (!window.hasCheckedUrl) {
           window.hasCheckedUrl = true;
@@ -1096,7 +1120,32 @@
 
     // Filter Category
     function filterCategory(category) {
+      if (currentFilter === category) return;
       currentFilter = category;
+      realTimeArticles = [];
+      paginatedArticles = [];
+      allArticles = [];
+      lastVisible = null;
+      hasMoreArticles = true;
+      
+      // Show skeletons again for a clean transition
+      document.getElementById('news-grid').innerHTML = `
+        <div id="grid-skeleton" class="contents">
+          <!-- skeleton card x3 -->
+          <div class="bg-white rounded-lg shadow overflow-hidden" id="sk1">
+            <div class="skeleton skeleton-image" style="height:192px;"></div>
+            <div class="p-4">
+              <div class="skeleton skeleton-badge mb-3" style="width:80px;"></div>
+              <div class="skeleton skeleton-title-md mb-1"></div>
+              <div class="skeleton skeleton-title-md" style="width:55%;"></div>
+              <div class="skeleton skeleton-text mt-3"></div>
+              <div class="skeleton skeleton-text-sm mt-3"></div>
+            </div>
+          </div>
+        </div>`;
+      
+      // Re-initialize data fetching for the new category
+      window.dataSdk.init(window.dataHandler);
 
       document.querySelectorAll('.category-pill').forEach(pill => {
         if (pill.dataset.category === category) {
@@ -1109,8 +1158,6 @@
           pill.classList.add('bg-gray-200', 'text-gray-700');
         }
       });
-
-      renderFrontend();
     }
 
     // Search Handler
@@ -1548,6 +1595,15 @@
       });
     }
 
+    // Infinite Scroll
+    window.addEventListener('scroll', () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 500) {
+        if (window.dataSdk && window.dataSdk.loadMore && window.dataHandler) {
+          window.dataSdk.loadMore(window.dataHandler);
+        }
+      }
+    });
+
     // Initialize on load
     init();
   </script>
@@ -1556,7 +1612,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, getDocs, query, orderBy, limit, onSnapshot, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, getDocs, query, orderBy, limit, startAfter, where, onSnapshot, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBD1xK7qeRQDPcgig_INWlnRtOD87mJNkk",
@@ -1649,23 +1705,40 @@
     window.dataSdk = {
       init: async function (handler) {
         try {
-          // Fetch latest 15 posts ordered by creation date (limit reduces bandwidth)
           const postsRef = collection(db, "posts");
-          const postsQuery = query(postsRef, orderBy("created_at", "desc"), limit(15));
-          onSnapshot(postsQuery, (snapshot) => {
+          let q = query(postsRef, orderBy("created_at", "desc"), limit(5));
+          if (currentFilter !== 'all') {
+            q = query(postsRef, where("category", "==", currentFilter), orderBy("created_at", "desc"), limit(5));
+          }
+
+          onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
+            if (snapshot.empty) {
+              realTimeArticles = [];
+              allArticles = [...realTimeArticles, ...paginatedArticles];
+              handler.onDataChanged(allArticles, false);
+              return;
+            }
+            const fromCache = snapshot.metadata.fromCache;
             const articles = [];
             snapshot.forEach(docObj => {
               const data = docObj.data();
               data.__backendId = docObj.id;
-              // Normalize createdAt vs created_at fields safely
               if (!data.created_at && data.createdAt) {
                 data.created_at = data.createdAt.toDate ? data.createdAt.toDate().toISOString() : data.createdAt;
               }
               articles.push(data);
             });
-            // Already ordered by Firestore, but keep sort as safety net
-            articles.sort((a, b) => new Date(b.created_at || Number.NEGATIVE_INFINITY) - new Date(a.created_at || Number.NEGATIVE_INFINITY));
-            handler.onDataChanged(articles);
+            
+            realTimeArticles = articles;
+            
+            // If this is the very first load, set the cursor for pagination
+            if (!lastVisible) {
+              lastVisible = snapshot.docs[snapshot.docs.length - 1];
+              hasMoreArticles = snapshot.docs.length === 5;
+            }
+            
+            allArticles = [...realTimeArticles, ...paginatedArticles];
+            handler.onDataChanged(allArticles, fromCache);
           }, (error) => {
             console.error("Firestore listener error:", error);
           });
@@ -1673,6 +1746,52 @@
         } catch (err) {
           console.error("Firebase init Error:", err);
           return { isOk: false, error: err };
+        }
+      },
+      loadMore: async function (handler) {
+        if (isFetching || !hasMoreArticles || !lastVisible) return;
+        isFetching = true;
+        
+        const loader = document.getElementById('loading-more');
+        if (loader) loader.classList.remove('hidden');
+
+        try {
+          const postsRef = collection(db, "posts");
+          let q = query(postsRef, orderBy("created_at", "desc"), startAfter(lastVisible), limit(5));
+          if (currentFilter !== 'all') {
+            q = query(postsRef, where("category", "==", currentFilter), orderBy("created_at", "desc"), startAfter(lastVisible), limit(5));
+          }
+          
+          const snapshot = await getDocs(q);
+          if (snapshot.empty) {
+            hasMoreArticles = false;
+            isFetching = false;
+            if (loader) loader.classList.add('hidden');
+            return;
+          }
+          
+          const newArticles = [];
+          snapshot.forEach(docObj => {
+            const data = docObj.data();
+            data.__backendId = docObj.id;
+            if (!data.created_at && data.createdAt) {
+              data.created_at = data.createdAt.toDate ? data.createdAt.toDate().toISOString() : data.createdAt;
+            }
+            newArticles.push(data);
+          });
+          
+          lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          hasMoreArticles = snapshot.docs.length === 5;
+          
+          paginatedArticles = [...paginatedArticles, ...newArticles];
+          allArticles = [...realTimeArticles, ...paginatedArticles];
+          handler.onDataChanged(allArticles, false);
+          isFetching = false;
+          if (loader) loader.classList.add('hidden');
+        } catch (err) {
+          console.error("Load More Error:", err);
+          isFetching = false;
+          if (loader) loader.classList.add('hidden');
         }
       },
       create: async function (data) {
