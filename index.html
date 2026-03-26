@@ -858,7 +858,7 @@
     };
     window.dataHandler = dataHandler;
 
-    // Initialize SDKs
+    // Initialize Application
     async function init() {
       // Set current date
       document.getElementById('current-date').textContent = new Date().toLocaleDateString('hi-IN', {
@@ -866,6 +866,20 @@
         month: 'long',
         year: 'numeric'
       });
+
+      // Attach scroll listener to the scrolling element (#app)
+      const scrollContainer = document.getElementById('app');
+      if (scrollContainer) {
+        scrollContainer.addEventListener('scroll', (e) => {
+          const { scrollTop, scrollHeight, clientHeight } = e.target;
+          // Trigger when user is within 800px of the bottom
+          if (scrollTop + clientHeight >= scrollHeight - 800) {
+            if (window.dataSdk && window.dataSdk.loadMore && window.dataHandler) {
+              window.dataSdk.loadMore(window.dataHandler);
+            }
+          }
+        });
+      }
 
       // Initialize Element SDK
       if (window.elementSdk) {
@@ -908,8 +922,8 @@
       }
 
       // Initialize Data SDK
-      if (window.dataSdk) {
-        const result = await window.dataSdk.init(dataHandler);
+      if (window.dataSdk && window.dataHandler) {
+        const result = await window.dataSdk.init(window.dataHandler);
         if (!result.isOk) {
           showToast('Failed to initialize data', 'error');
         }
@@ -1595,17 +1609,6 @@
       });
     }
 
-    // Infinite Scroll
-    window.addEventListener('scroll', () => {
-      const totalHeight = document.documentElement.scrollHeight;
-      const scrollPos = window.innerHeight + window.scrollY;
-      
-      if (scrollPos >= totalHeight - 800) {
-        if (window.dataSdk && window.dataSdk.loadMore && window.dataHandler) {
-          window.dataSdk.loadMore(window.dataHandler);
-        }
-      }
-    });
 
     // Initialize on load
     init();
