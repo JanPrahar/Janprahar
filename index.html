@@ -250,7 +250,9 @@
                 <svg id="light-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg></button> <!-- Admin Login Removed from Header -->
+                </svg></button> <!-- Admin Login --> <button onclick="showAdminLogin()"
+                class="px-4 py-2 bg-primary text-white text-sm font-medium rounded hover:opacity-90 transition"
+                style="background-color: var(--primary);"> Admin </button>
             </div>
           </div>
         </div>
@@ -405,7 +407,6 @@
               <ul class="space-y-3 text-gray-400 text-sm">
                 <li><a href="about.html" class="hover:text-white transition">हमारे बारे में</a></li>
                 <li><a href="https://wa.me/919934287419" class="hover:text-white transition font-medium text-white">Contact Us</a></li>
-                <li><a href="admin.html" class="hover:text-white transition opacity-50 text-xs">Admin Panel</a></li>
                 <li><a href="mailto:slok358@gmail.com" class="hover:text-white transition">slok358@gmail.com</a></li>
                 <li><a href="tel:+919934287419" class="hover:text-white transition">+91 9934287419</a></li>
               </ul>
@@ -477,7 +478,310 @@
         <div id="article-content"><!-- Article content will be dynamically inserted -->
         </div>
       </article>
-    <!-- ADMIN COMPONENTS REMOVED (Moved to admin.html) -->
+    </div><!-- ADMIN LOGIN MODAL -->
+    <div id="admin-login-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-overlay">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-8 relative"><button onclick="hideAdminLogin()"
+          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg></button>
+        <div class="text-center mb-8">
+          <img src="jpicon.jpeg" alt="JanPrahar Logo" class="w-16 h-16 rounded-full mx-auto mb-4 object-contain" />
+          <h2 class="font-headline text-2xl font-bold text-secondary" style="color: var(--secondary);">Admin Login</h2>
+          <p class="text-accent text-sm mt-2" style="color: var(--accent);">JanPrahar News CMS</p>
+        </div>
+        <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+          <div><label for="admin-username" class="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+            <input type="email" id="admin-username" placeholder="Enter admin email" required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+          </div>
+          <div><label for="admin-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label> <input
+              type="password" id="admin-password" placeholder="Enter password" required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+          </div>
+          <button type="submit"
+            class="w-full py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition flex items-center justify-center"
+            style="background-color: var(--primary);"> <span>Login to Dashboard</span> </button>
+        </form>
+      </div>
+    </div><!-- ADMIN DASHBOARD -->
+    <div id="admin-dashboard" class="hidden">
+      <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary);">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="flex items-center justify-between h-16">
+            <div class="flex items-center space-x-3">
+              <img src="jpicon.jpeg" alt="JanPrahar Logo" class="w-10 h-10 rounded object-contain" />
+              <div>
+                <h1 class="font-headline text-white text-lg font-bold">Admin Dashboard</h1>
+                <p class="text-xs text-gray-400">JanPrahar News CMS</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-4"><button onclick="showFrontend()"
+                class="px-4 py-2 text-gray-300 hover:text-white text-sm font-medium transition flex items-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg><span>View Site</span> </button> <button onclick="adminLogout()"
+                class="px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded hover:bg-gray-600 transition">
+                Logout </button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8"><!-- Sidebar -->
+          <div class="lg:col-span-1">
+            <div class="bg-white rounded-lg shadow p-4 sticky top-24">
+              <nav class="space-y-2"><button onclick="showAdminSection('articles')"
+                  class="admin-nav-btn active w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 bg-primary text-white"
+                  data-section="articles" style="background-color: var(--primary);">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                  </svg><span>Articles</span> </button> <button onclick="showAdminSection('new-article')"
+                  class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 text-gray-700 hover:bg-gray-100"
+                  data-section="new-article">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  </svg><span>New Article</span> </button> <button onclick="showAdminSection('stats')"
+                  class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 text-gray-700 hover:bg-gray-100"
+                  data-section="stats">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg><span>Statistics</span> </button> <button onclick="showAdminSection('ads')"
+                  class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 text-gray-700 hover:bg-gray-100"
+                  data-section="ads">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
+                  </svg><span>Advertisements</span> </button>
+              </nav>
+            </div>
+          </div><!-- Main Content -->
+          <div class="lg:col-span-3"><!-- Stats Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+              <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-accent text-sm" style="color: var(--accent);">Total Articles</p>
+                    <p id="stat-total" class="text-3xl font-bold text-secondary" style="color: var(--secondary);">0</p>
+                  </div>
+                  <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-accent text-sm" style="color: var(--accent);">Published</p>
+                    <p id="stat-published" class="text-3xl font-bold text-green-600">0</p>
+                  </div>
+                  <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-white rounded-lg shadow p-5">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <p class="text-accent text-sm" style="color: var(--accent);">Breaking News</p>
+                    <p id="stat-breaking" class="text-3xl font-bold text-primary" style="color: var(--primary);">0</p>
+                  </div>
+                  <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div><!-- Articles Section -->
+            <div id="section-articles" class="admin-section">
+              <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                  <h2 class="font-headline text-xl font-bold text-secondary" style="color: var(--secondary);">Manage
+                    Articles</h2><button onclick="showAdminSection('new-article')"
+                    class="px-4 py-2 bg-primary text-white text-sm font-medium rounded hover:opacity-90 transition flex items-center space-x-2"
+                    style="background-color: var(--primary);">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg><span>Add Article</span> </button>
+                </div>
+                <div id="articles-list" class="divide-y divide-gray-200">
+                  <div class="px-6 py-12 text-center">
+                    <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor"
+                      viewbox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                    </svg>
+                    <p class="text-gray-500">No articles yet. Create your first article!</p>
+                  </div>
+                </div>
+              </div>
+            </div><!-- New Article Section -->
+            <div id="section-new-article" class="admin-section hidden">
+              <div class="bg-white rounded-lg shadow">
+                <div class="px-6 py-4 border-b border-gray-200">
+                  <h2 class="font-headline text-xl font-bold text-secondary" style="color: var(--secondary);">Create New
+                    Article</h2>
+                </div>
+                <form id="article-form" onsubmit="handleArticleSubmit(event)" class="p-6 space-y-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div><label for="article-title" class="block text-sm font-medium text-gray-700 mb-2">Title
+                        (English)</label> <input type="text" id="article-title" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="Enter article title">
+                    </div>
+                    <div><label for="article-title-hindi" class="block text-sm font-medium text-gray-700 mb-2">Title
+                        (Hindi)</label> <input type="text" id="article-title-hindi" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-hindi"
+                        placeholder="शीर्षक दर्ज करें">
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div><label for="article-category"
+                        class="block text-sm font-medium text-gray-700 mb-2">Category</label> <select
+                        id="article-category" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <option value="">Select Category</option>
+                        <option value="politics">राजनीति (Politics)</option>
+                        <option value="business">व्यापार (Business)</option>
+                        <option value="technology">टेक्नोलॉजी (Technology)</option>
+                        <option value="sports">खेल (Sports)</option>
+                        <option value="regional">क्षेत्रीय (Regional)</option>
+                      </select>
+                    </div>
+                    <div><label for="article-author" class="block text-sm font-medium text-gray-700 mb-2">Author</label>
+                      <input type="text" id="article-author" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                        placeholder="Author name">
+                    </div>
+                  </div>
+                  <div><label for="article-image" class="block text-sm font-medium text-gray-700 mb-2">Image URL
+                      (Optional)</label> <input type="url" id="article-image"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="https://example.com/image.jpg">
+                    <button type="button" onclick="openCloudinaryUpload()"
+                      class="mt-2 px-4 py-2 bg-blue-600 text-white rounded">
+                      Upload Image
+                    </button>
+                  </div>
+                  <div><label for="article-tags" class="block text-sm font-medium text-gray-700 mb-2">Tags (comma
+                      separated)</label> <input type="text" id="article-tags"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="भारत, समाचार, राजनीति">
+                  </div>
+                  <div><label for="article-excerpt" class="block text-sm font-medium text-gray-700 mb-2">Excerpt /
+                      Summary</label> <textarea id="article-excerpt" rows="2" required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-hindi"
+                      placeholder="लेख का सारांश लिखें..."></textarea>
+                  </div>
+                  <div><label for="admin-article-content" class="block text-sm font-medium text-gray-700 mb-2">Full
+                      Content</label> <textarea id="admin-article-content" rows="10" required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent font-hindi"
+                      placeholder="पूरा लेख यहाँ लिखें..."></textarea>
+                  </div>
+                  <div class="flex flex-wrap gap-6"><label class="flex items-center space-x-3 cursor-pointer"> <input
+                        type="checkbox" id="article-breaking" class="w-5 h-5 text-primary rounded focus:ring-primary">
+                      <span class="text-sm font-medium text-gray-700">Mark as Breaking News</span> </label> <label
+                      class="flex items-center space-x-3 cursor-pointer"> <input type="checkbox" id="article-published"
+                        checked class="w-5 h-5 text-primary rounded focus:ring-primary"> <span
+                        class="text-sm font-medium text-gray-700">Publish Immediately</span> </label>
+                  </div>
+                  <div class="flex items-center space-x-4 pt-4 border-t border-gray-200"><button type="submit"
+                      id="submit-btn"
+                      class="px-6 py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition flex items-center space-x-2"
+                      style="background-color: var(--primary);"> <span id="submit-text">Publish Article</span>
+                      <div id="submit-spinner" class="loading-spinner hidden"></div>
+                    </button> <button type="button" onclick="resetArticleForm()"
+                      class="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition">
+                      Cancel </button>
+                  </div>
+                  <p id="form-message" class="text-sm hidden"></p>
+                </form>
+              </div>
+            </div><!-- Stats Section -->
+            <div id="section-stats" class="admin-section hidden">
+              <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="font-headline text-xl font-bold text-secondary mb-6" style="color: var(--secondary);">
+                  Category Statistics</h2>
+                <div id="category-stats" class="space-y-4">
+                  <p class="text-gray-500">No data available yet.</p>
+                </div>
+              </div>
+            </div><!-- Ads Section -->
+            <div id="section-ads" class="admin-section hidden">
+              <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="font-headline text-xl font-bold text-secondary mb-6" style="color: var(--secondary);">Manage
+                  Advertisements</h2>
+                <p class="text-sm text-gray-500 mb-6">Enter HTML scripts or Cloudinary image URLs to display ads in the
+                  sidebar and bottom banner.</p>
+                <form id="ads-form" onsubmit="handleAdSubmit(event)" class="space-y-6">
+                  <div class="space-y-3">
+                    <label class="block text-sm font-medium text-gray-700">Sidebar Ad</label>
+                    <textarea id="ad-sidebar" rows="3"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Ad image URL or HTML Script goes here..."></textarea>
+                    <input type="url" id="ad-sidebar-link" placeholder="Target Link (e.g. https://google.com)"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <button type="button" onclick="openAdsCloudinaryUpload('ad-sidebar')"
+                      class="px-4 py-2 bg-blue-600 text-white rounded text-sm font-medium">Upload Image</button>
+                  </div>
+                  <div class="space-y-3">
+                    <label class="block text-sm font-medium text-gray-700">Bottom Banner Ad</label>
+                    <textarea id="ad-bottom" rows="3"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Ad image URL or HTML Script goes here..."></textarea>
+                    <input type="url" id="ad-bottom-link" placeholder="Target Link (e.g. https://google.com)"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                    <button type="button" onclick="openAdsCloudinaryUpload('ad-bottom')"
+                      class="px-4 py-2 bg-blue-600 text-white rounded text-sm font-medium">Upload Image</button>
+                  </div>
+                  <div class="flex items-center space-x-4"><button type="submit" id="save-ads-btn"
+                      class="px-6 py-3 bg-primary text-white font-bold rounded-lg hover:opacity-90 transition flex items-center space-x-2"
+                      style="background-color: var(--primary);"> <span id="save-ads-text">Save Advertisements</span>
+                      <div id="save-ads-spinner" class="loading-spinner hidden"></div>
+                    </button> </div>
+                  <p id="ads-message" class="text-sm hidden"></p>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- Delete Confirmation Modal -->
+    <div id="delete-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-overlay">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-8">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+          </div>
+          <h3 class="font-headline text-xl font-bold text-gray-900">Delete Article?</h3>
+          <p class="text-gray-600 mt-2">This action cannot be undone. The article will be permanently removed.</p>
+        </div>
+        <div class="flex space-x-4"><button onclick="hideDeleteModal()"
+            class="flex-1 px-4 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition">
+            Cancel </button> <button onclick="confirmDelete()" id="confirm-delete-btn"
+            class="flex-1 px-4 py-3 bg-red-600 text-white font-bold rounded-lg hover:bg-red-700 transition flex items-center justify-center">
+            <span id="delete-text">Delete</span>
+            <div id="delete-spinner" class="loading-spinner hidden ml-2"></div>
+          </button>
+        </div>
+      </div>
     </div><!-- Toast Notification -->
     <div id="toast"
       class="hidden fixed bottom-6 right-6 z-50 px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3 transition-all transform translate-y-4 opacity-0">
@@ -1019,34 +1323,278 @@
       }
     });
 
-    // Formatting Utils
-    function formatDate(dateString) {
-      if (!dateString) return '';
-      const date = new Date(dateString);
-      return date.toLocaleDateString('hi-IN', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-      });
+    // Admin Functions
+    function showAdminLogin() {
+      document.getElementById('admin-login-modal').classList.remove('hidden');
     }
 
-    function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
-      const toastMessage = document.getElementById('toast-message');
-      const toastIcon = document.getElementById('toast-icon');
-      toastMessage.textContent = message;
-      if (type === 'success') {
-        toast.className = 'fixed bottom-6 right-6 z-50 px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3 bg-green-600 text-white transition-all transform';
-        toastIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>';
+    function hideAdminLogin() {
+      document.getElementById('admin-login-modal').classList.add('hidden');
+    }
+
+    function handleAdminLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById('admin-username').value;
+      const password = document.getElementById('admin-password').value;
+
+      if (username === 'admin' && password === 'admin123') {
+        isAdminLoggedIn = true;
+        hideAdminLogin();
+        document.getElementById('frontend-view').classList.add('hidden');
+        document.getElementById('admin-dashboard').classList.remove('hidden');
+        showToast('Login successful!', 'success');
       } else {
-        toast.className = 'fixed bottom-6 right-6 z-50 px-6 py-4 rounded-lg shadow-lg flex items-center space-x-3 bg-red-600 text-white transition-all transform';
-        toastIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
+        showToast('Invalid credentials', 'error');
       }
-      toast.classList.remove('hidden', 'translate-y-4', 'opacity-0');
-      setTimeout(() => {
-        toast.classList.add('translate-y-4', 'opacity-0');
-        setTimeout(() => toast.classList.add('hidden'), 300);
-      }, 3000);
+    }
+
+    function adminLogout() {
+      isAdminLoggedIn = false;
+      showFrontend();
+      showToast('Logged out successfully', 'success');
+    }
+
+    function showAdminSection(section) {
+      document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(`section-${section}`).classList.remove('hidden');
+
+      document.querySelectorAll('.admin-nav-btn').forEach(btn => {
+        if (btn.dataset.section === section) {
+          btn.classList.add('text-white');
+          btn.style.backgroundColor = 'var(--primary)';
+          btn.classList.remove('text-gray-700', 'hover:bg-gray-100');
+        } else {
+          btn.classList.remove('text-white');
+          btn.style.backgroundColor = '';
+          btn.classList.add('text-gray-700', 'hover:bg-gray-100');
+        }
+      });
+
+      if (section === 'stats') {
+        renderCategoryStats();
+      }
+    }
+
+    // Render Admin Articles
+    function renderAdminArticles() {
+      const list = document.getElementById('articles-list');
+
+      if (allArticles.length === 0) {
+        list.innerHTML = `
+          <div class="px-6 py-12 text-center">
+            <svg class="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
+            </svg>
+            <p class="text-gray-500">No articles yet. Create your first article!</p>
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = allArticles.map(article => `
+        <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition">
+          <div class="flex-1 min-w-0 mr-4">
+            <div class="flex items-center space-x-2 mb-1">
+              <span class="text-xs font-bold px-2 py-0.5 rounded ${article.is_published ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-600'}">
+                ${article.is_published ? 'Published' : 'Draft'}
+              </span>
+              ${article.is_breaking ? '<span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">Breaking</span>' : ''}
+              <span class="text-xs px-2 py-0.5 rounded bg-blue-100 text-blue-800">${categoryLabels[article.category] || article.category}</span>
+            </div>
+            <h3 class="font-medium text-secondary truncate" style="color: var(--secondary);">${article.title_hindi || article.title}</h3>
+            <p class="text-sm text-accent" style="color: var(--accent);">${article.author} • ${formatDate(article.created_at)}</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="editArticle('${article.__backendId}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Edit">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+              </svg>
+            </button>
+            <button onclick="togglePublish('${article.__backendId}')" class="p-2 ${article.is_published ? 'text-orange-600 hover:bg-orange-50' : 'text-green-600 hover:bg-green-50'} rounded-lg transition" title="${article.is_published ? 'Unpublish' : 'Publish'}">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                ${article.is_published ?
+          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/>' :
+          '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>'
+        }
+              </svg>
+            </button>
+            <button onclick="showDeleteModal('${article.__backendId}')" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Delete">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Update Stats
+    function updateStats() {
+      document.getElementById('stat-total').textContent = window.allArticles.length;
+      document.getElementById('stat-published').textContent = window.allArticles.filter(a => a.is_published).length;
+      document.getElementById('stat-breaking').textContent = window.allArticles.filter(a => a.is_breaking).length;
+    }
+
+    // Render Category Stats
+    function renderCategoryStats() {
+      const stats = {};
+      window.allArticles.forEach(a => {
+        stats[a.category] = (stats[a.category] || 0) + 1;
+      });
+
+      const container = document.getElementById('category-stats');
+      if (Object.keys(stats).length === 0) {
+        container.innerHTML = '<p class="text-gray-500">No data available yet.</p>';
+        return;
+      }
+
+      const total = window.allArticles.length;
+      container.innerHTML = Object.entries(stats).map(([cat, count]) => `
+        <div class="flex items-center justify-between">
+          <span class="font-medium text-secondary" style="color: var(--secondary);">${categoryLabels[cat] || cat}</span>
+          <div class="flex items-center space-x-3">
+            <div class="w-32 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div class="h-full bg-primary rounded-full" style="width: ${(count / total) * 100}%; background-color: var(--primary);"></div>
+            </div>
+            <span class="text-accent text-sm w-8" style="color: var(--accent);">${count}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Article Form Handling
+    async function handleArticleSubmit(event) {
+      event.preventDefault();
+
+      if (currentRecordCount >= 999 && !editingArticle) {
+        showToast('Maximum limit of 999 articles reached. Please delete some articles first.', 'error');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submit-btn');
+      const submitText = document.getElementById('submit-text');
+      const submitSpinner = document.getElementById('submit-spinner');
+
+      submitBtn.disabled = true;
+      submitText.textContent = editingArticle ? 'Updating...' : 'Publishing...';
+      submitSpinner.classList.remove('hidden');
+
+      const articleData = {
+        title: document.getElementById('article-title').value,
+        title_hindi: document.getElementById('article-title-hindi').value,
+        category: document.getElementById('article-category').value,
+        author: document.getElementById('article-author').value,
+        image_url: document.getElementById('article-image').value || '',
+        tags: document.getElementById('article-tags').value || '',
+        excerpt: document.getElementById('article-excerpt').value,
+        content: document.getElementById('admin-article-content').value,
+        is_breaking: document.getElementById('article-breaking').checked,
+        is_published: document.getElementById('article-published').checked,
+        updated_at: new Date().toISOString()
+      };
+
+      let result;
+      if (editingArticle) {
+        const updated = { ...editingArticle, ...articleData };
+        result = await window.dataSdk.update(updated);
+      } else {
+        articleData.created_at = new Date().toISOString();
+        result = await window.dataSdk.create(articleData);
+      }
+
+      submitBtn.disabled = false;
+      submitText.textContent = 'Publish Article';
+      submitSpinner.classList.add('hidden');
+
+      if (result.isOk) {
+        showToast(editingArticle ? 'Article updated successfully!' : 'Article published successfully!', 'success');
+        resetArticleForm();
+        showAdminSection('articles');
+      } else {
+        showToast('Failed to save article. Please try again.', 'error');
+      }
+    }
+
+    function editArticle(id) {
+      const article = allArticles.find(a => a.__backendId === id);
+      if (!article) return;
+
+      editingArticle = article;
+
+      document.getElementById('article-title').value = article.title || '';
+      document.getElementById('article-title-hindi').value = article.title_hindi || '';
+      document.getElementById('article-category').value = article.category || '';
+      document.getElementById('article-author').value = article.author || '';
+      document.getElementById('article-image').value = article.image_url || '';
+      document.getElementById('article-tags').value = article.tags || '';
+      document.getElementById('article-excerpt').value = article.excerpt || '';
+      document.getElementById('admin-article-content').value = article.content || '';
+      document.getElementById('article-breaking').checked = article.is_breaking || false;
+      document.getElementById('article-published').checked = article.is_published || false;
+
+      document.getElementById('submit-text').textContent = 'Update Article';
+      showAdminSection('new-article');
+    }
+
+    function resetArticleForm() {
+      editingArticle = null;
+      document.getElementById('article-form').reset();
+      document.getElementById('article-published').checked = true;
+      document.getElementById('submit-text').textContent = 'Publish Article';
+    }
+
+    // Toggle Publish
+    async function togglePublish(id) {
+      const article = allArticles.find(a => a.__backendId === id);
+      if (!article) return;
+
+      const updated = { ...article, is_published: !article.is_published, updated_at: new Date().toISOString() };
+      const result = await window.dataSdk.update(updated);
+
+      if (result.isOk) {
+        showToast(updated.is_published ? 'Article published!' : 'Article unpublished', 'success');
+      } else {
+        showToast('Failed to update article', 'error');
+      }
+    }
+
+    // Delete Functions
+    function showDeleteModal(id) {
+      articleToDelete = id;
+      document.getElementById('delete-modal').classList.remove('hidden');
+    }
+
+    function hideDeleteModal() {
+      articleToDelete = null;
+      document.getElementById('delete-modal').classList.add('hidden');
+    }
+
+    async function confirmDelete() {
+      if (!articleToDelete) return;
+
+      const article = allArticles.find(a => a.__backendId === articleToDelete);
+      if (!article) return;
+
+      const deleteBtn = document.getElementById('confirm-delete-btn');
+      const deleteText = document.getElementById('delete-text');
+      const deleteSpinner = document.getElementById('delete-spinner');
+
+      deleteBtn.disabled = true;
+      deleteText.textContent = 'Deleting...';
+      deleteSpinner.classList.remove('hidden');
+
+      const result = await window.dataSdk.delete(article);
+
+      deleteBtn.disabled = false;
+      deleteText.textContent = 'Delete';
+      deleteSpinner.classList.add('hidden');
+
+      if (result.isOk) {
+        hideDeleteModal();
+        showToast('Article deleted successfully', 'success');
+      } else {
+        showToast('Failed to delete article', 'error');
+      }
     }
 
     // Toast Notification
@@ -1112,7 +1660,308 @@
       localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
     });
 
-    // Login logic removed (Moved to admin.html)
+    window.handleAdminLogin = async function (e) {
+      e.preventDefault();
+      const email = document.getElementById("admin-username").value;
+      const password = document.getElementById("admin-password").value;
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        document.getElementById("admin-login-modal").classList.add("hidden");
+        document.getElementById("frontend-view").classList.add("hidden");
+        document.getElementById("admin-dashboard").classList.remove("hidden");
+      } catch (err) {
+        alert("Login failed: " + err.message);
+      }
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("frontend-view").classList.add("hidden");
+        document.getElementById("admin-dashboard").classList.remove("hidden");
+        if (typeof isAdminLoggedIn !== 'undefined') isAdminLoggedIn = true;
+      }
+    });
+
+    window.adminLogout = async function () {
+      await signOut(auth);
+      location.reload();
+    };
+
+    // Lazy-load Cloudinary SDK only when needed (saves ~400KB on initial page load)
+    function loadCloudinaryThen(callback) {
+      if (typeof cloudinary !== 'undefined') { callback(); return; }
+      const s = document.createElement('script');
+      s.src = 'https://upload-widget.cloudinary.com/global/all.js';
+      s.onload = callback;
+      document.head.appendChild(s);
+    }
+
+    window.openCloudinaryUpload = function () {
+      loadCloudinaryThen(() => {
+        const widget = cloudinary.createUploadWidget({
+          cloudName: "dpb4bkchj",
+          uploadPreset: "unsigned_upload"
+        },
+          (error, result) => {
+            if (!error && result && result.event === "success") {
+              document.getElementById("article-image").value = result.info.secure_url;
+              if (typeof showToast !== 'undefined') showToast("Image uploaded!", "success");
+            }
+          }
+        );
+        widget.open();
+      });
+    };
+
+    window.openAdsCloudinaryUpload = function (inputId) {
+      loadCloudinaryThen(() => {
+        const widget = cloudinary.createUploadWidget({
+          cloudName: "dpb4bkchj",
+          uploadPreset: "unsigned_upload"
+        },
+          (error, result) => {
+            if (!error && result && result.event === "success") {
+              document.getElementById(inputId).value = result.info.secure_url;
+              if (typeof showToast !== 'undefined') showToast("Ad Image uploaded!", "success");
+            }
+          }
+        );
+        widget.open();
+      });
+    };
+
+    window.dataSdk = {
+      init: async function (handler) {
+        try {
+          const postsRef = collection(db, "posts");
+          let q = query(postsRef, orderBy("created_at", "desc"), limit(5));
+          
+          if (window.currentFilter !== 'all' && window.currentDateFilter) {
+            const startStr = `${window.currentDateFilter}T00:00:00.000Z`;
+            const endStr = `${window.currentDateFilter}T23:59:59.999Z`;
+            q = query(postsRef, where("category", "==", window.currentFilter), where("created_at", ">=", startStr), where("created_at", "<=", endStr), orderBy("created_at", "desc"), limit(5));
+          } else if (window.currentFilter !== 'all') {
+            q = query(postsRef, where("category", "==", window.currentFilter), orderBy("created_at", "desc"), limit(5));
+          } else if (window.currentDateFilter) {
+            const startStr = `${window.currentDateFilter}T00:00:00.000Z`;
+            const endStr = `${window.currentDateFilter}T23:59:59.999Z`;
+            q = query(postsRef, where("created_at", ">=", startStr), where("created_at", "<=", endStr), orderBy("created_at", "desc"), limit(5));
+          }
+
+          onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
+            if (snapshot.empty) {
+              window.realTimeArticles = [];
+              window.allArticles = [...window.realTimeArticles, ...window.paginatedArticles];
+              handler.onDataChanged(window.allArticles, false);
+              return;
+            }
+            const fromCache = snapshot.metadata.fromCache;
+            const articles = [];
+            snapshot.forEach(docObj => {
+              const data = docObj.data();
+              data.__backendId = docObj.id;
+              if (!data.created_at && data.createdAt) {
+                data.created_at = data.createdAt.toDate ? data.createdAt.toDate().toISOString() : data.createdAt;
+              }
+              articles.push(data);
+            });
+            
+            window.realTimeArticles = articles;
+            
+            // If this is the very first load, set the cursor for pagination
+            if (!window.lastVisible) {
+              window.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+              window.hasMoreArticles = snapshot.docs.length === 5;
+              // Auto-load next 5 articles immediately on first load
+              if (window.hasMoreArticles) {
+                setTimeout(() => {
+                  window.dataSdk.loadMore(handler);
+                }, 1000);
+              }
+            }
+            
+            window.allArticles = [...window.realTimeArticles, ...window.paginatedArticles];
+            handler.onDataChanged(window.allArticles, fromCache);
+          }, (error) => {
+            console.error("Firestore listener error:", error);
+          });
+          return { isOk: true };
+        } catch (err) {
+          console.error("Firebase init Error:", err);
+          return { isOk: false, error: err };
+        }
+      },
+      loadMore: async function (handler) {
+        if (window.isFetching || !window.hasMoreArticles || !window.lastVisible) return;
+        window.isFetching = true;
+        
+        const loader = document.getElementById('loading-more');
+        if (loader) loader.classList.remove('hidden');
+
+        try {
+          const postsRef = collection(db, "posts");
+          let q = query(postsRef, orderBy("created_at", "desc"), startAfter(window.lastVisible), limit(5));
+          
+          if (window.currentFilter !== 'all' && window.currentDateFilter) {
+            const startStr = `${window.currentDateFilter}T00:00:00.000Z`;
+            const endStr = `${window.currentDateFilter}T23:59:59.999Z`;
+            q = query(postsRef, where("category", "==", window.currentFilter), where("created_at", ">=", startStr), where("created_at", "<=", endStr), orderBy("created_at", "desc"), startAfter(window.lastVisible), limit(5));
+          } else if (window.currentFilter !== 'all') {
+            q = query(postsRef, where("category", "==", window.currentFilter), orderBy("created_at", "desc"), startAfter(window.lastVisible), limit(5));
+          } else if (window.currentDateFilter) {
+            const startStr = `${window.currentDateFilter}T00:00:00.000Z`;
+            const endStr = `${window.currentDateFilter}T23:59:59.999Z`;
+            q = query(postsRef, where("created_at", ">=", startStr), where("created_at", "<=", endStr), orderBy("created_at", "desc"), startAfter(window.lastVisible), limit(5));
+          }
+          
+          const snapshot = await getDocs(q);
+          if (snapshot.empty) {
+            window.hasMoreArticles = false;
+            window.isFetching = false;
+            if (loader) loader.classList.add('hidden');
+            return;
+          }
+          
+          const newArticles = [];
+          snapshot.forEach(docObj => {
+            const data = docObj.data();
+            data.__backendId = docObj.id;
+            if (!data.created_at && data.createdAt) {
+              data.created_at = data.createdAt.toDate ? data.createdAt.toDate().toISOString() : data.createdAt;
+            }
+            newArticles.push(data);
+          });
+          
+          window.lastVisible = snapshot.docs[snapshot.docs.length - 1];
+          window.hasMoreArticles = snapshot.docs.length === 5;
+          
+          window.paginatedArticles = [...window.paginatedArticles, ...newArticles];
+          window.allArticles = [...window.realTimeArticles, ...window.paginatedArticles];
+          handler.onDataChanged(window.allArticles, false);
+          window.isFetching = false;
+          if (loader) loader.classList.add('hidden');
+        } catch (err) {
+          console.error("Load More Error:", err);
+          window.isFetching = false;
+          if (loader) loader.classList.add('hidden');
+        }
+      },
+      create: async function (data) {
+        try {
+          const postsRef = collection(db, "posts");
+          await addDoc(postsRef, data);
+          return { isOk: true };
+        } catch (err) {
+          console.error("Create Error:", err);
+          return { isOk: false, error: err };
+        }
+      },
+      update: async function (data) {
+        try {
+          const id = data.__backendId;
+          const updateData = { ...data };
+          delete updateData.__backendId;
+          const docRef = doc(db, "posts", id);
+          await updateDoc(docRef, updateData);
+          return { isOk: true };
+        } catch (err) {
+          console.error("Update Error:", err);
+          return { isOk: false, error: err };
+        }
+      },
+      delete: async function (data) {
+        try {
+          const id = data.__backendId;
+          const docRef = doc(db, "posts", id);
+          await deleteDoc(docRef);
+          return { isOk: true };
+        } catch (err) {
+          console.error("Delete Error:", err);
+          return { isOk: false, error: err };
+        }
+      },
+      loadAds: async function () {
+        try {
+          const adDoc = await getDoc(doc(db, "settings", "ads"));
+          if (adDoc.exists()) {
+            const data = adDoc.data();
+            const sidebar = document.getElementById("ad-space-sidebar");
+            const bottom = document.getElementById("ad-space-bottom");
+
+            const formatAd = (content, linkTarget) => {
+              if (!content) return "";
+              const t = content.trim();
+              if (t.startsWith("http://") || t.startsWith("https://")) {
+                if (!t.includes('<')) {
+                  const imgHtml = `<img src="${t}" alt="Advertisement" class="w-full h-full object-cover">`;
+                  if (linkTarget) {
+                    return `<a href="${linkTarget}" target="_blank" class="block w-full h-full">${imgHtml}</a>`;
+                  }
+                  return imgHtml;
+                }
+              }
+              return t;
+            };
+
+            if (sidebar && data.sidebar) sidebar.innerHTML = formatAd(data.sidebar, data.sidebarLink);
+            if (bottom && data.bottom) bottom.innerHTML = formatAd(data.bottom, data.bottomLink);
+
+            const sidebarInput = document.getElementById("ad-sidebar");
+            const sidebarLinkInput = document.getElementById("ad-sidebar-link");
+            const bottomInput = document.getElementById("ad-bottom");
+            const bottomLinkInput = document.getElementById("ad-bottom-link");
+
+            if (sidebarInput && data.sidebar) sidebarInput.value = data.sidebar;
+            if (sidebarLinkInput && data.sidebarLink) sidebarLinkInput.value = data.sidebarLink;
+            if (bottomInput && data.bottom) bottomInput.value = data.bottom;
+            if (bottomLinkInput && data.bottomLink) bottomLinkInput.value = data.bottomLink;
+          }
+        } catch (err) { console.error("Load Ads Error", err); }
+      },
+      saveAds: async function (sidebarCode, sidebarLink, bottomCode, bottomLink) {
+        try {
+          await setDoc(doc(db, "settings", "ads"), {
+            sidebar: sidebarCode,
+            sidebarLink: sidebarLink,
+            bottom: bottomCode,
+            bottomLink: bottomLink
+          }, { merge: true });
+          return { isOk: true };
+        } catch (err) {
+          return { isOk: false, error: err };
+        }
+      }
+    };
+
+    window.handleAdSubmit = async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById("save-ads-btn");
+      const spinner = document.getElementById("save-ads-spinner");
+      const text = document.getElementById("save-ads-text");
+
+      btn.disabled = true;
+      spinner.classList.remove("hidden");
+      text.textContent = "Saving...";
+
+      const sidebarCode = document.getElementById("ad-sidebar").value;
+      const sidebarLink = document.getElementById("ad-sidebar-link").value;
+      const bottomCode = document.getElementById("ad-bottom").value;
+      const bottomLink = document.getElementById("ad-bottom-link").value;
+
+      const result = await window.dataSdk.saveAds(sidebarCode, sidebarLink, bottomCode, bottomLink);
+
+      btn.disabled = false;
+      spinner.classList.add("hidden");
+      text.textContent = "Save Advertisements";
+
+      if (result.isOk) {
+        if (typeof showToast !== 'undefined') showToast("Advertisements configured successfully!", "success");
+        window.dataSdk.loadAds();
+      } else {
+        if (typeof showToast !== 'undefined') showToast("Failed to save advertisements.", "error");
+      }
+    };
 
     if (window.dataHandler) {
       window.dataSdk.init(window.dataHandler);
