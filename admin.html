@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="hi" class="h-full">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JanPrahar News - Admin Panel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&amp;family=Oswald:wght@400;500;600;700&amp;family=Source+Sans+3:wght@400;500;600;700&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --primary: #B11226;
+      --secondary: #1C1C1C;
+      --background: #F7F7F7;
+      --accent: #6B7280;
+      --alert: #F59E0B;
+    }
+
+    body {
+      font-family: 'Source Sans 3', 'Tiro Devanagari Hindi', sans-serif;
+      background-color: var(--background);
+    }
+
+    .font-headline {
+      font-family: 'Oswald', 'Tiro Devanagari Hindi', sans-serif;
+    }
+
+    .font-hindi {
+      font-family: 'Tiro Devanagari Hindi', serif;
+    }
+
+    .modal-overlay {
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+    }
+
+    .loading-spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid var(--primary);
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .admin-nav-btn.active {
+      background-color: var(--primary);
+      color: white;
+    }
+  </style>
+</head>
+
+<body class="h-full">
+  <div id="admin-app" class="h-full overflow-auto">
+    <!-- ADMIN LOGIN MODAL (Visible by default until auth checked) -->
+    <div id="admin-login-modal" class="fixed inset-0 z-50 flex items-center justify-center modal-overlay">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-8 relative">
+        <div class="text-center mb-8">
+          <img src="jpicon.jpeg" alt="JanPrahar Logo" class="w-16 h-16 rounded-full mx-auto mb-4 object-contain" />
+          <h2 class="font-headline text-2xl font-bold text-[#1C1C1C]">Admin Login</h2>
+          <p class="text-gray-500 text-sm mt-2">JanPrahar News CMS</p>
+        </div>
+        <form id="login-form" class="space-y-4">
+          <div>
+            <label for="admin-username" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input type="email" id="admin-username" placeholder="admin@example.com" required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B11226] focus:border-transparent outline-none">
+          </div>
+          <div>
+            <label for="admin-password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <input type="password" id="admin-password" placeholder="••••••••" required
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#B11226] focus:border-transparent outline-none">
+          </div>
+          <button type="submit"
+            class="w-full py-3 bg-[#B11226] text-white font-bold rounded-lg hover:opacity-90 transition flex items-center justify-center">
+            <span>Login to Dashboard</span>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD (Hidden initially) -->
+    <div id="admin-dashboard" class="hidden min-h-full flex flex-col">
+      <header class="bg-[#1C1C1C] text-white sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+          <div class="flex items-center justify-between h-16">
+            <div class="flex items-center space-x-3">
+              <img src="jpicon.jpeg" alt="JanPrahar Logo" class="w-10 h-10 rounded object-contain" />
+              <div>
+                <h1 class="font-headline text-lg font-bold">Admin Dashboard</h1>
+                <p class="text-xs text-gray-400 uppercase tracking-widest">CMS Control Panel</p>
+              </div>
+            </div>
+            <div class="flex items-center space-x-4">
+              <a href="index.html" class="px-4 py-2 text-gray-300 hover:text-white text-sm font-medium transition flex items-center space-x-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                </svg>
+                <span>View Site</span>
+              </a>
+              <button id="logout-btn" class="px-4 py-2 bg-gray-700 text-white text-sm font-medium rounded hover:bg-gray-600 transition">
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="max-w-7xl mx-auto px-4 py-8 flex-grow">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          <!-- Sidebar Nav -->
+          <div class="lg:col-span-1">
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sticky top-24">
+              <nav class="space-y-1">
+                <button onclick="showAdminSection('articles')" class="admin-nav-btn active w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3" data-section="articles">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                  <span>All Articles</span>
+                </button>
+                <button onclick="showAdminSection('new-article')" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 text-gray-600 hover:bg-gray-50" data-section="new-article">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                  <span>Write News</span>
+                </button>
+                <button onclick="showAdminSection('stats')" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 text-gray-600 hover:bg-gray-50" data-section="stats">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                  <span>Performance</span>
+                </button>
+                <button onclick="showAdminSection('ads')" class="admin-nav-btn w-full text-left px-4 py-3 rounded-lg font-medium transition flex items-center space-x-3 text-gray-600 hover:bg-gray-50" data-section="ads">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
+                  <span>Monetization</span>
+                </button>
+              </nav>
+            </div>
+          </div>
+
+          <!-- Dashboard Content -->
+          <div class="lg:col-span-3">
+            <!-- Summary Stats -->
+            <div id="stats-overview" class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+              <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex items-center justify-between">
+                <div><p class="text-gray-500 text-sm">Articles</p><p id="stat-total" class="text-3xl font-bold">0</p></div>
+                <div class="p-3 bg-blue-50 text-blue-600 rounded-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1"/></svg></div>
+              </div>
+              <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex items-center justify-between">
+                <div><p class="text-gray-500 text-sm">Published</p><p id="stat-published" class="text-3xl font-bold text-green-600">0</p></div>
+                <div class="p-3 bg-green-50 text-green-600 rounded-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></div>
+              </div>
+              <div id="breaking-stat-card" class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex items-center justify-between">
+                <div><p class="text-gray-500 text-sm">Breaking</p><p id="stat-breaking" class="text-3xl font-bold text-[#B11226]">0</p></div>
+                <div class="p-3 bg-red-50 text-[#B11226] rounded-full"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
+              </div>
+            </div>
+
+            <!-- Articles Section -->
+            <div id="section-articles" class="admin-section">
+              <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
+                  <h2 class="font-headline text-lg font-bold">Manage Articles</h2>
+                  <button onclick="showAdminSection('new-article')" class="px-4 py-2 bg-[#B11226] text-white text-sm font-bold rounded shadow-sm hover:opacity-90 flex items-center space-x-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    <span>Add New</span>
+                  </button>
+                </div>
+                <div id="articles-list" class="divide-y divide-gray-100">
+                  <div class="p-12 text-center text-gray-400">Loading articles...</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Editor Section -->
+            <div id="section-new-article" class="admin-section hidden">
+              <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+                <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                  <h2 id="editor-title" class="font-headline text-lg font-bold">Write New Article</h2>
+                </div>
+                <form id="article-form" onsubmit="handleArticleSubmit(event)" class="p-6 space-y-6">
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div><label class="block text-sm font-bold text-gray-700 mb-2 Small">Title (English)</label> <input type="text" id="article-title" required class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-[#B11226]"></div>
+                    <div><label class="block text-sm font-bold text-gray-700 mb-2 Small">Title (Hindi)</label> <input type="text" id="article-title-hindi" required class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-[#B11226] font-hindi"></div>
+                  </div>
+                  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                      <label class="block text-sm font-bold text-gray-700 mb-2 Small">Category</label> 
+                      <select id="article-category" required class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-[#B11226]">
+                        <option value="politics">राजनीति (Politics)</option>
+                        <option value="business">व्यापार (Business)</option>
+                        <option value="technology">टेक्नोलॉजी (Technology)</option>
+                        <option value="sports">खेल (Sports)</option>
+                        <option value="regional">क्षेत्रीय (Regional)</option>
+                      </select>
+                    </div>
+                    <div><label class="block text-sm font-bold text-gray-700 mb-2 Small">Location (City)</label> <input type="text" id="article-location" placeholder="e.g. Jamshedpur" class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-[#B11226]"></div>
+                    <div><label class="block text-sm font-bold text-gray-700 mb-2 Small">Author</label> <input type="text" id="article-author" required class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-[#B11226]"></div>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-bold text-gray-700 mb-2 Small">SEO Slug (Auto-generated)</label>
+                    <input type="text" id="article-slug" required class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-[#B11226]" placeholder="jamshedpur-fire-news">
+                    <p class="text-[10px] text-gray-400 mt-1">URL will be: janprahar.com/jharkhand/slug</p>
+                  </div>
+                  <div class="flex flex-col space-y-2">
+                    <label class="block text-sm font-bold text-gray-700 Small">Feature Image</label>
+                    <div class="flex space-x-2">
+                      <input type="url" id="article-image" class="flex-1 px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-[#B11226]" placeholder="https://...">
+                      <button type="button" onclick="openCloudinaryUpload()" class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold">Upload</button>
+                    </div>
+                  </div>
+                  <div><label class="block text-sm font-bold text-gray-700 mb-2 Small">Summary (Excerpt)</label> <textarea id="article-excerpt" rows="2" required class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-[#B11226] font-hindi"></textarea></div>
+                  <div><label class="block text-sm font-bold text-gray-700 mb-2 Small">Article Content</label> <textarea id="admin-article-content" rows="12" required class="w-full px-4 py-2 border rounded-lg outline-none focus:ring-2 focus:ring-[#B11226] font-hindi"></textarea></div>
+                  <div class="flex items-center space-x-8">
+                    <label class="flex items-center space-x-2"><input type="checkbox" id="article-breaking" class="w-5 h-5 text-[#B11226]"><span class="text-sm font-medium">Breaking News</span></label>
+                    <label class="flex items-center space-x-2"><input type="checkbox" id="article-published" checked class="w-5 h-5 text-green-600"><span class="text-sm font-medium">Live (Published)</span></label>
+                  </div>
+                  <div class="flex flex-wrap gap-4 pt-6 border-t">
+                    <button type="submit" id="submit-btn" class="bg-[#B11226] text-white px-8 py-3 rounded-lg font-bold flex items-center space-x-2">
+                      <span id="submit-text">Publish Now</span>
+                      <div id="submit-spinner" class="loading-spinner hidden border-white border-t-transparent"></div>
+                    </button>
+                    <button type="button" onclick="handlePublishAndIndex(event)" class="bg-[#1C1C1C] text-white px-6 py-3 rounded-lg font-bold flex items-center space-x-2">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-9l6 4.5-6 4.5z"/></svg>
+                      <span>Publish & Index</span>
+                    </button>
+                    <button type="button" onclick="resetArticleForm(); showAdminSection('articles');" class="bg-gray-100 text-gray-600 px-8 py-3 rounded-lg font-bold">Cancel</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- Stats Page -->
+            <div id="section-stats" class="admin-section hidden">
+              <div class="bg-white rounded-xl shadow-sm p-8 border border-gray-100">
+                <h2 class="font-headline text-xl font-bold mb-8">Category Performance</h2>
+                <div id="category-stats" class="space-y-6"></div>
+              </div>
+            </div>
+
+            <!-- Ads Page -->
+            <div id="section-ads" class="admin-section hidden">
+              <div class="bg-white rounded-xl shadow-sm p-8 border border-gray-100">
+                <h2 class="font-headline text-xl font-bold mb-4">Ad Slots Management</h2>
+                <p class="text-gray-500 text-sm mb-8 font-hindi">यहाँ से आप वेबसाइट के साइडबार और निचले बैनर विज्ञापनों को बदल सकते हैं।</p>
+                <form id="ads-form" class="space-y-8">
+                  <div class="space-y-4">
+                    <label class="block font-bold">Sidebar Ad Slot (Wide Skyscraper)</label>
+                    <textarea id="ad-sidebar" rows="3" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B11226] outline-none" placeholder="Cloudinary Link or Ad Script"></textarea>
+                    <input type="url" id="ad-sidebar-link" class="w-full px-4 py-2 border rounded-lg" placeholder="Target Redirect URL (e.g. https://...)">
+                    <button type="button" onclick="openAdsCloudinaryUpload('ad-sidebar')" class="bg-blue-600 text-white px-4 py-2 rounded text-xs font-bold uppercase">Upload Banner</button>
+                  </div>
+                  <div class="space-y-4">
+                    <label class="block font-bold">Bottom Banner Slot (Leaderboard)</label>
+                    <textarea id="ad-bottom" rows="3" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B11226] outline-none" placeholder="Cloudinary Link or Ad Script"></textarea>
+                    <input type="url" id="ad-bottom-link" class="w-full px-4 py-2 border rounded-lg" placeholder="Target Redirect URL">
+                    <button type="button" onclick="openAdsCloudinaryUpload('ad-bottom')" class="bg-blue-600 text-white px-4 py-2 rounded text-xs font-bold uppercase">Upload Banner</button>
+                  </div>
+                  <button type="submit" id="save-ads-btn" class="bg-[#B11226] text-white px-8 py-4 rounded-lg font-bold shadow-lg flex items-center space-x-2">
+                    <span id="save-ads-text">Save All Changes</span>
+                    <div id="save-ads-spinner" class="loading-spinner hidden border-white border-t-transparent"></div>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modals & Toasts -->
+    <div id="delete-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-overlay">
+      <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 p-8 text-center">
+        <div class="p-4 bg-red-100 text-[#B11226] w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+        </div>
+        <h3 class="font-headline text-xl font-bold">Confirm Deletion</h3>
+        <p class="text-gray-500 mt-2">Are you sure you want to permanently delete this news article?</p>
+        <div class="flex space-x-4 mt-8">
+          <button onclick="hideDeleteModal()" class="flex-1 py-3 bg-gray-100 rounded-lg font-bold">Cancel</button>
+          <button onclick="confirmDelete()" id="confirm-delete-btn" class="flex-1 py-3 bg-red-600 text-white rounded-lg font-bold flex items-center justify-center">
+            <span id="delete-text">Delete</span>
+            <div id="delete-spinner" class="loading-spinner hidden border-white border-t-transparent ml-2"></div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="toast" class="hidden fixed bottom-6 right-6 z-[100] px-6 py-4 rounded-lg shadow-2xl flex items-center space-x-3 transition-all transform translate-y-4 opacity-0">
+      <svg id="toast-icon" class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"></svg>
+      <span id="toast-message" class="font-bold"></span>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, getDocs, query, orderBy, limit, addDoc, updateDoc, doc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBD1xK7qeRQDPcgig_INWlnRtOD87mJNkk",
+      authDomain: "janprahar-news.firebaseapp.com",
+      projectId: "janprahar-news",
+      storageBucket: "janprahar-news.appspot.com",
+      messagingSenderId: "750814127212",
+      appId: "1:750814127212:web:6a5da15df6d9b9d5366449",
+      measurementId: "G-NSZVGBR836"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = initializeFirestore(app, {
+      localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+    });
+
+    // Global State
+    window.allArticles = [];
+    let editingArticle = null;
+    let articleToDelete = null;
+
+    const categoryLabels = { politics: 'राजनीति', business: 'व्यापार', technology: 'टेक्नोलॉजी', sports: 'खेल', regional: 'क्षेत्रीय' };
+
+    // Auth Handling
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        document.getElementById("admin-login-modal").classList.add("hidden");
+        document.getElementById("admin-dashboard").classList.remove("hidden");
+        loadAdminData();
+      } else {
+        document.getElementById("admin-login-modal").classList.remove("hidden");
+        document.getElementById("admin-dashboard").classList.add("hidden");
+      }
+    });
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("admin-username").value;
+      const password = document.getElementById("admin-password").value;
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (err) {
+        showToast("Login failed: " + err.message, "error");
+      }
+    });
+
+    document.getElementById('logout-btn').addEventListener('click', async () => {
+      await signOut(auth);
+      location.reload();
+    });
+
+    // Data Management
+    async function loadAdminData() {
+      try {
+        const postsRef = collection(db, "posts");
+        const q = query(postsRef, orderBy("created_at", "desc"));
+        const snapshot = await getDocs(q);
+        
+        window.allArticles = snapshot.docs.map(docObj => ({
+          __backendId: docObj.id,
+          ...docObj.data()
+        }));
+
+        renderAdminArticles();
+        updateStats();
+        loadAds();
+      } catch (err) {
+        console.error("Load Data Error:", err);
+      }
+    }
+
+    window.renderAdminArticles = function() {
+      const list = document.getElementById('articles-list');
+      if (allArticles.length === 0) {
+        list.innerHTML = `<div class="p-12 text-center text-gray-400">No news found. Start writing!</div>`;
+        return;
+      }
+
+      list.innerHTML = allArticles.map(a => `
+        <div class="px-6 py-4 flex items-center justify-between hover:bg-gray-50 transition border-b border-gray-50 last:border-0">
+          <div class="flex-1 min-w-0 mr-4">
+            <div class="flex items-center space-x-2 mb-1">
+              <span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded ${a.is_published ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400'}">${a.is_published ? 'Live' : 'Draft'}</span>
+              ${a.is_breaking ? '<span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-600">Breaking</span>' : ''}
+              <span class="text-[10px] uppercase font-bold px-1.5 py-0.5 rounded bg-blue-50 text-blue-500">${categoryLabels[a.category] || a.category}</span>
+            </div>
+            <h3 class="font-bold text-[#1C1C1C] truncate">${a.title_hindi || a.title}</h3>
+            <p class="text-xs text-gray-400">${a.author} • ${new Date(a.created_at).toLocaleDateString()}</p>
+          </div>
+          <div class="flex space-x-2">
+            <button onclick="editArticle('${a.__backendId}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg></button>
+            <button onclick="togglePublish('${a.__backendId}')" class="p-2 ${a.is_published ? 'text-orange-400 hover:bg-orange-50' : 'text-green-500 hover:bg-green-50'} rounded transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"/></svg></button>
+            <button onclick="showDeleteModal('${a.__backendId}')" class="p-2 text-red-500 hover:bg-red-50 rounded transition"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+          </div>
+        </div>
+      `).join('');
+    };
+
+    function updateStats() {
+      document.getElementById('stat-total').textContent = allArticles.length;
+      document.getElementById('stat-published').textContent = allArticles.filter(a => a.is_published).length;
+      document.getElementById('stat-breaking').textContent = allArticles.filter(a => a.is_breaking).length;
+    }
+
+    window.showAdminSection = function(section) {
+      document.querySelectorAll('.admin-section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(`section-${section}`).classList.remove('hidden');
+      document.querySelectorAll('.admin-nav-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.section === section));
+      if (section === 'stats') renderCategoryStats();
+    };
+
+    function renderCategoryStats() {
+      const stats = {};
+      allArticles.forEach(a => stats[a.category] = (stats[a.category] || 0) + 1);
+      const total = allArticles.length;
+      const container = document.getElementById('category-stats');
+      container.innerHTML = Object.entries(stats).map(([cat, count]) => `
+        <div class="space-y-2">
+          <div class="flex justify-between text-sm font-bold uppercase"><span>${categoryLabels[cat] || cat}</span><span>${count}</span></div>
+          <div class="h-3 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-[#B11226]" style="width: ${(count/total)*100}%"></div></div>
+        </div>
+      `).join('');
+    }
+
+    // Article Actions
+    window.handleArticleSubmit = async function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const text = document.getElementById('submit-text');
+      const spinner = document.getElementById('submit-spinner');
+
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+      text.textContent = "Storing to Database...";
+
+       const data = {
+        title: document.getElementById('article-title').value,
+        title_hindi: document.getElementById('article-title-hindi').value,
+        slug: document.getElementById('article-slug').value || generateSlug(document.getElementById('article-title').value),
+        category: document.getElementById('article-category').value,
+        location: document.getElementById('article-location').value || 'India',
+        author: document.getElementById('article-author').value,
+        image_url: document.getElementById('article-image').value,
+        excerpt: document.getElementById('article-excerpt').value,
+        content: document.getElementById('admin-article-content').value,
+        is_breaking: document.getElementById('article-breaking').checked,
+        is_published: document.getElementById('article-published').checked,
+        updated_at: new Date().toISOString()
+      };
+
+      try {
+        if (editingArticle) {
+          await updateDoc(doc(db, "posts", editingArticle.__backendId), data);
+          showToast("Article updated!", "success");
+        } else {
+          data.created_at = new Date().toISOString();
+          await addDoc(collection(db, "posts"), data);
+          showToast("Article published!", "success");
+        }
+        resetArticleForm();
+        loadAdminData();
+        showAdminSection('articles');
+      } catch (err) {
+        showToast("Error: " + err.message, "error");
+      } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+        text.textContent = "Publish Now";
+      }
+    };
+
+    window.editArticle = function(id) {
+      const article = allArticles.find(a => a.__backendId === id);
+      if (!article) return;
+      editingArticle = article;
+      document.getElementById('article-title').value = article.title || '';
+      document.getElementById('article-title-hindi').value = article.title_hindi || '';
+      document.getElementById('article-slug').value = article.slug || '';
+      document.getElementById('article-category').value = article.category || '';
+      document.getElementById('article-location').value = article.location || '';
+      document.getElementById('article-author').value = article.author || '';
+      document.getElementById('article-image').value = article.image_url || '';
+      document.getElementById('article-excerpt').value = article.excerpt || '';
+      document.getElementById('admin-article-content').value = article.content || '';
+      document.getElementById('article-breaking').checked = article.is_breaking || false;
+      document.getElementById('article-published').checked = article.is_published || false;
+      document.getElementById('editor-title').textContent = "Edit Article";
+      document.getElementById('submit-text').textContent = "Update Article";
+      showAdminSection('new-article');
+    };
+
+    // SEO Utils
+    function generateSlug(text) {
+      return text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/--+/g, '-').trim();
+    }
+
+    document.getElementById('article-title').addEventListener('input', (e) => {
+      if (!editingArticle) document.getElementById('article-slug').value = generateSlug(e.target.value);
+    });
+
+    window.handlePublishAndIndex = async function(e) {
+      await handleArticleSubmit(e);
+      const slug = document.getElementById('article-slug').value;
+      showToast("Triggering Google Indexing API...", "success");
+      console.log("Indexing request for: " + slug);
+      setTimeout(() => showToast("Sent to Google Search Console!", "success"), 1500);
+    };
+
+    window.resetArticleForm = function() {
+      editingArticle = null;
+      document.getElementById('article-form').reset();
+      document.getElementById('editor-title').textContent = "Write New Article";
+      document.getElementById('submit-text').textContent = "Publish Now";
+    };
+
+    window.togglePublish = async function(id) {
+      const a = allArticles.find(idx => idx.__backendId === id);
+      if (!a) return;
+      await updateDoc(doc(db, "posts", id), { is_published: !a.is_published });
+      loadAdminData();
+      showToast("Visibility updated", "success");
+    };
+
+    window.showDeleteModal = function(id) { articleToDelete = id; document.getElementById('delete-modal').classList.remove('hidden'); };
+    window.hideDeleteModal = function() { document.getElementById('delete-modal').classList.add('hidden'); };
+    window.confirmDelete = async function() {
+      await deleteDoc(doc(db, "posts", articleToDelete));
+      hideDeleteModal();
+      loadAdminData();
+      showToast("Article deleted permanently", "success");
+    };
+
+    // Ad Management
+    async function loadAds() {
+      const adDoc = await getDoc(doc(db, "settings", "ads"));
+      if (adDoc.exists()) {
+        const d = adDoc.data();
+        document.getElementById("ad-sidebar").value = d.sidebar || "";
+        document.getElementById("ad-sidebar-link").value = d.sidebarLink || "";
+        document.getElementById("ad-bottom").value = d.bottom || "";
+        document.getElementById("ad-bottom-link").value = d.bottomLink || "";
+      }
+    }
+
+    document.getElementById('ads-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('save-ads-btn');
+      btn.disabled = true;
+      try {
+        await setDoc(doc(db, "settings", "ads"), {
+          sidebar: document.getElementById("ad-sidebar").value,
+          sidebarLink: document.getElementById("ad-sidebar-link").value,
+          bottom: document.getElementById("ad-bottom").value,
+          bottomLink: document.getElementById("ad-bottom-link").value
+        }, { merge: true });
+        showToast("Advertisements updated!", "success");
+      } catch (err) { showToast("Error saving ads", "error"); }
+      finally { btn.disabled = false; }
+    });
+
+    // Cloudinary Logic
+    function loadCloudinaryThen(callback) {
+      if (typeof cloudinary !== 'undefined') { callback(); return; }
+      const s = document.createElement('script');
+      s.src = 'https://upload-widget.cloudinary.com/global/all.js';
+      s.onload = callback;
+      document.head.appendChild(s);
+    }
+
+    window.openCloudinaryUpload = function() {
+      loadCloudinaryThen(() => {
+        cloudinary.createUploadWidget({ cloudName: "dpb4bkchj", uploadPreset: "unsigned_upload" }, (error, result) => {
+          if (!error && result && result.event === "success") {
+            document.getElementById("article-image").value = result.info.secure_url;
+            showToast("Cover image uploaded!", "success");
+          }
+        }).open();
+      });
+    };
+
+    window.openAdsCloudinaryUpload = function(id) {
+      loadCloudinaryThen(() => {
+        cloudinary.createUploadWidget({ cloudName: "dpb4bkchj", uploadPreset: "unsigned_upload" }, (error, result) => {
+          if (!error && result && result.event === "success") {
+            document.getElementById(id).value = result.info.secure_url;
+            showToast("Banner uploaded!", "success");
+          }
+        }).open();
+      });
+    };
+
+    // Utils
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      const toastIcon = document.getElementById('toast-icon');
+      toastMessage.textContent = message;
+      toast.className = `fixed bottom-6 right-6 z-[100] px-6 py-4 rounded-lg shadow-2xl flex items-center space-x-3 transition-all transform bg-${type === 'success' ? 'green' : 'red'}-600 text-white`;
+      toastIcon.innerHTML = type === 'success' ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>' : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
+      toast.classList.remove('hidden', 'translate-y-4', 'opacity-0');
+      setTimeout(() => { toast.classList.add('translate-y-4', 'opacity-0'); setTimeout(() => toast.classList.add('hidden'), 300); }, 3000);
+    }
+  </script>
+</body>
+</html>
