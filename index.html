@@ -198,6 +198,15 @@
     .skeleton-text      { height: 14px; width: 100%; margin-bottom: 6px; }
     .skeleton-text-sm   { height: 12px; width: 60%; }
     .skeleton-badge     { height: 20px; width: 70px; }
+    #date-filter::-webkit-calendar-picker-indicator {
+      filter: invert(0.8);
+      cursor: pointer;
+    }
+    
+    .dark #date-filter::-webkit-calendar-picker-indicator {
+      filter: invert(1);
+    }
+
     /* ============================= */
   </style>
 </head>
@@ -238,10 +247,16 @@
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
               </div><!-- Date Filter -->
-              <div class="relative">
+              <div class="relative flex items-center bg-gray-800 rounded-full border border-gray-700 hover:border-primary transition group px-2 lg:px-4 py-1 lg:py-2">
+                <label for="date-filter" class="flex items-center space-x-2 cursor-pointer">
+                  <svg class="w-4 h-4 text-primary group-hover:scale-110 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                  <span class="text-gray-400 text-[10px] lg:text-xs font-bold uppercase tracking-tighter hidden sm:block">तारीख (Date)</span>
+                </label>
                 <input type="date" id="date-filter"
-                  class="w-8 h-8 sm:w-32 lg:w-40 px-0 sm:px-3 py-2 bg-gray-800 text-white text-xs sm:text-sm rounded-full border border-gray-700 focus:border-primary focus:outline-none cursor-pointer"
-                  onchange="handleDateFilter(this.value)" title="तारीख से खोजें">
+                  class="bg-transparent text-white text-[10px] lg:text-sm focus:outline-none cursor-pointer w-20 sm:w-28 lg:w-32 ml-1"
+                  onchange="handleDateFilter(this.value)">
               </div><!-- Dark Mode Toggle --> <button onclick="toggleDarkMode()"
                 class="p-2 text-gray-400 hover:text-white transition" title="Dark Mode">
                 <svg id="dark-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
