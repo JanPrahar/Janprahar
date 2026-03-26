@@ -236,6 +236,11 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
+              </div><!-- Date Filter -->
+              <div class="relative hidden lg:block">
+                <input type="date" id="date-filter"
+                  class="w-32 lg:w-40 px-3 py-2 bg-gray-800 text-white text-sm rounded-full border border-gray-700 focus:border-primary focus:outline-none"
+                  onchange="handleDateFilter(this.value)">
               </div><!-- Dark Mode Toggle --> <button onclick="toggleDarkMode()"
                 class="p-2 text-gray-400 hover:text-white transition" title="Dark Mode">
                 <svg id="dark-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
@@ -791,6 +796,7 @@
     window.realTimeArticles = []; // Top 5 (real-time)
     window.paginatedArticles = []; // Older than top 5 (static)
     window.currentFilter = 'all';
+    window.currentDateFilter = '';
     let searchQuery = '';
     let editingArticle = null;
     let articleToDelete = null;
@@ -1172,6 +1178,23 @@
           pill.classList.add('bg-gray-200', 'text-gray-700');
         }
       });
+    }
+
+    // Handle Date Filter
+    function handleDateFilter(value) {
+      window.currentDateFilter = value;
+      window.realTimeArticles = [];
+      window.paginatedArticles = [];
+      window.allArticles = [];
+      window.lastVisible = null;
+      window.hasMoreArticles = true;
+      
+      // Clear search for a focused exploration
+      document.getElementById('search-input').value = '';
+      searchQuery = '';
+      
+      // Re-initialize
+      window.dataSdk.init(window.dataHandler);
     }
 
     // Search Handler
@@ -1713,8 +1736,17 @@
         try {
           const postsRef = collection(db, "posts");
           let q = query(postsRef, orderBy("created_at", "desc"), limit(5));
-          if (window.currentFilter !== 'all') {
+          
+          if (window.currentFilter !== 'all' && window.currentDateFilter) {
+            const startStr = `${window.currentDateFilter}T00:00:00.000Z`;
+            const endStr = `${window.currentDateFilter}T23:59:59.999Z`;
+            q = query(postsRef, where("category", "==", window.currentFilter), where("created_at", ">=", startStr), where("created_at", "<=", endStr), orderBy("created_at", "desc"), limit(5));
+          } else if (window.currentFilter !== 'all') {
             q = query(postsRef, where("category", "==", window.currentFilter), orderBy("created_at", "desc"), limit(5));
+          } else if (window.currentDateFilter) {
+            const startStr = `${window.currentDateFilter}T00:00:00.000Z`;
+            const endStr = `${window.currentDateFilter}T23:59:59.999Z`;
+            q = query(postsRef, where("created_at", ">=", startStr), where("created_at", "<=", endStr), orderBy("created_at", "desc"), limit(5));
           }
 
           onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
@@ -1741,6 +1773,12 @@
             if (!window.lastVisible) {
               window.lastVisible = snapshot.docs[snapshot.docs.length - 1];
               window.hasMoreArticles = snapshot.docs.length === 5;
+              // Auto-load next 5 articles immediately on first load
+              if (window.hasMoreArticles) {
+                setTimeout(() => {
+                  window.dataSdk.loadMore(handler);
+                }, 1000);
+              }
             }
             
             window.allArticles = [...window.realTimeArticles, ...window.paginatedArticles];
@@ -1764,8 +1802,17 @@
         try {
           const postsRef = collection(db, "posts");
           let q = query(postsRef, orderBy("created_at", "desc"), startAfter(window.lastVisible), limit(5));
-          if (window.currentFilter !== 'all') {
+          
+          if (window.currentFilter !== 'all' && window.currentDateFilter) {
+            const startStr = `${window.currentDateFilter}T00:00:00.000Z`;
+            const endStr = `${window.currentDateFilter}T23:59:59.999Z`;
+            q = query(postsRef, where("category", "==", window.currentFilter), where("created_at", ">=", startStr), where("created_at", "<=", endStr), orderBy("created_at", "desc"), startAfter(window.lastVisible), limit(5));
+          } else if (window.currentFilter !== 'all') {
             q = query(postsRef, where("category", "==", window.currentFilter), orderBy("created_at", "desc"), startAfter(window.lastVisible), limit(5));
+          } else if (window.currentDateFilter) {
+            const startStr = `${window.currentDateFilter}T00:00:00.000Z`;
+            const endStr = `${window.currentDateFilter}T23:59:59.999Z`;
+            q = query(postsRef, where("created_at", ">=", startStr), where("created_at", "<=", endStr), orderBy("created_at", "desc"), startAfter(window.lastVisible), limit(5));
           }
           
           const snapshot = await getDocs(q);
