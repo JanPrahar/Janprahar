@@ -440,6 +440,14 @@
               </div>
             </div>
           </div>
+          <div id="load-more-container" class="col-span-full py-12 text-center hidden">
+            <button id="load-more-btn" onclick="handleLoadMore()" class="px-8 py-3 bg-secondary text-white font-bold rounded-lg hover:bg-primary transition shadow-lg inline-flex items-center space-x-2">
+              <span>और समाचार लोड करें (Load More)</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+          </div>
           <div id="loading-more" class="hidden col-span-full py-8 text-center">
             <div class="loading-spinner mx-auto"></div>
             <p class="text-gray-400 text-sm mt-2">अधिक समाचार लोड हो रहे हैं...</p>
@@ -909,6 +917,16 @@
           renderAdminArticles();
           updateStats();
           updateTicker();
+
+          // Update Load More button visibility
+          const loadMoreContainer = document.getElementById('load-more-container');
+          if (loadMoreContainer) {
+            if (window.hasMoreArticles && !window.isFetching) {
+              loadMoreContainer.classList.remove('hidden');
+            } else {
+              loadMoreContainer.classList.add('hidden');
+            }
+          }
         }
 
         if (!window.hasCheckedUrl) {
@@ -933,6 +951,8 @@
       });
 
       // Attach scroll listener to the scrolling element (#app)
+      // Infinite scroll disabled in favor of 'Load More' button
+      /*
       const scrollContainer = document.getElementById('app');
       if (scrollContainer) {
         scrollContainer.addEventListener('scroll', (e) => {
@@ -945,6 +965,7 @@
           }
         });
       }
+      */
 
       // Initialize Element SDK
       if (window.elementSdk) {
@@ -1711,6 +1732,16 @@
       });
     }
 
+    // Load More Handler
+    window.handleLoadMore = function () {
+      if (window.dataSdk && window.dataSdk.loadMore && window.dataHandler) {
+        window.dataSdk.loadMore(window.dataHandler);
+        // Hide button while loading
+        const loadMoreContainer = document.getElementById('load-more-container');
+        if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+      }
+    };
+
 
     // Initialize on load
     init();
@@ -1852,12 +1883,6 @@
             if (!window.lastVisible) {
               window.lastVisible = snapshot.docs[snapshot.docs.length - 1];
               window.hasMoreArticles = snapshot.docs.length === 5;
-              // Auto-load next 5 articles immediately on first load
-              if (window.hasMoreArticles) {
-                setTimeout(() => {
-                  window.dataSdk.loadMore(handler);
-                }, 1000);
-              }
             }
 
             window.allArticles = [...window.realTimeArticles, ...window.paginatedArticles];
