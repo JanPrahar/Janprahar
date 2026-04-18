@@ -25,6 +25,9 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpeg" href="jpicon.jpeg">
   <link rel="apple-touch-icon" href="jpicon.jpeg">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#B11226">
+  <script id="json-ld-script" type="application/ld+json">{}</script>
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -523,6 +526,10 @@
               <ul class="space-y-3 text-gray-400 text-sm">
                 <li><a href="about.html" class="hover:text-white transition">हमारे बारे में</a></li>
                 <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                <li><a href="feed.xml" class="hover:text-white transition flex items-center space-x-2">
+                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6.18,15.64A2.18,2.18,0,0,1,8.36,17.82,2.18,2.18,0,0,1,6.18,20,2.18,2.18,0,0,1,4,17.82,2.18,2.18,0,0,1,6.18,15.64ZM4,4.44A15.56,15.56,0,0,1,19.56,20h-2.83A12.73,12.73,0,0,0,4,7.27Zm0,5.66a9.9,9.9,0,0,1,9.9,9.9H11.07A7,7,0,0,0,4,12.93Z"/></svg>
+                  <span>RSS Feed</span>
+                </a></li>
                 <li><a href="https://wa.me/919934287419"
                     class="hover:text-white transition font-medium text-white">Contact Us</a></li>
                 <li><a href="mailto:slok358@gmail.com" class="hover:text-white transition">slok358@gmail.com</a></li>
@@ -729,12 +736,20 @@
               <div class="bg-white rounded-lg shadow">
                 <div class="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                   <h2 class="font-headline text-xl font-bold text-secondary" style="color: var(--secondary);">Manage
-                    Articles</h2><button onclick="showAdminSection('new-article')"
-                    class="px-4 py-2 bg-primary text-white text-sm font-medium rounded hover:opacity-90 transition flex items-center space-x-2"
-                    style="background-color: var(--primary);">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                    </svg><span>Add Article</span> </button>
+                    Articles</h2>
+                  <div class="flex items-center space-x-3">
+                    <button onclick="generateRSS()"
+                      class="px-4 py-2 bg-amber-500 text-white text-sm font-medium rounded hover:bg-amber-600 transition flex items-center space-x-2">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.18,15.64A2.18,2.18,0,0,1,8.36,17.82,2.18,2.18,0,0,1,6.18,20,2.18,2.18,0,0,1,4,17.82,2.18,2.18,0,0,1,6.18,15.64ZM4,4.44A15.56,15.56,0,0,1,19.56,20h-2.83A12.73,12.73,0,0,0,4,7.27Zm0,5.66a9.9,9.9,0,0,1,9.9,9.9H11.07A7,7,0,0,0,4,12.93Z"/></svg>
+                      <span>Export RSS</span>
+                    </button>
+                    <button onclick="showAdminSection('new-article')"
+                      class="px-4 py-2 bg-primary text-white text-sm font-medium rounded hover:opacity-90 transition flex items-center space-x-2"
+                      style="background-color: var(--primary);">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                      </svg><span>Add Article</span> </button>
+                  </div>
                 </div>
                 <div id="articles-list" class="divide-y divide-gray-200">
                   <div class="px-6 py-12 text-center">
@@ -1430,7 +1445,88 @@
             Copy Link
           </button>
         </div>
+
+        <!-- Related Articles Section -->
+        <div id="related-articles-section" class="mt-12 pt-12 border-t border-gray-200">
+          <h3 class="font-headline text-2xl font-bold text-secondary mb-6" style="color: var(--secondary);">सम्बंधित खबरें</h3>
+          <div id="related-articles-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Related articles will be injected here -->
+          </div>
+        </div>
+
+        <!-- Next Article Navigation -->
+        <div id="next-article-nav" class="mt-8 mb-12">
+          <!-- Next article button will be injected here -->
+        </div>
       `;
+
+      // Inject JSON-LD
+      const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": article.title_hindi || article.title,
+        "image": [article.image_url],
+        "datePublished": article.created_at,
+        "author": [{
+          "@type": "Person",
+          "name": article.author
+        }],
+        "publisher": {
+          "@type": "Organization",
+          "name": "JanPrahar News",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://janprahar-news.web.app/jpicon.jpeg"
+          }
+        },
+        "description": article.excerpt
+      };
+      document.getElementById('json-ld-script').textContent = JSON.stringify(jsonLd);
+
+      // Render Related Articles
+      const related = allArticles
+        .filter(a => a.category === article.category && a.__backendId !== id)
+        .slice(0, 2);
+      
+      const relatedGrid = document.getElementById('related-articles-grid');
+      if (related.length > 0) {
+        relatedGrid.innerHTML = related.map(a => `
+          <div class="group cursor-pointer" onclick="viewArticle('${a.__backendId}')">
+            <div class="relative aspect-video rounded-lg overflow-hidden mb-3">
+              <img src="${a.image_url || 'jpicon.jpeg'}" alt="${a.title_hindi}" class="w-full h-full object-cover transition duration-500 group-hover:scale-105">
+            </div>
+            <h4 class="font-bold text-secondary leading-tight group-hover:text-primary transition line-clamp-2" style="color: var(--secondary);">
+              ${a.title_hindi || a.title}
+            </h4>
+          </div>
+        `).join('');
+      } else {
+        document.getElementById('related-articles-section').classList.add('hidden');
+      }
+
+      // Render Next Article Button
+      const currentIndex = allArticles.findIndex(a => a.__backendId === id);
+      const nextArticle = allArticles[currentIndex + 1];
+      const nextNav = document.getElementById('next-article-nav');
+      if (nextArticle) {
+        nextNav.innerHTML = `
+          <button onclick="viewArticle('${nextArticle.__backendId}')" class="w-full flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200 hover:border-primary transition group">
+            <div class="text-left">
+              <p class="text-xs text-accent uppercase font-bold tracking-wider mb-1" style="color: var(--accent);">अगली खबर</p>
+              <h4 class="font-bold text-secondary group-hover:text-primary transition line-clamp-1" style="color: var(--secondary);">
+                ${nextArticle.title_hindi || nextArticle.title}
+              </h4>
+            </div>
+            <svg class="w-6 h-6 text-primary group-hover:translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </button>
+        `;
+      } else {
+        nextNav.innerHTML = '';
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // Show Frontend
@@ -1547,6 +1643,56 @@
       isAdminLoggedIn = false;
       showFrontend();
       showToast('Logged out successfully', 'success');
+    }
+
+    // RSS Feed Generator
+    function generateRSS() {
+      if (!allArticles || allArticles.length === 0) {
+        showToast('No articles to generate RSS from', 'error');
+        return;
+      }
+
+      const latestArticles = [...allArticles].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 20);
+      
+      let rss = `<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+  <title>JanPrahar News</title>
+  <link>https://janprahar-news.web.app/</link>
+  <description>JanPrahar News - सच की आवाज़ | Hindi News Portal</description>
+  <language>hi</language>
+  <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+`;
+
+      latestArticles.forEach(article => {
+        rss += `
+  <item>
+    <title><![CDATA[${article.title_hindi || article.title}]]></title>
+    <link>https://janprahar-news.web.app/?article=${article.__backendId}</link>
+    <description><![CDATA[${article.excerpt || ''}]]></description>
+    <author>${article.author}</author>
+    <pubDate>${new Date(article.created_at).toUTCString()}</pubDate>
+    <guid>https://janprahar-news.web.app/?article=${article.__backendId}</guid>
+    ${article.image_url ? `<enclosure url="${article.image_url}" length="0" type="image/jpeg" />` : ''}
+  </item>`;
+      });
+
+      rss += `
+</channel>
+</rss>`;
+
+      // Create download link
+      const blob = new Blob([rss], { type: 'application/xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'feed.xml';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      
+      showToast('RSS Feed generated and downloaded as feed.xml', 'success');
     }
 
     function showAdminSection(section) {

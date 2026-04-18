@@ -1,0 +1,22 @@
+{
+  "name": "JanPrahar News",
+  "short_name": "JanPrahar",
+  "description": "JanPrahar News - सच की आवाज़ | Hindi News Portal",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#F7F7F7",
+  "theme_color": "#B11226",
+  "icons": [
+    {
+      "src": "jpicon.jpeg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "jpicon.jpeg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}
