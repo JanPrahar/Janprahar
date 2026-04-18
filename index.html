@@ -4,7 +4,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JanPrahar News - सच की आवाज़</title>
+  <title>JanPrahar News - सच की आवाज़ | Hindi News Portal</title>
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="JanPrahar News - भारत का विश्वसनीय डिजिटल समाचार मंच। राजनीति, व्यापार, खेल और क्षेत्रीय खबरें पढ़ें। India's trusted Hindi news portal.">
+  <meta name="keywords" content="JanPrahar, Jan Prahar News, Hindi News, हिंदी समाचार, Breaking News, राजनीति, खेल, व्यापार, क्षेत्रीय खबरें">
+  <meta name="author" content="JanPrahar News Team">
+  <link rel="canonical" href="https://janprahar-news.web.app/">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://janprahar-news.web.app/">
+  <meta property="og:title" content="JanPrahar News - सच की आवाज़">
+  <meta property="og:description" content="भारत का विश्वसनीय डिजिटल समाचार मंच। ताज़ा खबरें, ब्रेकिंग न्यूज़ और क्षेत्रीय समाचार।">
+  <meta property="og:image" content="https://janprahar-news.web.app/jpicon.jpeg">
+  <!-- Twitter Card -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://janprahar-news.web.app/">
+  <meta property="twitter:title" content="JanPrahar News - सच की आवाज़">
+  <meta property="twitter:description" content="भारत का विश्वसनीय डिजिटल समाचार मंच। ताज़ा खबरें, ब्रेकिंग न्यूज़।">
+  <meta property="twitter:image" content="https://janprahar-news.web.app/jpicon.jpeg">
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="jpicon.jpeg">
+  <link rel="apple-touch-icon" href="jpicon.jpeg">
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -276,10 +296,15 @@
                 onclick="filterCategory('regional')"
                 class="text-gray-300 hover:text-white text-sm font-medium transition">क्षेत्रीय</button>
             </nav><!-- Right Section -->
-            <div class="flex items-center space-x-4"><!-- Search -->
+            <div class="flex items-center space-x-4">
+              <!-- Mobile Search Toggle -->
+              <button onclick="toggleMobileSearch()" class="p-2 text-gray-400 hover:text-white transition sm:hidden" title="Search">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+              </button>
+              <!-- Search -->
               <div class="relative hidden sm:block"><input type="text" id="search-input" placeholder="खोजें..."
                   class="w-40 lg:w-56 px-4 py-2 pl-10 bg-gray-800 text-white text-sm rounded-full border border-gray-700 focus:border-primary focus:outline-none"
-                  onkeyup="handleSearch(event)">
+                  oninput="handleSearchInput(this.value)" onkeyup="handleSearch(event)">
                 <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" fill="none"
                   stroke="currentColor" viewbox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -301,17 +326,42 @@
                 <input type="date" id="date-filter"
                   class="bg-transparent text-white text-[10px] lg:text-sm focus:outline-none cursor-pointer w-20 sm:w-28 lg:w-32 ml-1"
                   onchange="handleDateFilter(this.value)">
-              </div><!-- Dark Mode Toggle --> <button onclick="toggleDarkMode()"
+              </div>
+              <!-- Dark Mode Toggle -->
+              <button onclick="toggleDarkMode()"
                 class="p-2 text-gray-400 hover:text-white transition" title="Dark Mode">
-                <svg id="dark-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <svg id="dark-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
                 </svg>
-                <svg id="light-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <svg id="light-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg></button>
+                </svg>
+              </button>
+              <!-- Mobile Hamburger -->
+              <button onclick="toggleMobileMenu()" class="p-2 text-gray-400 hover:text-white transition md:hidden" title="Menu" id="hamburger-btn">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+              </button>
             </div>
+          </div>
+          <!-- Mobile Search Bar -->
+          <div id="mobile-search-bar" class="hidden pb-3">
+            <input type="text" id="mobile-search-input" placeholder="खोजें..."
+              class="w-full px-4 py-2 pl-10 bg-gray-800 text-white text-sm rounded-full border border-gray-700 focus:border-primary focus:outline-none"
+              oninput="handleSearchInput(this.value)">
+          </div>
+        </div>
+        <!-- Mobile Navigation Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-gray-900 border-t border-gray-700">
+          <div class="px-4 py-3 space-y-1">
+            <button onclick="filterCategory('all'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">🏠 होम</button>
+            <button onclick="filterCategory('politics'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">🏛️ राजनीति</button>
+            <button onclick="filterCategory('business'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">💼 व्यापार</button>
+            <button onclick="filterCategory('technology'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">💻 टेक्नोलॉजी</button>
+            <button onclick="filterCategory('sports'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">🏏 खेल</button>
+            <button onclick="filterCategory('regional'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">📍 क्षेत्रीय</button>
+            <a href="about.html" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">ℹ️ हमारे बारे में</a>
           </div>
         </div>
       </header><!-- Breaking News Ticker -->
@@ -444,6 +494,10 @@
             <div class="loading-spinner mx-auto"></div>
             <p class="text-gray-400 text-sm mt-2">अधिक समाचार लोड हो रहे हैं...</p>
           </div>
+          <!-- Load More Button Fallback -->
+          <div id="load-more-btn-container" class="hidden col-span-full py-6 text-center">
+            <button onclick="manualLoadMore()" class="px-8 py-3 bg-primary text-white font-bold rounded-full hover:opacity-90 transition shadow-md" style="background-color: var(--primary);">और खबरें देखें →</button>
+          </div>
         </section><!-- Bottom Ad Banner -->
         <div id="ad-space-bottom" class="ad-placeholder rounded-lg p-8 text-center mb-8 overflow-hidden">
           <p class="text-gray-500 font-medium">विज्ञापन बैनर</p>
@@ -468,6 +522,7 @@
               <h4 class="font-headline font-bold mb-4">त्वरित लिंक</h4>
               <ul class="space-y-3 text-gray-400 text-sm">
                 <li><a href="about.html" class="hover:text-white transition">हमारे बारे में</a></li>
+                <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
                 <li><a href="https://wa.me/919934287419"
                     class="hover:text-white transition font-medium text-white">Contact Us</a></li>
                 <li><a href="mailto:slok358@gmail.com" class="hover:text-white transition">slok358@gmail.com</a></li>
@@ -498,7 +553,7 @@
                 Admin Access
               </button>
             </div>
-            <p>© 2025 JanPrahar News.</p>
+            <p>© 2026 JanPrahar News. All rights reserved.</p>
           </div>
         </div>
       </footer>
@@ -524,9 +579,13 @@
                 </svg>
               </button>
               <button onclick="toggleDarkMode()" class="p-2 text-gray-400 hover:text-white transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                <svg id="article-dark-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+                <svg id="article-light-icon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               </button>
             </div>
@@ -926,11 +985,14 @@
     // Initialize Application
     async function init() {
       // Set current date
-      document.getElementById('current-date').textContent = new Date().toLocaleDateString('hi-IN', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      });
+      const dateEl = document.getElementById('current-date');
+      if (dateEl) {
+        dateEl.textContent = new Date().toLocaleDateString('hi-IN', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        });
+      }
 
       // Attach scroll listener to the scrolling element (#app)
       const scrollContainer = document.getElementById('app');
@@ -939,7 +1001,7 @@
           const { scrollTop, scrollHeight, clientHeight } = e.target;
           // Trigger when user is within 800px of the bottom
           if (scrollTop + clientHeight >= scrollHeight - 800) {
-            if (window.dataSdk && window.dataSdk.loadMore && window.dataHandler) {
+            if (window.dataSdk && window.dataSdk.loadMore && window.hasMoreArticles && !window.isFetching) {
               window.dataSdk.loadMore(window.dataHandler);
             }
           }
@@ -1087,7 +1149,7 @@
                 </div>
               </div>
               <div class="absolute top-4 left-4">
-                <span class="bg-primary text-white px-3 py-1 text-xs font-bold uppercase" style="background-color: var(--primary);">म   ख्य खबर</span>
+                <span class="bg-primary text-white px-3 py-1 text-xs font-bold uppercase" style="background-color: var(--primary);">मुख्य खबर</span>
               </div>
             </div>
             <div class="p-6">
@@ -1145,7 +1207,7 @@
               <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 19V5h14v14H5z"/>
             </svg>
             <p class="text-accent font-hindi text-lg" style="color: var(--accent);">
-              ${searchQuery ? `"${searchQuery}" के लिए कोई परिणाम नहीं` : 'अभी कोई   माचार उपलब्   नहीं है'}
+              ${searchQuery ? `"${searchQuery}" के लिए कोई परिणाम नहीं` : 'अभी कोई समाचार उपलब्ध नहीं है'}
             </p>
             <p class="text-gray-400 text-sm mt-2">Admin पैनल से नए समाचार जोड़ें</p>
           </div>
@@ -1276,12 +1338,21 @@
       window.dataSdk.init(window.dataHandler);
     }
 
-    // Search Handler
+    // Search Handler (live input)
+    function handleSearchInput(value) {
+      searchQuery = value;
+      renderFrontend();
+      // Sync both search inputs
+      const main = document.getElementById('search-input');
+      const mobile = document.getElementById('mobile-search-input');
+      if (main && main.value !== value) main.value = value;
+      if (mobile && mobile.value !== value) mobile.value = value;
+    }
+
+    // Search Handler (keyboard - kept for Enter key behaviour)
     function handleSearch(event) {
       searchQuery = event.target.value;
-      if (event.key === 'Enter' || searchQuery === '') {
-        renderFrontend();
-      }
+      renderFrontend();
     }
 
     // View Article
@@ -1297,12 +1368,14 @@
       document.getElementById('article-view').classList.remove('hidden');
 
       const content = document.getElementById('article-content');
+      const readTime = getReadingTime(article.content);
       content.innerHTML = `
-        <div class="mb-6">
+        <div class="mb-6 flex flex-wrap gap-2 items-center">
           <span class="bg-primary text-white px-3 py-1 text-xs font-bold uppercase" style="background-color: var(--primary);">
             ${categoryLabels[article.category] || article.category}
           </span>
-          ${article.is_breaking ? '<span class="ml-2 bg-amber-500 text-white px-3 py-1 text-xs font-bold">BREAKING</span>' : ''}
+          ${article.is_breaking ? '<span class="bg-amber-500 text-white px-3 py-1 text-xs font-bold animate-pulse">BREAKING</span>' : ''}
+          <span class="text-xs text-accent px-3 py-1 bg-gray-100 rounded-full" style="color: var(--accent);">⏱ ${readTime} मिनट पढ़ने का समय</span>
         </div>
         
         <h1 class="font-headline text-3xl lg:text-4xl font-bold text-secondary mb-4 leading-tight" style="color: var(--secondary);">
@@ -1337,7 +1410,7 @@
         
         ${article.tags ? `
           <div class="mt-8 pt-6 border-t border-gray-200">
-            <h4 class="text-sm font-bold text-accent mb-3" style="color: var(--accent);">Tags:</h4>
+            <h4 class="text-sm font-bold text-accent mb-3" style="color: var(--accent);">टैग्स:</h4>
             <div class="flex flex-wrap gap-2">
               ${article.tags.split(',').map(tag => `
                 <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full">${tag.trim()}</span>
@@ -1345,6 +1418,18 @@
             </div>
           </div>
         ` : ''}
+        <!-- Share Section -->
+        <div class="mt-8 pt-6 border-t border-gray-200 flex items-center gap-4">
+          <span class="text-sm font-bold text-accent" style="color: var(--accent);">शेयर करें:</span>
+          <button onclick="shareArticle()" class="flex items-center gap-2 px-4 py-2 bg-green-500 text-white text-sm rounded-full hover:bg-green-600 transition">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 6.628 5.373 12 12 12 6.628 0 12-5.372 12-12 0-6.627-5.372-12-12-12zm5.562 17.31c-.24.635-.96 1.237-1.665 1.402-.437.103-.99.185-2.876-.618-2.405-1.035-3.968-3.363-4.087-3.52-.118-.157-.96-1.22-.96-2.328s.617-1.68.836-1.91c.218-.229.473-.288.63-.288.158 0 .315.002.454.008.145.007.34-.056.532.406.196.469.667 1.626.726 1.744.058.118.097.256.02.413-.077.157-.116.255-.232.393-.115.138-.245.308-.35.413-.115.116-.234.242-.1.474.133.232.593.978 1.272 1.585.874.78 1.612 1.021 1.844 1.136.232.115.367.097.502-.058.136-.155.579-.674.733-.905.154-.232.308-.194.52-.116.213.077 1.35.637 1.582.752.232.116.387.173.444.27.058.097.058.564-.183 1.2z"/></svg>
+            WhatsApp
+          </button>
+          <button onclick="shareArticle()" class="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white text-sm rounded-full hover:bg-gray-600 transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" /></svg>
+            Copy Link
+          </button>
+        </div>
       `;
     }
 
@@ -1359,20 +1444,61 @@
       document.getElementById('admin-dashboard').classList.add('hidden');
     }
 
-    // Dark Mode
-    function toggleDarkMode() {
-      document.documentElement.classList.toggle('dark');
-      const darkIcon = document.getElementById('dark-icon');
-      const lightIcon = document.getElementById('light-icon');
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
 
-      if (document.documentElement.classList.contains('dark')) {
-        darkIcon.classList.add('hidden');
-        lightIcon.classList.remove('hidden');
-      } else {
-        darkIcon.classList.remove('hidden');
-        lightIcon.classList.add('hidden');
+    // Mobile Search Toggle
+    function toggleMobileSearch() {
+      const bar = document.getElementById('mobile-search-bar');
+      bar.classList.toggle('hidden');
+      if (!bar.classList.contains('hidden')) {
+        document.getElementById('mobile-search-input').focus();
       }
     }
+
+    // Manual Load More
+    function manualLoadMore() {
+      if (window.dataSdk && window.dataSdk.loadMore && window.dataHandler) {
+        document.getElementById('load-more-btn-container').classList.add('hidden');
+        window.dataSdk.loadMore(window.dataHandler);
+      }
+    }
+
+    // Reading Time Estimator
+    function getReadingTime(content) {
+      if (!content) return 1;
+      const words = content.trim().split(/\s+/).length;
+      return Math.max(1, Math.ceil(words / 200));
+    }
+
+    // Dark Mode
+    function toggleDarkMode() {
+      const isDark = document.documentElement.classList.toggle('dark');
+      localStorage.setItem('darkMode', isDark ? '1' : '0');
+      updateDarkModeIcons(isDark);
+    }
+
+    function updateDarkModeIcons(isDark) {
+      // Main header icons (frontend view)
+      document.querySelectorAll('#dark-icon').forEach(el => el.classList.toggle('hidden', isDark));
+      document.querySelectorAll('#light-icon').forEach(el => el.classList.toggle('hidden', !isDark));
+      // Article view header icons
+      const adi = document.getElementById('article-dark-icon');
+      const ali = document.getElementById('article-light-icon');
+      if (adi) adi.classList.toggle('hidden', isDark);
+      if (ali) ali.classList.toggle('hidden', !isDark);
+    }
+
+    // Restore dark mode preference on load
+    (function() {
+      if (localStorage.getItem('darkMode') === '1') {
+        document.documentElement.classList.add('dark');
+        updateDarkModeIcons(true);
+      }
+    })();
 
     // Share Article Function
     function shareArticle() {
@@ -1412,19 +1538,9 @@
     }
 
     function handleAdminLogin(event) {
+      // This handler is overridden by the Firebase auth module below.
+      // Kept as a no-op fallback to avoid errors if Firebase hasn't loaded yet.
       event.preventDefault();
-      const username = document.getElementById('admin-username').value;
-      const password = document.getElementById('admin-password').value;
-
-      if (username === 'admin' && password === 'admin123') {
-        isAdminLoggedIn = true;
-        hideAdminLogin();
-        document.getElementById('frontend-view').classList.add('hidden');
-        document.getElementById('admin-dashboard').classList.remove('hidden');
-        showToast('Login successful!', 'success');
-      } else {
-        showToast('Invalid credentials', 'error');
-      }
     }
 
     function adminLogout() {

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://janprahar-news.web.app/sitemap.xml
