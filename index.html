@@ -407,7 +407,7 @@
             <button onclick="filterCategory('technology'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">💻 टेक्नोलॉजी</button>
             <button onclick="filterCategory('sports'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">🏏 खेल</button>
             <button onclick="filterCategory('regional'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">📍 क्षेत्रीय</button>
-            <a href="about.html" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">ℹ️ हमारे बारे में</a>
+            <a href="/about.html" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">ℹ️ हमारे बारे में</a>
           </div>
         </div>
       </header><!-- Breaking News Ticker -->
@@ -567,9 +567,9 @@
             <div>
               <h4 class="font-headline font-bold mb-4">त्वरित लिंक</h4>
               <ul class="space-y-3 text-gray-400 text-sm">
-                <li><a href="about.html" class="hover:text-white transition">हमारे बारे में</a></li>
-                <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
-                <li><a href="feed.xml" class="hover:text-white transition flex items-center space-x-2">
+                <li><a href="/about.html" class="hover:text-white transition">हमारे बारे में</a></li>
+                <li><a href="/privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                <li><a href="/feed.xml" class="hover:text-white transition flex items-center space-x-2">
                   <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6.18,15.64A2.18,2.18,0,0,1,8.36,17.82,2.18,2.18,0,0,1,6.18,20,2.18,2.18,0,0,1,4,17.82,2.18,2.18,0,0,1,6.18,15.64ZM4,4.44A15.56,15.56,0,0,1,19.56,20h-2.83A12.73,12.73,0,0,0,4,7.27Zm0,5.66a9.9,9.9,0,0,1,9.9,9.9H11.07A7,7,0,0,0,4,12.93Z"/></svg>
                   <span>RSS Feed</span>
                 </a></li>
@@ -1045,8 +1045,16 @@
 
         if (!window.hasCheckedUrl) {
           window.hasCheckedUrl = true;
+          
+          // Check for article in Query String (?article=...)
           const urlParams = new URLSearchParams(window.location.search);
-          const articleId = urlParams.get('article');
+          let articleId = urlParams.get('article');
+          
+          // Check for article in Path (/article/...)
+          if (!articleId && window.location.pathname.startsWith('/article/')) {
+            articleId = window.location.pathname.split('/article/')[1];
+          }
+
           if (articleId) {
             viewArticle(articleId);
           }
@@ -1473,7 +1481,8 @@
       const displayId = article.slug || article.__backendId;
 
       if (!isPopState) {
-        window.history.pushState({ articleId: article.__backendId }, '', '?article=' + displayId);
+        // Use clean path URL
+        window.history.pushState({ articleId: article.__backendId }, '', '/article/' + displayId);
       }
 
       document.getElementById('frontend-view').classList.add('hidden');
@@ -1714,10 +1723,16 @@
 
     // Handle Browser Back/Forward navigation
     window.addEventListener('popstate', (event) => {
+      // Check for article in Query String
       const urlParams = new URLSearchParams(window.location.search);
-      const articleId = urlParams.get('article');
+      let articleId = urlParams.get('article');
+      
+      // Check for article in Path
+      if (!articleId && window.location.pathname.startsWith('/article/')) {
+        articleId = window.location.pathname.split('/article/')[1];
+      }
+
       if (articleId) {
-        // Find article to make sure it exists before opening
         viewArticle(articleId, true);
       } else {
         showFrontend(true);

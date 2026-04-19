@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "/article/**",
+        "destination": "/index.html"
+      },
+      {
+        "source": "!/@(about.html|privacy.html|feed.xml|sitemap.xml|robots.txt|manifest.json|jpicon.jpeg|index.html)",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
