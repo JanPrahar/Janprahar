@@ -1237,14 +1237,14 @@
 
     // Update Ticker
     function updateTicker() {
-      const breaking = allArticles.filter(a => a.is_published && a.is_breaking);
+      const breaking = allArticles.filter(a => a.is_published && a.is_breaking).slice(0, 2);
       const tickerContent = document.getElementById('ticker-content');
 
       if (breaking.length > 0) {
         const tickerText = breaking.map(a => a.title_hindi || a.title).join(' • ');
         tickerContent.textContent = tickerText + ' • ' + tickerText;
       } else {
-        const published = allArticles.filter(a => a.is_published).slice(0, 5);
+        const published = allArticles.filter(a => a.is_published).slice(0, 2);
         if (published.length > 0) {
           const tickerText = published.map(a => a.title_hindi || a.title).join(' • ');
           tickerContent.textContent = tickerText + ' • ' + tickerText;
