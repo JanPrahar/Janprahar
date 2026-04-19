@@ -269,51 +269,11 @@
       filter: invert(1);
     }
 
-    /* UX Polish Styles */
-    #scroll-progress {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 0%;
-      height: 4px;
-      background: var(--primary);
-      z-index: 100;
-      transition: width 0.1s;
-    }
-
-    #back-to-top {
-      position: fixed;
-      bottom: 2rem;
-      right: 2rem;
-      z-index: 40;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s;
-    }
-
-    #back-to-top.visible {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .fade-in {
-      animation: fadeIn 0.4s ease-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     /* ============================= */
   </style>
 </head>
 
 <body class="h-full">
-  <div id="scroll-progress"></div>
-  <button id="back-to-top" onclick="scrollToTop()" class="bg-primary text-white p-3 rounded-full shadow-lg hover:scale-110 transition active:scale-95" style="background-color: var(--primary);" title="Back to Top">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
-  </button>
   <div id="app" class="h-full overflow-auto bg-main" style="background-color: var(--background);"><!-- FRONTEND VIEW -->
     <div id="frontend-view"><!-- Top Navigation -->
       <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary);">
@@ -369,9 +329,6 @@
                 <input type="date" id="date-filter"
                   class="bg-transparent text-white text-[10px] lg:text-sm focus:outline-none cursor-pointer w-20 sm:w-28 lg:w-32 ml-1"
                   onchange="handleDateFilter(this.value)">
-                <button onclick="clearDateFilter()" id="clear-date-btn" class="hidden ml-1 text-gray-400 hover:text-white transition" title="Clear Date">
-                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-                </button>
               </div>
               <!-- Dark Mode Toggle -->
               <button onclick="toggleDarkMode()"
@@ -407,7 +364,7 @@
             <button onclick="filterCategory('technology'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">💻 टेक्नोलॉजी</button>
             <button onclick="filterCategory('sports'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">🏏 खेल</button>
             <button onclick="filterCategory('regional'); toggleMobileMenu()" class="block w-full text-left px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">📍 क्षेत्रीय</button>
-            <a href="/about.html" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">ℹ️ हमारे बारे में</a>
+            <a href="about.html" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded text-sm font-medium transition">ℹ️ हमारे बारे में</a>
           </div>
         </div>
       </header><!-- Breaking News Ticker -->
@@ -567,9 +524,9 @@
             <div>
               <h4 class="font-headline font-bold mb-4">त्वरित लिंक</h4>
               <ul class="space-y-3 text-gray-400 text-sm">
-                <li><a href="/about.html" class="hover:text-white transition">हमारे बारे में</a></li>
-                <li><a href="/privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
-                <li><a href="/feed.xml" class="hover:text-white transition flex items-center space-x-2">
+                <li><a href="about.html" class="hover:text-white transition">हमारे बारे में</a></li>
+                <li><a href="privacy.html" class="hover:text-white transition">Privacy Policy</a></li>
+                <li><a href="feed.xml" class="hover:text-white transition flex items-center space-x-2">
                   <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M6.18,15.64A2.18,2.18,0,0,1,8.36,17.82,2.18,2.18,0,0,1,6.18,20,2.18,2.18,0,0,1,4,17.82,2.18,2.18,0,0,1,6.18,15.64ZM4,4.44A15.56,15.56,0,0,1,19.56,20h-2.83A12.73,12.73,0,0,0,4,7.27Zm0,5.66a9.9,9.9,0,0,1,9.9,9.9H11.07A7,7,0,0,0,4,12.93Z"/></svg>
                   <span>RSS Feed</span>
                 </a></li>
@@ -644,21 +601,6 @@
       </header>
       <article class="max-w-4xl mx-auto px-4 py-8">
         <div id="article-content"><!-- Article content will be dynamically inserted -->
-        </div>
-        <!-- WhatsApp CTA -->
-        <div class="mt-8 p-6 bg-green-50 border border-green-100 rounded-xl flex flex-col md:flex-row items-center justify-between gap-4">
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white shadow-lg">
-              <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
-            </div>
-            <div>
-              <h4 class="font-bold text-green-900">WhatsApp चैनल से जुड़ें</h4>
-              <p class="text-green-700 text-sm">ताज़ा खबरों के अपडेट सीधे अपने फोन पर पाएं।</p>
-            </div>
-          </div>
-          <a href="https://wa.me/919934287419" target="_blank" class="px-6 py-3 bg-green-500 text-white font-bold rounded-lg hover:bg-green-600 transition shadow-md active:scale-95">
-            Join Channel
-          </a>
         </div>
       </article>
     </div><!-- ADMIN LOGIN MODAL -->
@@ -1045,16 +987,8 @@
 
         if (!window.hasCheckedUrl) {
           window.hasCheckedUrl = true;
-          
-          // Check for article in Query String (?article=...)
           const urlParams = new URLSearchParams(window.location.search);
-          let articleId = urlParams.get('article');
-          
-          // Check for article in Path (/article/...)
-          if (!articleId && window.location.pathname.startsWith('/article/')) {
-            articleId = window.location.pathname.split('/article/')[1];
-          }
-
+          const articleId = urlParams.get('article');
           if (articleId) {
             viewArticle(articleId);
           }
@@ -1080,21 +1014,6 @@
       if (scrollContainer) {
         scrollContainer.addEventListener('scroll', (e) => {
           const { scrollTop, scrollHeight, clientHeight } = e.target;
-          
-          // Scroll Progress Bar
-          const winScroll = scrollTop;
-          const height = scrollHeight - clientHeight;
-          const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-          document.getElementById('scroll-progress').style.width = scrolled + "%";
-
-          // Back to Top Button
-          const btt = document.getElementById('back-to-top');
-          if (scrollTop > 400) {
-            btt.classList.add('visible');
-          } else {
-            btt.classList.remove('visible');
-          }
-
           // Trigger when user is within 800px of the bottom
           if (scrollTop + clientHeight >= scrollHeight - 800) {
             if (window.dataSdk && window.dataSdk.loadMore && window.hasMoreArticles && !window.isFetching) {
@@ -1400,7 +1319,6 @@
     // Handle Date Filter
     function handleDateFilter(value) {
       window.currentDateFilter = value;
-      document.getElementById('clear-date-btn').classList.toggle('hidden', !value);
       window.realTimeArticles = [];
       window.paginatedArticles = [];
       window.allArticles = [];
@@ -1413,15 +1331,6 @@
 
       // Re-initialize
       window.dataSdk.init(window.dataHandler);
-    }
-
-    function clearDateFilter() {
-      document.getElementById('date-filter').value = '';
-      handleDateFilter('');
-    }
-
-    function scrollToTop() {
-      document.getElementById('app').scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // Jump to system (View All from Trending)
@@ -1461,28 +1370,13 @@
       renderFrontend();
     }
 
-    // Slug Generator
-    function generateSlug(text) {
-      if (!text) return '';
-      return text
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '') // Remove non-word characters
-        .replace(/\s+/g, '-')     // Replace spaces with -
-        .replace(/--+/g, '-')     // Replace multiple - with single -
-        .trim();
-    }
-
     // View Article
-    function viewArticle(idOrSlug, isPopState = false) {
-      // Find article by ID or by Slug
-      const article = allArticles.find(a => a.__backendId === idOrSlug || a.slug === idOrSlug);
+    function viewArticle(id, isPopState = false) {
+      const article = allArticles.find(a => a.__backendId === id);
       if (!article) return;
 
-      const displayId = article.slug || article.__backendId;
-
       if (!isPopState) {
-        // Use clean path URL
-        window.history.pushState({ articleId: article.__backendId }, '', '/article/' + displayId);
+        window.history.pushState({ articleId: id }, '', '?article=' + id);
       }
 
       document.getElementById('frontend-view').classList.add('hidden');
@@ -1641,10 +1535,7 @@
         window.history.pushState({}, '', window.location.pathname);
       }
 
-      const fView = document.getElementById('frontend-view');
-      fView.classList.remove('hidden');
-      fView.classList.add('fade-in');
-      
+      document.getElementById('frontend-view').classList.remove('hidden');
       document.getElementById('article-view').classList.add('hidden');
       document.getElementById('admin-dashboard').classList.add('hidden');
     }
@@ -1723,16 +1614,10 @@
 
     // Handle Browser Back/Forward navigation
     window.addEventListener('popstate', (event) => {
-      // Check for article in Query String
       const urlParams = new URLSearchParams(window.location.search);
-      let articleId = urlParams.get('article');
-      
-      // Check for article in Path
-      if (!articleId && window.location.pathname.startsWith('/article/')) {
-        articleId = window.location.pathname.split('/article/')[1];
-      }
-
+      const articleId = urlParams.get('article');
       if (articleId) {
+        // Find article to make sure it exists before opening
         viewArticle(articleId, true);
       } else {
         showFrontend(true);
@@ -1780,15 +1665,14 @@
 `;
 
       latestArticles.forEach(article => {
-        const displayId = article.slug || article.__backendId;
         rss += `
   <item>
     <title><![CDATA[${article.title_hindi || article.title}]]></title>
-    <link>https://janprahar-news.web.app/?article=${displayId}</link>
+    <link>https://janprahar-news.web.app/?article=${article.__backendId}</link>
     <description><![CDATA[${article.excerpt || ''}]]></description>
     <author>${article.author}</author>
     <pubDate>${new Date(article.created_at).toUTCString()}</pubDate>
-    <guid>https://janprahar-news.web.app/?article=${displayId}</guid>
+    <guid>https://janprahar-news.web.app/?article=${article.__backendId}</guid>
     ${article.image_url ? `<enclosure url="${article.image_url}" length="0" type="image/jpeg" />` : ''}
   </item>`;
       });
@@ -1949,9 +1833,6 @@
         is_published: document.getElementById('article-published').checked,
         updated_at: new Date().toISOString()
       };
-
-      // Generate slug from title if not present or changed
-      articleData.slug = generateSlug(articleData.title) || generateSlug(articleData.title_hindi) || Math.random().toString(36).substring(7);
 
       let result;
       if (editingArticle) {
