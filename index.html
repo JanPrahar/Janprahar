@@ -3,11 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JanPrahar News - सच की आवाज़ | Hindi News Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>JanPrahar News - Buxar Top News & Latest Updates in Bihar | बक्सर की ताज़ा खबरें</title>
   <!-- SEO Meta Tags -->
-  <meta name="description" content="JanPrahar News - भारत का विश्वसनीय डिजिटल समाचार मंच। राजनीति, व्यापार, खेल और क्षेत्रीय खबरें पढ़ें। India's trusted Hindi news portal.">
-  <meta name="keywords" content="JanPrahar, Jan Prahar News, Hindi News, हिंदी समाचार, Breaking News, राजनीति, खेल, व्यापार, क्षेत्रीय खबरें">
+  <meta name="description" content="JanPrahar News - Buxar's top news portal. Get the latest breaking news, politics, and regional updates from Buxar, Bihar. बक्सर और बिहार की ताज़ा खबरें।">
+  <meta name="keywords" content="Buxar Top News, News in Bihar, JanPrahar, Jan Prahar News, Hindi News, बक्सर न्यूज़, बिहार समाचार, Breaking News Buxar, Regional News Bihar">
   <meta name="author" content="JanPrahar News Team">
   <link rel="canonical" href="https://janprahar-news.web.app/">
   <!-- Open Graph -->
@@ -28,6 +28,30 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#B11226">
   <script id="json-ld-script" type="application/ld+json">{}</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NewsMediaOrganization",
+    "name": "JanPrahar News",
+    "url": "https://janprahar-news.web.app/",
+    "logo": "https://janprahar-news.web.app/jpicon.jpeg",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-9934287419",
+      "contactType": "customer service"
+    },
+    "location": {
+      "@type": "Place",
+      "name": "Buxar, Bihar",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Buxar",
+        "addressRegion": "Bihar",
+        "addressCountry": "IN"
+      }
+    }
+  }
+  </script>
   <script src="https://cdn.tailwindcss.com"></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,17 +62,25 @@
   <meta name="google-site-verification" content="0NYfTcV4N2i31KSywizBtH9I4-ahTPN-gVGgbhFyCu4" />
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9576304312431606"
     crossorigin="anonymous"></script>
+  <!-- Ad Network Script -->
+  <script src="https://pl29764697.effectivecpmnetwork.com/ee/79/d0/ee79d0669b82775062fac4aaf2105b1a.js"></script>
   <style>
-    body {
-      box-sizing: border-box;
-    }
-
     :root {
       --primary: #B11226;
       --secondary: #1C1C1C;
       --background: #F7F7F7;
       --accent: #6B7280;
       --alert: #F59E0B;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    body {
+      box-sizing: border-box;
+      padding-top: var(--safe-top);
+      padding-bottom: var(--safe-bottom);
+      padding-left: env(safe-area-inset-left, 0px);
+      padding-right: env(safe-area-inset-right, 0px);
     }
 
     .dark {
@@ -276,7 +308,7 @@
 <body class="h-full">
   <div id="app" class="h-full overflow-auto bg-main" style="background-color: var(--background);"><!-- FRONTEND VIEW -->
     <div id="frontend-view"><!-- Top Navigation -->
-      <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary);">
+      <header class="bg-secondary sticky top-0 z-50 shadow-lg" style="background-color: var(--secondary); padding-top: var(--safe-top);">
         <div class="max-w-7xl mx-auto px-4">
           <div class="flex items-center justify-between h-16"><!-- Logo -->
             <div class="flex items-center space-x-3">
@@ -299,7 +331,7 @@
                 onclick="filterCategory('regional')"
                 class="text-gray-300 hover:text-white text-sm font-medium transition">क्षेत्रीय</button>
             </nav><!-- Right Section -->
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-2 sm:space-x-4">
               <!-- Mobile Search Toggle -->
               <button onclick="toggleMobileSearch()" class="p-2 text-gray-400 hover:text-white transition sm:hidden" title="Search">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
@@ -315,7 +347,7 @@
                 </svg>
               </div><!-- Date Filter -->
               <div
-                class="relative flex items-center bg-gray-800 rounded-full border border-gray-700 hover:border-primary transition group px-2 lg:px-4 py-1 lg:py-2">
+                class="relative flex items-center bg-gray-800 rounded-full border border-gray-700 hover:border-primary transition group px-2 lg:px-4 py-1 lg:py-2 max-w-[120px] sm:max-w-none">
                 <label for="date-filter" class="flex items-center space-x-2 cursor-pointer">
                   <svg class="w-4 h-4 text-primary group-hover:scale-110 transition" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
@@ -412,11 +444,9 @@
           </div><!-- Sidebar -->
           <div class="space-y-6"><!-- Ad Placeholder -->
             <div id="ad-space-sidebar"
-              class="ad-placeholder rounded-lg p-6 text-center h-48 flex items-center justify-center overflow-hidden">
-              <div>
-                <p class="text-gray-500 text-sm font-medium">विज्ञापन स्थान</p>
-                <p class="text-gray-400 text-xs mt-1">300 x 250</p>
-              </div>
+              class="rounded-lg text-center flex items-center justify-center overflow-hidden">
+              <script async="async" data-cfasync="false" src="https://pl29764698.effectivecpmnetwork.com/0ed4f343565d59906fedb8e98af7d993/invoke.js"></script>
+              <div id="container-0ed4f343565d59906fedb8e98af7d993"></div>
             </div><!-- Trending Section -->
             <div class="bg-white rounded-lg shadow p-5">
               <h3 class="font-headline text-lg font-bold text-secondary border-b-2 border-primary pb-2 mb-4"
@@ -502,9 +532,17 @@
             <button onclick="manualLoadMore()" class="px-8 py-3 bg-primary text-white font-bold rounded-full hover:opacity-90 transition shadow-md" style="background-color: var(--primary);">और खबरें देखें →</button>
           </div>
         </section><!-- Bottom Ad Banner -->
-        <div id="ad-space-bottom" class="ad-placeholder rounded-lg p-8 text-center mb-8 overflow-hidden">
-          <p class="text-gray-500 font-medium">विज्ञापन बैनर</p>
-          <p class="text-gray-400 text-xs mt-1">728 x 90 Leaderboard</p>
+        <div id="ad-space-bottom" class="rounded-lg text-center mb-8 overflow-hidden flex items-center justify-center">
+          <script>
+            atOptions = {
+              'key' : '8b2f428f7a4abab5bbf29e7da0267dc9',
+              'format' : 'iframe',
+              'height' : 250,
+              'width' : 300,
+              'params' : {}
+            };
+          </script>
+          <script src="https://www.highperformanceformat.com/8b2f428f7a4abab5bbf29e7da0267dc9/invoke.js"></script>
         </div>
       </main><!-- Footer -->
       <footer class="bg-secondary text-white py-12" style="background-color: var(--secondary);">
@@ -1478,6 +1516,10 @@
             "@type": "ImageObject",
             "url": "https://janprahar-news.web.app/jpicon.jpeg"
           }
+        },
+        "contentLocation": {
+          "@type": "Place",
+          "name": "Buxar, Bihar"
         },
         "description": article.excerpt
       };
